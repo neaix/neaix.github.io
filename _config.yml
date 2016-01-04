@@ -1,23 +1,23 @@
-title:            Pradeep Nayak
+title:           Neaix
 tagline:          Life is a sport. Make it count
 description:      My experiences in general.
 # Your site's domain goes here. Leave localhost server or blank when working locally.
 #url:              http://localhost:4000
-url:              http://pradeepnayak.in
+url:              http://neaix.com
 
 # Owner/author information
 owner:
-  name:           Pradeep Nayak
+  name:           Bin lau
   avatar:         bio-photo.jpg
   bio:            "Adventurer, Foodie, Traveller, Photographer"
-  email:          pradeep1288@gmail.com
-  disqus_shortname:     pradeepnayak
+  email:          neaix@hotmail.com
+  disqus_shortname:     neaix
   # Social networking links are used in author-bio sidebar. Update and remove as you like.
-  twitter: _prdp
-  facebook: pradeepnayak
-  github: pradeep1288
+  twitter: xxx
+  facebook:xxx
+  github: neaix
   linkedin:
-  instagram: _prdp
+  instagram: xxx
   lastfm:
   tumblr:
   # For Google Authorship https://plus.google.com/authorship
