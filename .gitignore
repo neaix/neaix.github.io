@@ -1,6 +1,4 @@
-_site/*
-
-Thumbs.db
+*.swp
 .DS_Store
-
-!.gitkeep
+_site
+_drafts
