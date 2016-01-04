@@ -9,19 +9,19 @@ title: "Rajath Kumar"
 description: > # this means to ignore newlines until "email:"
    Things that I have done, learnt and thought about.
 
-email: rajathkumar.exe@gmail.com
+email: neaix@hotmail.com
 #blog logo
 logo: "/assets/images/author.jpg"
 # blog cover
 cover: "/assets/images/wave1.png"
 
-name: 'Rajath Kumar M.P'
-author: 'Rajath Kumar M.P'
+name: 'Bin lau'
+author: 'Bin lau'
 author_image: "/assets/images/author.jpg"
 
 paginate:	5
 
-url: "http://www.rajathkumar.com" # the base hostname & protocol for your site
+url: "http://neaix.com" # the base hostname & protocol for your site
 baseurl: ""
 
 # social icons and sharing options
@@ -33,7 +33,7 @@ social:
 #    share_title: ?text=
 #    share_link: "&amp;url="
   - icon: github
-    url:  https://github.com/rajathkumarmp
+    url:  https://github.com/neaix
     desc: Fork me on github
     title: GitHub
     share_url:
