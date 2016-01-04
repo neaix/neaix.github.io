@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Talks"
+date: 2014-05-27 01:18:00
+image: 
+permalink : /talks/
+---
+
+* <u>Artificial Neural Networks for Face Recognition using PCA and BPNN</u>
+	
+    November 3<sup>rd</sup> 2015, IEEE TENCON, Macau. (Oral Presentation)
+
+<iframe src="https://docs.google.com/presentation/d/1MIuqgobBXvp3x41Es1Zi27YWw658hXEuymKYOxuTp9g/embed?start=false&loop=false&delayms=3000" frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+* <u>Python Workshop</u>
+
+	September 27<sup>th</sup> 2015, RNS Institute of Technology, Bangalore.
+
+	Github Repo - https://github.com/rajathkumarmp/Python-Lectures
+
+<iframe width="600" height="430" src="//www.cincopa.com/media-platform/iframe.aspx?fid=A8LA3CtR-nd7" frameborder="0" allowfullscreen scrolling="no"></iframe><noscript><span>New Gallery 2015/11/12</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 1296</span><span>height</span><span> 864</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 480</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 480</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 480</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 480</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 480</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 480</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 480</span></noscript>
+
+* <u>Python Workshop</u>
+
+	August 23<sup>rd</sup> 2015, Bangalore Institute of Technology, Bangalore.
+
+	Github Repo - https://github.com/rajathkumarmp/Python-Lectures
+
+<iframe width="600" height="430" src="//www.cincopa.com/media-platform/iframe.aspx?fid=AQLAYDdS-jrz" frameborder="0" allowfullscreen scrolling="no"></iframe><noscript><span>BIT-Python</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 540</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 540</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 540</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 540</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 540</span><span>originaldate</span><span> 1/1/0001 6:00:00 AM</span><span>width</span><span> 720</span><span>height</span><span> 540</span></noscript>

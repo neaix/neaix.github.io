@@ -1,0 +1,49 @@
+---
+layout: post
+title:  "Summary : Robocomp - Google Summer of Code 2015"
+date: 2015-10-27 01:18:00
+image: 
+permalink : /gsoc/
+---
+
+##Summary
+
+
+<b>Before Midterms</b> -
+
+**Progress:** Took the task of building a website for documenting the open source project _RoboComp_ for the first 4 weeks of Google Summer of Code 2015. The website should be able to segregate the posts into categories, Make it easy for users to post content and most importantly have a proper flow among the posts so that a new users will find it easy to learn the framework.
+
+Started building the website by using the [dbyll theme](https://github.com/dbtek/dbyll). Messed around with the code a bit and had the website up for robocomp. Website [link](https://rajathkumar.github.io/robocomp). After a few iterations the website was all good. While exploring on the same topic stumbled upon [Type theme](https://rohanchandra.github.io/project/type/). Which was a jekyll based them more clean and elegant than the first one. Ported the entire website to the type theme and currently have shifted the [website](http://robocomp.github.io/website/) to the [robocomp organization on github](https://github.com/robocomp). Currently have tweaked the website based on the suggetsions recieved by the mentors.
+
+Version-1 : https://github.com/robocomp/website/tree/version-1
+
+**Future:** Will implement automatic segregation of posts based on categories the user mention. Extend the features of the website and add analytics, comments for blog posts etc. Give the website its final iterations based on the suggestions recieved.
+
+
+<b>After Midterms</b> -
+
+
+At the start of the second term, I finished developing the version-2 of the website.
+
+Version-2 : https://github.com/robocomp/website/tree/version-2
+
+After learning from the previous-2 version built the Version-3(Current) of the website using Jekyll.
+
+Version-3 : https://github.com/robocomp/website/tree/gh-pages
+
+Website : www.robocomp.net
+
+Parallely I started developing simple components for robocomp which would introduce new users to the framework. I have implemented the components in both the languages which robocomp supports - c++ and python. Also have documented the same.
+
+C++ components : https://github.com/rajathkumarmp/RoboComp-Components
+
+Python components : https://github.com/rajathkumarmp/RoboComp-Python-Components
+
+Documentation : https://github.com/rajathkumarmp/RoboComp-Docs
+
+In Google Open Source Blog : http://google-opensource.blogspot.in/2015/11/google-summer-of-code-wrap-up-robocomp.html
+
+
+**Future** : I will be writing starter components for each of the available interface so that a new user can easily get started. After having executed most of the already available components in the robocomp organization, In the coming days I will be working on components using PCL and explore other possibilities with the framework. It has been a great learning experience so far. Cheers!
+
+![](/assets/Projects/3.jpg)

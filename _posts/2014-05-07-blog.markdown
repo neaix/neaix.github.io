@@ -1,0 +1,82 @@
+---
+layout: post
+title:  "Blog"
+date: 2014-05-27 01:18:00
+image: 
+permalink : /blog/
+---
+
+* <b>Miscellaneous</b>
+
+ * [Summary : Robocomp - Google Summer of Code 2015](http://www.rajathkumar.com/gsoc/)
+
+ * [Tutorial : Reading Hyperspectral Images](http://www.rajathkumar.com/hyperspectralimage/)
+
+ * [Complete Guide : Installation and usage of Mathjax on your website](http://www.rajathkumar.com/mathjax/)
+
+ * [Hello World!](http://www.rajathkumar.com/personal/2015/02/10/first-post.html)
+
+* <b>Python</b>
+
+ * [Introduction and Installation](http://www.rajathkumar.com/python/2015/11/10/00.html)
+
+
+ * [Variable, Operators and Built-in Functions](http://www.rajathkumar.com/python/2015/11/10/01.html)
+
+
+ * [Print Statement, Precision and FieldWidth](http://www.rajathkumar.com/python/2015/11/10/02.html)
+
+
+ * [Lists, Tuples and Sets](http://www.rajathkumar.com/python/2015/11/10/03.html)
+
+
+ * [Strings and Dictionaries](http://www.rajathkumar.com/python/2015/11/10/04.html)
+
+
+ * [Control Flow Statements](http://www.rajathkumar.com/python/2015/11/10/05.html)
+
+
+ * [Functions](http://www.rajathkumar.com/python/2015/11/10/06.html)
+
+
+ * [Classes](http://www.rajathkumar.com/python/2015/11/10/07.html)
+
+* <b>Principal Component Analysis</b>
+
+ * [Mathematically, Principal Component Analysis](http://www.rajathkumar.com/pca/)
+
+ * [Principal Component Analysis, Reconstruction](http://www.rajathkumar.com/pca/reconstruction/)
+
+* <b>RoboComp</b> (Published in Robocomp's docs)
+
+ * [Python, Getting Distance and Angle Measurements](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/python/Distance-measurement-python/)
+
+ * [Python, DifferentialRobot Tutorial](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/python/moving-robot-in-a-square-and-circle-python/)
+
+ * [Python, Obstacle Avoiding Bot](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/python/obstacle-avoiding-bot-python/)
+
+ * [Python, Keyboard controller bot](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/python/Keyboardrobotcontroller-python/)
+
+ * [C++, Laser.idsl tutorial](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/c++/getting-distance-measurement%20-c++/)
+
+ * [C++, Differential Robot Tutorial](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/c++/mmoving-robot-in-square-and-circle-c++/)
+
+ * [C++, Obstacle Avoiding Bot](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/c++/obstacle-avoiding-bot-c++/)
+
+ * [C++, Keyboard controller bot](http://robocomp.readthedocs.org/en/latest/code-examples/getting-started/c++/Keyboard-robot-controller-c++/)
+
+ * [aprilTagsComp : Tutorial to simulate virtual apriltags](http://robocomp.readthedocs.org/en/latest/code-examples/apritagstutorial/)
+
+ * [Interfaces Documentation, DifferentialRobot.idsl](http://robocomp.readthedocs.org/en/latest/interfaces/DifferentialRobot/)
+
+ * [Interfaces Documentation, Laser.idsl](http://robocomp.readthedocs.org/en/latest/interfaces/Laser/)
+
+ * [Interfaces Documentation, RGBD.idsl](http://robocomp.readthedocs.org/en/latest/interfaces/RGBD/)
+
+ * [Write a post for robocomp, A step by step guide.](http://robocomp.github.io/website/2015/05/23/post_on_webpage/)
+
+
+* <b>Event Reports</b>
+
+[To be updated]
+

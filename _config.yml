@@ -1,20 +1,58 @@
-title: "TJ Stein"
-url: "http://tjstein.com"
-author: "TJ Stein"
-email: "thomasjstein@gmail.com"
-description: "The personal blog of TJ Stein."
+# Build settings
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "strikethrough", "with_toc_data"]
+highlighter: pygments
 
-auto: false
-source: .
-paginate: 5
-paginate_files:
- - index.html
+# Site settings
+title: "Rajath Kumar"
+description: > # this means to ignore newlines until "email:"
+   Things that I have done, learnt and thought about.
 
-permalink: /:year/:month/:title
+email: rajathkumar.exe@gmail.com
+#blog logo
+logo: "/assets/images/author.jpg"
+# blog cover
+cover: "/assets/images/wave1.png"
 
-markdown: rdiscount
-pygments: true
+name: 'Rajath Kumar M.P'
+author: 'Rajath Kumar M.P'
+author_image: "/assets/images/author.jpg"
 
-exclude:
-  - README.markdown
-  - _drafts
+paginate:	5
+
+url: "http://www.rajathkumar.com" # the base hostname & protocol for your site
+baseurl: ""
+
+# social icons and sharing options
+social:
+#  - icon:	twitter
+#    url:	https://twitter.com/rajathkmp
+#    desc: Follow me on twitter
+#    share_url: http://twitter.com/share
+#    share_title: ?text=
+#    share_link: "&amp;url="
+  - icon: github
+    url:  https://github.com/rajathkumarmp
+    desc: Fork me on github
+    title: GitHub
+    share_url:
+    share_title:
+    share_link:
+
+#  - icon:	
+#    url:	
+#    desc: Connect with me facebook
+#    title: Facebook
+#    share_url: //www.facebook.com/sharer.php
+#    share_title: ?t=
+#    share_link: "&amp;u="
+
+
+
+#  - icon:	google-plus
+#    url:	https://google.com/+rajathkumar
+#    desc:	Add me on google+
+#    share_url:
+#    share_title:
+#    share_link:
