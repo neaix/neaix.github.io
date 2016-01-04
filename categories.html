@@ -1,15 +1,26 @@
 ---
-layout: default
+layout: page
 title: Categories
 header: Posts By Category
-permalink: /categories/
-group: navigation
+group: example-page
 ---
-{% include JB/setup %}
-<div class="wrapper">
+<div id = "google-ads">
+    <script type="text/javascript"><!--
+        google_ad_client = "ca-pub-5288940759807123";
+        /* Individual page */
+        google_ad_slot = "9201981423";
+        google_ad_width = 728;
+        google_ad_height = 15;
+        //-->
+    </script>
+    <script type="text/javascript"
+        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+    </script>
+</div>
+
 <ul class="tag_box inline">
   {% assign categories_list = site.categories %}
-  {% include JB/categories_list %}
+  {% include helpers/categories_list.html %}
 </ul>
 
 
@@ -17,8 +28,7 @@ group: navigation
   <h2 id="{{ category[0] }}-ref">{{ category[0] | join: "/" }}</h2>
   <ul>
     {% assign pages_list = category[1] %}  
-    {% include JB/pages_list %}
+    {% include helpers/pages_list.html %}
   </ul>
 {% endfor %}
 
-</div>

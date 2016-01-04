@@ -1,0 +1,5 @@
+{% comment %}<!--jeykAppPost helper. Converts posts into a JavaScript variable -->{% endcomment %}
+[{% for post in site.posts %}
+{"title" : "{{ post.title }}", "url" : "{{ post.url }}","date" : "{{ post.date | date_to_string }}",
+"content" : "{{ post.content |  strip_html | truncate : 120 }}"}{% if forloop.rindex0 != 0 %},{% endif %}{% endfor %}
+];

@@ -2,12 +2,20 @@
 layout: page
 title: Pages 
 header: Pages
-group: navigation
+group: example-page
 ---
-{% include JB/setup %}
 
 <h2>All Pages</h2>
-<ul>
 {% assign pages_list = site.pages %}
-{% include JB/pages_list %}
-</ul>
+{% include helpers/pages_list.html %}
+
+
+<h2>Pages in group: project</h2>
+{% assign pages_list = site.pages %}
+{% assign group = 'project' %}
+{% include helpers/pages_list.html %}
+
+<h2>Pages in group: example-page</h2>
+{% assign pages_list = site.pages %}
+{% assign group = 'example-page' %}
+{% include helpers/pages_list.html %}

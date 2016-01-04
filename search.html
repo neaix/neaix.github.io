@@ -1,0 +1,30 @@
+---
+layout: page
+title: Search My Site...
+header: Site Searcher...
+group: example-page
+---
+<head>
+     <script type="text/javascript" src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+     <script type="text/javascript" src="assets/themes/pradeep/js/JekyllApp.js"></script>
+</head>
+
+<script type="text/javascript">
+   // Using liquid to populate JeykllApp.posts array
+   JekyllApp.posts = {% include helpers/JekyllAppPosts %}
+</script>
+<div id="search-container" class="entrance" ng-app="JekyllApp" ng-controller="JekyllSearchController">
+  <div class="entrance-item">
+    <p><input id="searchText" type="search" placeholder="Live Search Posts..." ng-model-instant ng-model="searchText" />
+  </div>
+  <div class="entrance-item">
+    <ul>
+      <li ng-repeat="post in posts | filter:searchText">
+         <span ng-bind-html-unsafe="post.date | date:'MMM d, y' | highlight:searchText"></span> &raquo;
+        <a ng-href="{{ '{{ post.url ' }}}}" ng-click="externalLink()"
+           ng-bind-html-unsafe="post.title | highlight:searchText"></a>
+          <div class="preview" ng-bind-html-unsafe="post.content  | highlight:searchText"></div>
+      </li>
+    </ul>
+  </div>
+</div>
