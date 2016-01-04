@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Administrative | Bro Kaizen]]></title>
+  <link href="http://bro-kaizen.github.io/blog/categories/administrative/atom.xml" rel="self"/>
+  <link href="http://bro-kaizen.github.io/"/>
+  <updated>2015-02-16T01:05:57-05:00</updated>
+  <id>http://bro-kaizen.github.io/</id>
+  <author>
+    <name><![CDATA[bro_kaizen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Raison D'être]]></title>
+    <link href="http://bro-kaizen.github.io/blog/2014/11/10/whats-the-point-of-this-blog/"/>
+    <updated>2014-11-10T19:48:24-05:00</updated>
+    <id>http://bro-kaizen.github.io/blog/2014/11/10/whats-the-point-of-this-blog</id>
+    <content type="html"><![CDATA[This blog serves several purposes:
+
+* With any luck, this exercise will manufacture new ideas, following Paul Graham's (persuasive) [claim](http://www.paulgraham.com/writing44.html) that 
+
+<blockquote><p>&#8220;Writing doesn&#8217;t just communicate ideas; it generates them. If you&#8217;re bad at writing and don&#8217;t like to do it, you&#8217;ll miss out on most of the ideas writing would have generated.&#8221;</p></blockquote>
+
+<!--more-->
+
+* Bro Kaizen has unconventional opinions about a variety of topics, including but not limited to:
+  - The growth mindset
+  - Self improvement
+  - Best practices for learning new stuff
+  - Civil society
+  - Capitalism, social control, and The Establishment (cue scary music)
+  - Masculinity
+  
+  
+In general, these topics are either boring or not socially acceptable in polite company, so Bro Kaizen never gets to discuss them. Maybe we can fix that here.
+
+* Bro Kaizen has discovered some non-obvious truths in the past few years, mostly by trial and error, and it would be smashing if younger chaps were afforded the opportunity to learn those truths the easy way.
+  - We write &#8220;&#8230;younger chaps&#8230;&#8221; not from unfriendliness to the female userbase, but rather because this blog is rather narrowly focussed on the living of a modern masculine life. Naturally some parts (primarily the general self-improvement topics) are gender-neutral and might be equally valuable/equally worthless to everyone.
+
+* Lastly, this blog functions as a journal of sorts. It keeps ideas in one place for later reference (and might facilitate some looking-back-at-how-wrong-that-was/crow eating by an older and wiser Bro Kaizen). Many of the posts that are written in a prescriptive tone were originally intended as self-talk. In fact, quite a few of them were literally handwritten (in abbreviated form) and pasted as sticky notes on various walls and desks.
+]]></content>
+  </entry>
+  
+</feed>

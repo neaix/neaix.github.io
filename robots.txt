@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://bro-kaizen.github.io/sitemap.xml 
