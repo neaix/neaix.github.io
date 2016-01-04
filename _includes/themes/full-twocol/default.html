@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+	<meta name="author" content="{{ site.author.name }}" />
+    <link rel="start" href="{{ HOME_PATH }}" />
+	{% if page.keywords %}
+	<meta name="keywords" content="{{ page.keywords }}">
+	{% endif %}
+	
+	{% if site.author.feedburner %}
+  	<link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/{{ site.author.feedburner }}" title="RSS feed" />
+	{% endif %}
+	{% if page.feed %}
+  	<link rel="alternate" type="application/atom+xml" href="{{ page.feed }}" title="RSS feed" />
+	{% endif %}
+    <script src="{{ ASSET_PATH }}/js/jquery-1.7-latest.js"></script>
+    <link rel="stylesheet" href="{{ ASSET_PATH }}/css/basic.css" />
+    <link rel="stylesheet" href="{{ ASSET_PATH }}/css/main.css" />
+</head>
+<body >
+<div id="sidebar">
+	<h1><a href="{{ HOME_PATH }}" title="{{ site.title }}">{{ site.title }}</a></h1>
+	<div id="description">{{ site.tagline }}</div>
+	<ul id="nav">
+		<li>
+			<form action="./search.htm" method="get">
+				<input type="text" name="q" class="search" onblur="if (this.value == &#39;&#39;) {this.value = &#39;搜索&#39;;}" onfocus="if (this.value == &#39;搜索&#39;) {this.value = &#39;&#39;;}" value="搜索">
+			</form>
+		</li>
+		<li><a href="/archive.html">存档</a></li>
+		<li><a href="/categories.html">分类</a></li>
+		<li><a href="/about.html">关于</a></li>
+	</ul>
+	
+</div>
+<div id="main">
+{{ content }}
+</div>
+</body></html>

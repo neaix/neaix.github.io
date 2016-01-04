@@ -1,0 +1,76 @@
+#main {
+    margin: 0px auto;
+    text-align: center;
+    width: 625px;
+    margin-right: 5px;
+}
+
+#main h2
+{
+    text-align: left;
+    font-size: 48px;
+    font-weight: bold;
+    float:left;
+}
+
+#main h3
+{
+    text-align: left;
+}
+
+#main input, button
+{
+    text-align: left;
+}
+
+.right
+{
+    float: right;
+}
+
+#scorePanel
+{
+    margin-top: 20px;
+    float: right;
+    border-radius: 5px 5px 2px;
+    background-color: #bbada0;
+    padding: 5px 5px;
+    color: white;
+}
+
+#scorePanel h4
+{
+    margin: 5px 5px;
+}
+
+#score
+{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#subtitle
+{
+    clear: both;
+}
+
+#btnbar
+{
+    clear: both;
+    text-align: right;
+}
+
+#btnbar button
+{
+    float: right;
+    margin-left: 10px;
+    background-color: #bbada0;
+    border: 1px #bbada0 solid;
+}
+
+#gameOverMsg
+{
+    clear: both;
+    font-size: 24px;
+    margin: 5px 5px;
+}

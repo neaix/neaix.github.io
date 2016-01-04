@@ -1,172 +1,28 @@
+---
+layout: nil
+title : Atom Feed
+---
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>{{ site.title }}</title>
+ <link href="{{ site.production_url }}/atom.xml" rel="self"/>
+ <link href="{{ site.production_url }}"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>{{ site.production_url }}</id>
+ <author>
+   <name>{{ site.author.name }}</name>
+   <email>{{ site.author.email }}</email>
+ </author>
 
-  <title><![CDATA[Bro Kaizen]]></title>
-  <link href="http://bro-kaizen.github.io/atom.xml" rel="self"/>
-  <link href="http://bro-kaizen.github.io/"/>
-  <updated>2015-02-16T01:05:57-05:00</updated>
-  <id>http://bro-kaizen.github.io/</id>
-  <author>
-    <name><![CDATA[bro_kaizen]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
-
-  
-  <entry>
-    <title type="html"><![CDATA[The Dapper Propagandist]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/12/27/apparel-and-propaganda/"/>
-    <updated>2014-12-27T15:36:07-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/12/27/apparel-and-propaganda</id>
-    <content type="html"><![CDATA[<p>The human animal is by and large easily bamboozled by the surface impressions of things. You will meet comparatively few people who see beyond the most superficial of apperances. Another way of stating this is that people want to be communicated with in a visual, quick, low-friction way. Communication is receiver based, so why not send them information on the channel that they listen to?</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[On the Teleology of Womanizing]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/12/15/on-competence-in-womanizing/"/>
-    <updated>2014-12-15T00:22:59-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/12/15/on-competence-in-womanizing</id>
-    <content type="html"><![CDATA[<p>There are many reasons to become a competent womanizer, not least among which is the fact that you are biologically programmed for sex and therefore that the pursuit of women is inherently interesting. But philandering nirvana also brings some handy side benefits, of which more below.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Compassion and Empathy in the Context of Masculinity]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/22/compassion-and-empathy-in-the-context-of-masculinity/"/>
-    <updated>2014-11-22T15:03:05-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/22/compassion-and-empathy-in-the-context-of-masculinity</id>
-    <content type="html"><![CDATA[<p>When you are young, healthy, strong, and perhaps educated or possessed of a stable and loving family, it&rsquo;s easy to overdevelop the aggressive side of your character. You lift in the gym, watch sports, get loud with your buddies, develop the skill of picking up Anglo-American girls by being a loud and confident knob, and so on. All these things are well and good ingredients of the modern man&rsquo;s existence, but balance is also important.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Throw Away Your Television]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/21/throw-away-your-television/"/>
-    <updated>2014-11-21T14:57:54-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/21/throw-away-your-television</id>
-    <content type="html"><![CDATA[<p>Who are we to argue with Anthony Kiedis, former mostly-nude drug addled madman extraordinaire, Red Hot Chili Peppers jefe, and sometime Freddy Mercury lookalike?</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Expert Instruction]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/20/expert-instruction/"/>
-    <updated>2014-11-20T00:46:55-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/20/expert-instruction</id>
-    <content type="html"><![CDATA[<p>Deliberate practice is hard. Sometimes, you can cheat that difficulty by finding a reliable expert who has written a how-to guide, and following the recipe exactly. This is an extension of the notion that you should <a href="http://localhost:4000/blog/2014/11/18/instruction-in-natural-language/">find user-friendly instruction</a> if possible, and was stolen blatantly from Lyle McDonald at Body Recomposition.</p>
-
-<p>In his <a href="http://www.bodyrecomposition.com/just-do-the-program/">entertaining rant</a>, Lyle says,</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Stackable Permanent Life Improvements]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/19/stackable-permanent-life-improvements/"/>
-    <updated>2014-11-19T16:11:46-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/19/stackable-permanent-life-improvements</id>
-    <content type="html"><![CDATA[<p>Amy Chua&rsquo;s <a href="http://en.wikipedia.org/wiki/Battle_Hymn_of_the_Tiger_Mother">Tiger Mother</a> book claims <em>delayed gratification</em> as one of the three invariant characteristics of high-performing immigrant populations. She&rsquo;s on to something, but we can generalize her idea and do one better.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Instruction in Natural Language]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/18/instruction-in-natural-language/"/>
-    <updated>2014-11-18T14:31:02-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/18/instruction-in-natural-language</id>
-    <content type="html"><![CDATA[<p>In many college classes and in the knowledge-work industry, you will be required to learn new material from a book. Very likely you will be assigned some reading on the topic, and this reading will probably be from an eminent and respectable tome. When people see you carrying around that tome, or reading it on the tube, they will be quite impressed by your powerful brain. But there&rsquo;s one large drawback.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Husband Your Gumption]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/17/husband-your-gumption/"/>
-    <updated>2014-11-17T01:05:07-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/17/husband-your-gumption</id>
-    <content type="html"><![CDATA[<p>Beware this caveat pertaining to <a href="http://bro-kaizen.github.io/blog/2014/11/16/on-gumption-and-character/">gumption and character</a>!</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[On Gumption and Character]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/16/on-gumption-and-character/"/>
-    <updated>2014-11-16T02:01:53-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/16/on-gumption-and-character</id>
-    <content type="html"><![CDATA[<p>Gumption is the gasoline of man&rsquo;s life. It is the get-up-and-go, the stick-to-it-iveness, and the knocked-down-twice, stand-up-thrice fire inside you. If you run out of it, things will head south very quickly. You must cultivate this gumption, nurture it, and encourage it to grow. Every man possesses by nature a certain rate of gumption replenishment, which rate may be modified by nurture. As you nurture your rate of gumption replenishment, you will also tend to develop in parallel the ability to store more of it. I know of at least two ways to develop gumption:</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Deliberate Practice in Action]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/15/a-pithy-example-of-deliberate-practice/"/>
-    <updated>2014-11-15T00:46:52-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/15/a-pithy-example-of-deliberate-practice</id>
-    <content type="html"><![CDATA[<p>Wiser and more experienced writers than Bro Kaizen are considering Deliberate Practice, about which topic we began <a href="http://bro-kaizen.github.io/blog/2014/11/14/deliberate-practice/">harping</a> earlier this week. Here&rsquo;s perhaps the pithiest example of DP yet&mdash;this is the whole thing in a nutshell.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Deliberate Practice]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/14/deliberate-practice/"/>
-    <updated>2014-11-14T22:11:59-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/14/deliberate-practice</id>
-    <content type="html"><![CDATA[<p>If you&rsquo;re overweight, you don&rsquo;t earn physical fitness by spending three days doing a cardio circuit with your roomate, two days following a diet that your girlfriend invented, four days with Mark Rippetoe&rsquo;s <a href="http://en.wikipedia.org/wiki/Mark_Rippetoe">Starting Strength</a>, and then going to sit on the couch. A piecemeal (and half-heartedly implemented) approach like that is <strong>destined to fail.</strong></p>
-
-<p>But fear not&mdash;there is a better way:</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Growth Mentality]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/12/growth-mentality/"/>
-    <updated>2014-11-12T22:06:36-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/12/growth-mentality</id>
-    <content type="html"><![CDATA[<p>Out of the box, you will suck at a lot of things. It is your job to regard this as a temporary state of affairs <em>that you can consciously take steps to fix</em>.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Maximizing Productivity]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/11/maximizing-productivity/"/>
-    <updated>2014-11-11T18:27:21-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/11/maximizing-productivity</id>
-    <content type="html"><![CDATA[<p>Napoleon said something like (paraphrasing aggressively here), &ldquo;The results of every battle are determined ahead of time by the geography, weather, and factors pertaining to the supply of war <em>materiel</em>.&rdquo;</p>
-
-<p>This notion of meta-factors&#8217; outsized importance also applies to studying, especially in college.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Raison D'être]]></title>
-    <link href="http://bro-kaizen.github.io/blog/2014/11/10/whats-the-point-of-this-blog/"/>
-    <updated>2014-11-10T19:48:24-05:00</updated>
-    <id>http://bro-kaizen.github.io/blog/2014/11/10/whats-the-point-of-this-blog</id>
-    <content type="html"><![CDATA[<p>This blog serves several purposes:</p>
-
-<ul>
-<li>With any luck, this exercise will manufacture new ideas, following Paul Graham&rsquo;s (persuasive) <a href="http://www.paulgraham.com/writing44.html">claim</a> that</li>
-</ul>
-
-
-<blockquote><p>&#8220;Writing doesn&#8217;t just communicate ideas; it generates them. If you&#8217;re bad at writing and don&#8217;t like to do it, you&#8217;ll miss out on most of the ideas writing would have generated.&#8221;</p></blockquote>
-
-
-
-
-]]></content>
-  </entry>
-  
+ {% for post in site.posts %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="{{ site.production_url }}{{ post.url }}"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>{{ site.production_url }}{{ post.id }}</id>
+   <content type="html">{{ post.content | xml_escape }}</content>
+ </entry>
+ {% endfor %}
+ 
 </feed>

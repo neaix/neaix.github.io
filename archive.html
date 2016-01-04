@@ -1,0 +1,14 @@
+---
+layout: page
+title : 存档
+header : Post Archive
+group: navigation
+---
+{% include JB/setup %}
+<style>
+.body h1,h2{
+	margin-left: 0px;
+}
+</style>
+{% assign posts_collate = site.posts %}
+{% include JB/posts_collate %}

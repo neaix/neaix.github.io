@@ -1,0 +1,37 @@
+<div id="page">
+	
+  <h1 class="emphnext">{{ page.title }}</h1>
+  <ul class="tag_box inline">
+  {% assign tags_list = page.tags %}
+  {% include JB/tags_list %}
+  </ul>
+
+  {{ content }}
+  <!-- JiaThis Button BEGIN -->
+<div id="ckepop">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+  <address class="signature">
+    <a class="author" href="{{ HOME_PATH }}">{{ site.author.name }}</a> 
+    <span class="date">{{ page.date | date_to_long_string }}</span>
+    <span class="location">{{ page.location }}</span>
+  </address>
+  
+  <div class="prev-next">
+  {% if page.next %}
+    <a href="{{ page.next.url }}" class="next" title="{{ page.next.title }}">下一篇 &rarr;</a>
+  {% endif %}
+  {% if page.previous %}
+    <a href="{{ page.previous.url }}" class="prev" title="{{ page.previous.title }}">&larr; 上一篇</a>
+  {% endif %}
+  </div>
+  
+</div><!-- End Page -->
+
+{% include JB/comments %}
