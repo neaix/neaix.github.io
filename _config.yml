@@ -10,22 +10,22 @@ markdown: rdiscount
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : Jiang Le
+title : Near
 tagline: "aka naoki, david"
 author :
-  name : Jiang Le
-  email : smartynaoki@gmail.com
-  github : naokij
-  twitter : jiangle
+  name : Near
+  email : neaix@hotmail.com
+  github : neaix
+  twitter : neaix
   feedburner : feedname
   
 
 # Theme settings
 theme:
   # Google analytics UID
-  google_analytics_uid: UA-214442-5
+  google_analytics_uid: xxxx
   # Disqus shortname, for comments
-  disqus_shortname: jiangle
+  disqus_shortname: neaix
   # Number of featured posts on homepage
   homepage_featured: 1
   # Number of posts on homepage (in addition to featured posts)
@@ -41,7 +41,7 @@ theme:
 # Else if you are pushing to username.github.com, replace with your username.
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
-production_url : http://jiangle.name
+production_url : http://neaix.com
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
