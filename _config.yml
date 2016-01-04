@@ -1,22 +1,38 @@
 # This is the default format. 
 # For more see: https://github.com/mojombo/jekyll/wiki/Permalinks
-permalink: /:categories/:year/:month/:day/:title 
+permalink: /:year/:month/:day/:title 
 
-exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
+exclude: [".rbenv-version", "README.md", "Rakefile"]
 auto: true
-pygments: false
+pygments: true
+markdown: rdiscount
 
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : 莲城笔记
-tagline: 生活、文艺与技术随笔
+title : Jiang Le
+tagline: "aka naoki, david"
 author :
-  name : 七弦
-  email : lcm.hust@gmail.com
-  github : joshualeung
-  twitter : szjoshua
-  facebook : jcleung
+  name : Jiang Le
+  email : smartynaoki@gmail.com
+  github : naokij
+  twitter : jiangle
+  feedburner : feedname
+  
+
+# Theme settings
+theme:
+  # Google analytics UID
+  google_analytics_uid: UA-214442-5
+  # Disqus shortname, for comments
+  disqus_shortname: jiangle
+  # Number of featured posts on homepage
+  homepage_featured: 1
+  # Number of posts on homepage (in addition to featured posts)
+  homepage_posts: 3
+  # Number of words to display in post summaries
+  featured_wordcount: 120
+
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
 # Most places will/should use BASE_PATH to make the urls
@@ -25,37 +41,23 @@ author :
 # Else if you are pushing to username.github.com, replace with your username.
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
-production_url : http://joshualeung.github.com
+production_url : http://jiangle.name
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
 JB :
-  version : 0.2.13
+  version : 0.1.0
 
   # All links will be namespaced by BASE_PATH if defined.
-  # Links in your website should always be prefixed with {{BASE_PATH}}
-  # however this value will be dynamically changed depending on your deployment situation.
+  # This is required for hosting GitHub Project Pages.
+  # If you are deploying this website for one of your GitHub projects
+  # you must set BASE_PATH to the name of your GitHub project.
   #
-  # CNAME (http://yourcustomdomain.com)
-  #   DO NOT SET BASE_PATH 
-  #   (urls will be prefixed with "/" and work relatively)
+  # Leave this blank if you have defined a CNAME for your site (pages.github.com)
+  # NOTE: When in localhost, your site will run from root "/" regardless of BASE_PATH
   #
-  # GitHub Pages (http://username.github.com)
-  #   DO NOT SET BASE_PATH 
-  #   (urls will be prefixed with "/" and work relatively)
-  #
-  # GitHub Project Pages (http://username.github.com/project-name)
-  #
-  #   A GitHub Project site exists in the `gh-pages` branch of one of your repositories.
-  #  REQUIRED! Set BASE_PATH to: http://username.github.com/project-name
-  #
-  # CAUTION:
-  #   - When in Localhost, your site will run from root "/" regardless of BASE_PATH
-  #   - Only the following values are falsy: ["", null, false]
-  #   - When setting BASE_PATH it must be a valid url.
-  #     This means always setting the protocol (http|https) or prefixing with "/"
-  BASE_PATH : false
-
+  BASE_PATH : ""
+  
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
   #
@@ -67,42 +69,37 @@ JB :
   ASSET_PATH : false
 
   # These paths are to the main pages Jekyll-Bootstrap ships with.
-  # Some JB helpers refer to these paths; change them here if needed.
+  # Some JB helpers refer to these paths; change theme here if needed.
   #
-  archive_path: /archive.html
-  categories_path : /categories.html
-  tags_path : /tags.html
+  archive_path: /archive/
+  categories_path : /categories/
+  tags_path : /tag/
 
   # Settings for comments helper
   # Set 'provider' to the comment provider you want to use.
   # Set 'provider' to false to turn commenting off globally.
   #
   comments :
-    provider : duoshuo
+    provider : disqus
     disqus :
-      short_name : jekyllbootstrap
+      short_name : jiangle
     livefyre :
       site_id : 123
     intensedebate :
       account : 123abc
     facebook :
-      appid : 123
-      num_posts: 5
-      width: 580
-      colorscheme: light
+      apikey : 123
    
   # Settings for analytics helper
   # Set 'provider' to the analytics provider you want to use.
   # Set 'provider' to false to turn analytics off globally.
   #        
   analytics :
-    provider : google 
+    provider : google
     google : 
-        tracking_id : 'UA-123-12'
+        tracking_id : 'UA-214442-5'
     getclicky :
       site_id : 
-    mixpanel :
-        token : '_MIXPANEL_TOKEN_'
 
   # Settings for sharing helper. 
   # Sharing is for things like tweet, plusone, like, reddit buttons etc.
@@ -122,5 +119,4 @@ JB :
   # and include your custom code. Your custom file must be defined at:
   #   ./_includes/custom/[HELPER]
   # where [HELPER] is the name of the helper you are overriding.
-paginate: true
-paginate: 3 
+  

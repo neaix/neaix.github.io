@@ -1,10 +1,8 @@
-{% if site.JB.comments.provider and page.comments != false %}
+{% if site.JB.comments.provider and page.JB.comments != false %}
 
 {% case site.JB.comments.provider %}
 {% when "disqus" %}
   {% include JB/comments-providers/disqus %}
-{% when "duoshuo" %}
-  {% include JB/comments-providers/duoshuo %}
 {% when "livefyre" %}
   {% include JB/comments-providers/livefyre %}
 {% when "intensedebate" %}
