@@ -1640,7 +1640,7 @@ Nishanth is a Dancer
 <p>Now that you have been introduced to python, You can try out the different python libraries in the field of your interest. I highly recommend you to check out this curated list of Python frameworks, libraries and software <a href="http://awesome-python.com">http://awesome-python.com</a></p>
 <p>The official python documentation : <a href="https://docs.python.org/2/">https://docs.python.org/2/</a></p>
 <p>Peace.</p>
-<p>Rajath Kumar M.P ( rajathkumar.exe@gmail.com )</p>
+<p>Rajath Kumar M.P ( neaix@hotmail.com )</p>
 
 </div>
 </div>
