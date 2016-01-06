@@ -6,7 +6,7 @@ categories: Personal
 tags: 
 image: /assets/images/designfin.jpg
 ---
-![nginx](https://github.com/neaix/neaix.github.io/raw/master/assets/images/nginx.jpg)  
+![](https://github.com/neaix/neaix.github.io/raw/master/assets/images/nginx.jpg)  
 
 ## 安装方式(源码编译)  
 
