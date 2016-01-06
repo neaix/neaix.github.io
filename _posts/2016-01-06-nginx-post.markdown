@@ -3,11 +3,10 @@ layout: post
 title:  "nginx centOS7下安装"
 date:   2016-01-06 10:38:25
 categories: Personal
-tags: nginx
+tags: 
 image: /assets/images/designfin.jpg
 ---
 ![nginx](https://github.com/neaix/neaix.github.io/raw/master/assets/images/nginx.jpg)  
-
 
 ## 安装方式(源码编译)  
 
