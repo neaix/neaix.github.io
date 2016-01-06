@@ -26,17 +26,18 @@ image: /assets/images/designfin.jpg
 3. 检查和安装依赖项  
  
   ```shell
-   yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel
+   	 yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel
    ```
+
 4. 配置  
  
  ```shell 
-   configure
+  	 configure
     ```
      
 5. 编译安装  
  
  ```shell
-  make && make install 
+ 	 make && make install 
   ```
  
