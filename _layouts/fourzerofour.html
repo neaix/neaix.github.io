@@ -19,7 +19,6 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel="stylesheet" type="text/css">
     <link rel="canonical" href="{{ page.url | canonical }}">
-    <meta name="google-site-verification" content="4b2gG2_kr5STLh0RhE34iPvU59o591CoG9N6iYOazvw" />
     <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
     <script src="/javascripts/modernizr.js"></script>
 
@@ -38,12 +37,27 @@
     	</section>
     </div>
   </div>
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'neaix'; // required: replace example with your forum shortname
+    var disqus_identifier = '{{neaix}}';
+ 
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
   
 	<footer class="clearfix">
 	  <section class="footer-content">
-	    <p>Hi, I'm <a href="/about">Donovan Hutchinson</a>. This is where I write about web development.</p>
-      <p>You can follow me at <a href="http://twitter.com/donovanh">@donovanh</a> or by <a href="/feed.xml">RSS</a>.</p>
-      <p>&copy; and written by Donovan Hutchinson</p>
+	    <p>Hi, I'm <a href="/about">neaix</a>. This is where I write about neaix development.</p>
+      <p>You can follow me at <a href="https://github.com/neaix">neaix</a> or by <a href="/feed.xml">RSS</a>.</p>
+      <p>&copy; and written by neaix</p>
 		</section>
 	</footer>
 
@@ -115,9 +129,9 @@
         var path = window.location.pathname;
         var phrase = decodeURIComponent(path.replace(/\/+/g, ' ').trim());
         if (phrase.indexOf('mac') > -1) {
-          customSearch.showDialog('http://hop.ie/blog/macplus');
+          customSearch.showDialog('http://neaix.com/blog/macplus');
         } else if (phrase.indexOf('smashing') > -1) {
-          customSearch.showDialog('http://hop.ie/go/smashingmag');
+          customSearch.showDialog('neaix.com/go/smashingmag');
         } else {
           customSearch.trySearch(phrase);
         }
@@ -131,7 +145,7 @@
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-3481417-23']);
-    _gaq.push(['_setDomainName', 'hop.ie']);
+    _gaq.push(['_setDomainName', 'neaix.com']);
     _gaq.push(['_setSiteSpeedSampleRate', 10]);
     _gaq.push(['_trackPageview']);
 

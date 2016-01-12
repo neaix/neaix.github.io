@@ -1,9 +1,0 @@
----
-layout: redirect
-title: "CSS Spheres"
-description: "Create great looking spheres using CSS gradients."
-tags: [css, 3d]
-imageURL: eyeball.jpg
-target: "https://cssanimation.rocks/spheres/"
-targetName: "CSSAnimation.rocks"
----

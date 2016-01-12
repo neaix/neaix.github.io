@@ -1,4 +1,4 @@
-url: http://hop.ie
+url: http://neaix.com
 permalink: /blog/:title
 highlighter: pygments
 paginate: 8 # the number of post per page
