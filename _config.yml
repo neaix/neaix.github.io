@@ -1,36 +1,10 @@
-# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
-permalink: /:year/:month/:day/:title.html
-paginate: 10 # pagination based on number of posts
-paginate_path: "page:num"
-exclude: ["README.md"] # files to exclude
-highlighter: true
-markdown: kramdown
+name: "Chris Yin"
 
+description: "My Personal Site"
 
-defaults:
-  -
-    scope:
-      path: "" # empty string for all files
-    values:
-      title: 镜中的自我
+url: "http://chrisyin.com"
 
-description: 生活、文艺与梦想
-# gavatar头像及Favicon
-gavatar: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
-favicon: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
+paginate: 10
 
-author:
-  name: 七弦
-  email: lcm.hust@gmail.com
-  github: joshualeung
-  twitter: szjoshua
-  pinterest: joshualeung
-  linkedin: joshualeung
-  bio: 谁谓河广，一苇杭之
-  email_md5: 726351295ec82e145928582f595aa3aa
-
-rss_path: feed.xml
-categories_path: categories.html
-tags_path: tags.html
-
-BASE_PATH:
+markdown: rdiscount
+permalink: pretty

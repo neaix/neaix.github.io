@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google" value="notranslate">
+  <meta http-equiv="Content-Language" content="en" />
+
+  <title>Chris Yin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="My Personal Site">
+
+  <link href="/css/bootstrap.css" rel="stylesheet">
+    
+  <style>
+    body {
+      padding-top: 60px;
+    }
+  </style>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Signika+Negative:300,400' rel='stylesheet' type='text/css'>
+
+  <link rel="icon" 
+      type="image/png" 
+      href="/img/CircleYin.png">
+  
+  <!--<link href="/css/bootstrap-responsive.css" rel="stylesheet">-->
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35234352-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+<!-- s3cmd sync --acl-public _site/ s3://www.chrisyin.com --> 
+
+</head>
+
+<body>
+<div class="container">
+  <div class="row-fluid">
+    <div class="span8 offset2">
+     <div class="post-header">
+        <ul>
+          <li>
+            <div class = "post-image-container">
+              <a href = "/"><img src = "/img/CircleYin.png" border = "0" id="photo"></a>
+            </div>
+          </li>
+          <div id = "page-menu">
+            <li><a href = "/" title = "Blog">Blog</a></li>
+            <li><a href = "/tools" title = "Tools">Tools</a></li>
+            <li><a href = "/quotes" title = "Quotes">Quotes</a></li>
+            <!--<li><a href = "/reading" title = "Reading">Reading</a></li>
+            <li><a href = "/media" title = "Media">Media</a></li>-->
+          </div>  
+      </div>
+      <hr>
+
+        <h1>
+          Fanhattan UX Breakdown
+        </h1>
+        <h4>
+          <p class="muted">
+            26 September 2012
+          </p>
+        </h4>
+        <div id = "blog-content">
+          <p>So, my first time doing one of these things, but I love Fanhattan and wanted to throw my opinion in. So here goes.</p>
+
+<p><strong>The Product (iPad)</strong></p>
+
+<p>Fanhattan is a catalogue of all  film/TV media on the web that gives consumers a single point of discovery.</p>
+
+<p>You search for things, Fanhattan tells you where it lives, and you can go there and watch it. Revenue is through affiliate marketing.</p>
+
+<p>What Fanhattan ultimately wants from their users is what I'm going to call an Action. Action == Watching == Affiliate Revenue.</p>
+
+<p>The user experience cycle goes from what I call Discovery --> Intrigued --> Learn More, then back to Discovery. Every stage should lead to an Action.</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-circle.png" alt="Fanhattan-Circle" /></p>
+
+<p>While Fanhattan currently follows the cycle shown above, I think the UX has drop offs at certain points, and it would be nice to see a more fluid experience that gives me the info I need when I want it, encourages me to take action, and keeps bringing me back to Discovery. (Basing this off of personal experience, opinions may change if I were to look at user data.)</p>
+
+<p>Let’s focus on the movie section. We'll start at Discovery, move to Intrigued, Learn More, and then back to Discovery.</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-discovery.png" alt="Discovery" /></p>
+
+<p><strong>Discovery</strong></p>
+
+<p>The Discovery section is currently broken into 7 horizontal panes in the top half of the screen. The panes are Smart Browse, Featured, Streaming, In Theatres, My Movies, My Friends, and Genre.</p>
+
+<p>7 panes is a lot to swipe through. And a few overlap, so we can consolidate. Smart Browse can already filter by Genre, so no need for a standalone Genre pane. In addition, My Movies is 3 personal lists; let's make it all part of a dropdown menu associated with the "Me" button at the top (currently useless). Finally, Featured/Streaming/My Friends all help users discover films. Let’s group those together and call it Discover. We end up with 3 simple panes—Smart Browse, Discover, and In Theatres.</p>
+
+<p>Since Discover is now 3 panes in 1, we need to reorganize it. In a recent <a href="http://bit.ly/PmcZW0">press release</a>, Chris Thun noted that discovery is 3 things—algorithmic, curated, and social. And it makes sense; the user starts with a large list of movies, and it gets more personalized as you move from algorithmic to curated, and then even more with social. Let's reorganize the new Discovery category to reflect this.</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-pyramid.png" alt="Pyramid" /></p>
+
+<ol>
+<li>Start with most general-- the 1st filter should be All.</li>
+<li>Most of the Streaming pane is new material. Group it into a filter called New. (Hulu/Amazon/Free can all be filtered in Smart Browse already)</li>
+<li>Add Popular-- for movies trending amongst all users.</li>
+<li>Re-label featured as Recommended. Take what the user likes and show similar films.</li>
+<li>Last is Social, which is the currently the My Friends pane.</li>
+</ol>
+
+
+<p>Keep Smart Browse the same (it's awesome), and re-sort In Theatres the same way we did Discover, from general to customized. We end up with something like this:</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan1.png" alt="Fanhattan1" /></p>
+
+<p>Just 3 panes for Discovery. Browse. Discover, from general films down to user specific. In Theatres for up &amp; coming. The same material, but no swiping, easy to navigate &amp; understand.</p>
+
+<p>Also, when we tap on movie posters,  Watch List, Seen It, Be a Fan options pop up. Let's add Watch Now at the top so the user can immediately perform an Action when they see a film they like.</p>
+
+<p><strong>Intrigued</strong></p>
+
+<p>If the user is unsure, they tap the movie poster and move to the Intrigued section. Currently for Intrigued, the bottom half of the screen turns into 3 columns (Photos, Watch Now, Movie Details). Tapping Discover pulls up a new screen (Learn More) with 9 separate panes (the first 3 panes are exactly the same as the columns in Intrigued).</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-intrigued.png" alt="Intrigued" /></p>
+
+<p>The user didn't perform an Action in Discovery, and came to Intrigued to help with their decision. However, the current setup doesn't help me make a decision --  I need a bit more. And tapping any of these columns simply brings me to to the same pane in Learn More (and tapping the rating brings me to Movie Details)</p>
+
+<p>Unless I was already prepared to perform an action, my decision ends up taking place in Learn More, rendering the Intrigued section almost useless.</p>
+
+<p>The basic info I need is Summary, Cast &amp; Crew, Ratings, &amp; Trailers. Combine all the panes together, info on the left, actions on the right. Each section (Poster, Ratings, Plot Summary, Cast) should open a new window when tapped (ie tapping the critics/viewer meters will bring up the Reviews window). The user now has the requisite info and is led to perform an Action, or go back to the Discovery stage.</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-2.png" alt="Fanhattan2" /></p>
+
+<p><strong>Learn More</strong></p>
+
+<p>At this point, we've provided all the basic info a user needs to make a decision. So either the user really wants to know the the film before they perform an Action or the user has already watched the film and wants to learn more. By swiping to the right, the user moves to Learn More. Here the user can get click on News, Discussions (<a href="http://www.facebook.com/ThereWillBeBloodMovie">Facebook</a>, <a href="https://twitter.com/i/#!/search/?q=there+will+be+blood&amp;src=typd">Twitter</a>, <a href="http://getglue.com/movies/there_will_be_blood/paul_anderson">GetGlue</a>, etc), or watch Clips (<a href="http://movieclips.com/">MovieClips</a>).</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanattan-learnmore.png" alt="LearnMore" /></p>
+
+<p>For the user who is still trying to make a decision, this window will tell them everything to actually watching the film. There is no more information we can provide-- the user will now either perform an Action (Watch Now in the top right), or reject the movie and go back to Discovery (click off the window).</p>
+
+<p>The user who has already seen the film and wants to learn more has already performed an Action; we want to lead them back to Discovery. If they come this far for news/discussions/clips, I think it is safe to assume they at least mildly enjoyed the film. The user can then slide to the right and see an entire window of related films (categorized by Genre/Actors/Directors, etc) and this leads them back to the Discovery stage.</p>
+
+<p><img src="https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-related.png" alt="Related" /></p>
+
+<p><strong>Conclusion</strong></p>
+
+<p>The user now consistently gains more info at every stage (Discovery, Intrigued, Learn More) and can perform an action at every step. And at the end, we lead them back to Discovery to start the cycle over, creating a continually engaging experience.</p>
+
+<p>Overall, Fanhattan is still amazing -- just my 2 cents.</p>
+
+        </div>
+      
+      <br> 
+      <hr>
+        <div class = "otherposts">
+          <h3>
+            <b>Other Posts You May Enjoy</b>
+          </h3>
+          
+            <p> 
+              <a href = "/2013/12/14/for-startups%26%2358%3B-building-for-businesses-101/">For Startups&#58; Building for Businesses 101</a>
+            </p>
+          
+            <p> 
+              <a href = "/2013/10/19/leadership/">Leadership</a>
+            </p>
+          
+            <p> 
+              <a href = "/2013/08/27/pretending-to-work/">Working Hard &amp; Not Getting Anything Done</a>
+            </p>
+          
+            <p> 
+              <a href = "/2013/08/20/becoming-a-leader/">The First Step To Becoming A Leader</a>
+            </p>
+          
+            <p> 
+              <a href = "/2013/08/01/sharpening-the-saw/">To Improve Your Work, Stop Working</a>
+            </p>
+          
+        <hr>
+            <div class = "disqus-container">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'chrisyin'; // required: replace example with your forum shortname
+
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+      </div>
+        <hr>
+          Built with <a href = "http://jekyllrb.com/" target = "_blank">Jekyll</a>. Hosted on <a href = "http://aws.amazon.com/s3/">Amazon S3</a>.
+        <br>
+     </div>
+  </div>
+</div>
+
+
+</div>
+
+</body>
+</html>

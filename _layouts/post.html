@@ -1,4 +1,36 @@
----
-layout: default
----
-{% include post.html %}
+{% include header.html %}
+{% include navigation.html %}
+
+        <h1>
+          {{ page.title }}
+        </h1>
+        <h4>
+          <p class="muted">
+            {{ page.date | date_to_long_string }}
+          </p>
+        </h4>
+        <div id = "blog-content">
+          {{ content }}
+        </div>
+      
+      <br> 
+      <hr>
+        <div class = "otherposts">
+          <h3>
+            <b>Other Posts You May Enjoy</b>
+          </h3>
+          {% for post in site.posts limit: 5 %}
+            <p> 
+              <a href = "{{ post.url }}">{{ post.title }}</a>
+            </p>
+          {% endfor %}
+        <hr>
+      {% include disqus.html %}
+        <hr>
+          Built with <a href = "http://jekyllrb.com/" target = "_blank">Jekyll</a>. Hosted on <a href = "http://aws.amazon.com/s3/">Amazon S3</a>.
+        <br>
+     </div>
+  </div>
+</div>
+
+{% include footer.html %}

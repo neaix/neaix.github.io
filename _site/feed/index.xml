@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Chris Yin</title>
+ <link href="http://www.chrisyin.com/feed/" rel="self"/>
+ <link href="http://www.chrisyin.com/"/>
+ <updated>2013-12-14T17:45:59-08:00</updated>
+ <id>http://www.chrisyin.com/</id>
+ <author>
+   <name>Chris Yin</name>
+   <email>ceyin.818@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>For Startups&#58; Building for Businesses 101</title>
+   <link href="http://www.chrisyin.com/2013/12/14/for-startups%26%2358%3B-building-for-businesses-101/"/>
+   <updated>2013-12-14T00:00:00-08:00</updated>
+   <id>http://www.chrisyin.com/2013/12/14/for-startups&#58;-building-for-businesses-101</id>
+   <content type="html">&lt;p&gt;A little over a year ago, I joined &lt;a href=&quot;http://tcrn.ch/18MuCue&quot;&gt;Xpenser&lt;/a&gt; -- a startup building expense management tools for individuals &amp;amp; companies. We were 4 years old, bootstrapped, small (3 full time + interns), ~85K users and ~150 paying customers.&lt;/p&gt;
+
+&lt;p&gt;It was my first time building for businesses. I studied and learned about building product for businesses, how to sell, marketing, support, scaling, recruiting, etc.&lt;/p&gt;
+
+&lt;p&gt;About 6 months later, we were acquired by &lt;a href=&quot;http://tcrn.ch/18Muzyn&quot;&gt;Coupa&lt;/a&gt;, a spend management company, to help run &amp;amp; build upon their existing expense management business.&lt;/p&gt;
+
+&lt;p&gt;After we started at Coupa, I thought I'd be doing the same thing I was doing at Xpenser, but just at a different company. The setting would be different, but the goals were the same -- build the best expense management solution for businesses. At the time we joined, Coupa was 6 years old, had raised ~$50M in venture capital, ~150 people, and 400+ paying customers.&lt;/p&gt;
+
+&lt;p&gt;I was wrong. Even though both times we were solving the same problem &amp;amp; selling to businesses, the lessons I learned didn't apply universally. We were no longer just selling to businesses, we were selling to the enterprise.&lt;/p&gt;
+
+&lt;hr&gt;
+
+
+&lt;p&gt;As a student of the startup game, both times (at Xpenser &amp;amp; Coupa) I went to the web to learn from founders/entrepreneurs. Both times I found little helpful information, and in many cases, what I did find turned out to just be plain wrong.&lt;/p&gt;
+
+&lt;p&gt;Traditionally there has been a veil that exists between what is said publicly and what is actually going on in a company. Recently, many startups have been favoring transparency over opacity, sharing valuable lessons and mistakes to the general public.&lt;/p&gt;
+
+&lt;p&gt;But the majority of startup advice I found on the web was directed at consumer startups. And that made sense -- for a business whose customers were other businesses you don't want your customers to read about, for example, how you screwed up and how their data wasn't properly protected. That kind of information will kill you in a sale. Opacity and boilerplate press releases were safer than an honest blog post that might come back to bite you in the ass.&lt;/p&gt;
+
+&lt;p&gt;So it's hard to find good information on the web for startups to learn about building for businesses. There's a lot of misunderstanding in the startup world about building for businesses -- the general sentiment and advice I hear seems to be repackaged consumer startup advice but in a business context.&lt;/p&gt;
+
+&lt;p&gt;After serving and building for all types of businesses at both Xpenser &amp;amp; Coupa, I've learned a bit about the space, and I'll be sharing what I've learned here. &lt;a href=&quot;http://eepurl.com/DdF7n&quot;&gt;Click here to subscribe&lt;/a&gt;!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Leadership</title>
+   <link href="http://www.chrisyin.com/2013/10/19/leadership/"/>
+   <updated>2013-10-19T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/10/19/leadership</id>
+   <content type="html">&lt;p&gt;What is it?&lt;/p&gt;
+
+&lt;p&gt;1.The ability to get someone to follow you, even if only out of curiosity.&lt;/p&gt;
+
+&lt;p&gt;2.Do people believe you have the interest of the company over yours?&lt;/p&gt;
+
+&lt;p&gt;3.Do they believe you can execute?&lt;/p&gt;
+
+&lt;p&gt;If you have all 3, you've got it.&lt;/p&gt;
+
+&lt;iframe width=&quot;600&quot; height=&quot;350&quot; src=&quot;//www.youtube.com/embed/sqI7fa04atc&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Working Hard &amp; Not Getting Anything Done</title>
+   <link href="http://www.chrisyin.com/2013/08/27/pretending-to-work/"/>
+   <updated>2013-08-27T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/08/27/pretending-to-work</id>
+   <content type="html">&lt;blockquote&gt;&lt;p&gt;When you are hunting elephants, don't get distracted chasing rabbits.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;  -&lt;em&gt;T. Boone Pickens&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;For years I've been a big inbox zero guy. I rigorously maintained all of my inboxes and other web services (pocket, feedly, evernote, etc.)&lt;/p&gt;
+
+&lt;p&gt;To me, if you didn't manage your online services, they were useless. Then they were toys -- fun to play with, but don't provide any real utility.&lt;/p&gt;
+
+&lt;p&gt;At the time, I was getting a fair amount of emails and I was able to manage. Since I started at Coupa, it shot up at least 3 fold and I was drowning in a deluge of emails. I couldn't keep up. I needed a new system.&lt;/p&gt;
+
+&lt;hr&gt;
+
+
+&lt;p&gt;I was listening to the &lt;a href=&quot;http://www.youtube.com/watch?v=iqUG2_cmZ6I&quot;&gt;PandoMonthly with Chris Sacca&lt;/a&gt; (embedded below). An awesome talk all around -- but the point that that stood out to me was the notion of offense vs. defense.&lt;/p&gt;
+
+&lt;p&gt;Take an email inbox. An inbox is really just a &lt;a href=&quot;https://twitter.com/shellen/status/228202415789334528&quot;&gt;public todo list&lt;/a&gt; that anybody can put things on. You can easily spend all day ticking off your emails and it's easy to feel accomplished and like you're getting a lot done.&lt;/p&gt;
+
+&lt;p&gt;But it's a false sense of accomplishment. By spending your efforts checking off tasks that anyone can give you, there's no coherence around your tasks. You keep working aimlessly and doing everyone's else's bidding but your own. It's the ultimate exercise in feeling busy, but not actually doing anything.&lt;/p&gt;
+
+&lt;hr&gt;
+
+
+&lt;p&gt;Prior, I was always impeccable at getting my emails done. I always emailed back. I always followed up at least 3 times. The more useless emails that I responded to, the more useless work came into my life. I didn't realize any of this at the time -- I felt like I was getting shit done.&lt;/p&gt;
+
+&lt;p&gt;As it fell apart with the addition of Coupa emails, I started trying to figure out a new way to manage all my emails.&lt;/p&gt;
+
+&lt;p&gt;That's when I watched the video below and it opened my eyes to what I was actually doing. I felt accomplished, but I was really just keeping busy doing work for other people. I was only making marginal -- if any -- progress on my own goals. That's why every time I turned off my email and worked in a dark corner, I felt extremely productive. Otherwise I always felt like I was getting stuff done, but I didn't feel like I was doing anything or making any progress.&lt;/p&gt;
+
+&lt;p&gt;So I realized that in order to make real progress, I had to give up on the ridiculous notion of inbox zero. I took a step back, planned out some goals, milestones, and got to work. The endless slew of inbound emails were ignored unless they fit in with my set goals.&lt;/p&gt;
+
+&lt;p&gt;And it's been incredibly cathartic. Yes, my inbox is exploding, but I'm making real, tangible progress on the different goals I've set. I've been able to make more progress than before, find more free time, and everything else in my inbox is still going on perfectly fine without my response. Amazing.&lt;/p&gt;
+
+&lt;hr&gt;
+
+
+&lt;p&gt;This thought expands further than simply managing email. It's a principle to remember in any situation -- make sure you're always playing offense. There are endless amounts of noise in the world trying to distract you. It can feel productive to work on clearing the noise, but it's a waste of effort -- and a futile one. The only way to truly advance on what's important is to ignore the noise, buckle down, and push your goals to completion.&lt;/p&gt;
+
+&lt;hr&gt;
+
+
+
+
+&lt;iframe width=&quot;600&quot; height=&quot;350&quot; src=&quot;//www.youtube.com/embed/iqUG2_cmZ6I&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>The First Step To Becoming A Leader</title>
+   <link href="http://www.chrisyin.com/2013/08/20/becoming-a-leader/"/>
+   <updated>2013-08-20T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/08/20/becoming-a-leader</id>
+   <content type="html">&lt;p&gt;What is a leader?&lt;/p&gt;
+
+&lt;p&gt;A leader is someone who drives a group of people towards a common goal.&lt;/p&gt;
+
+&lt;p&gt;Leaders come in all different flavors, but the best leaders all have a few things in common -- they have a clear vision and they are the drivers that push it all forward.&lt;/p&gt;
+
+&lt;p&gt;So what does it take to become a leader? Charisma, salesmanship, product sense, etc. are all pieces of it, but not the key element. At the core, a leader is someone who simply makes good decisions for the group.&lt;/p&gt;
+
+&lt;hr&gt;
+
+
+&lt;p&gt;I believe that everyone knows what a good decision looks like. People either explicitly know what it is, or they are able to &quot;feel&quot; when a decision is right. Intuition is still always there as a fail safe.&lt;/p&gt;
+
+&lt;p&gt;Then why isn't everyone a leader?&lt;/p&gt;
+
+&lt;p&gt;When it comes down to it, most people don't speak their minds. They stifle their own voice and default to the majority. The majority must know better, be smarter, have more experience, etc. This can be especially true if you're in a group full of people smarter than you.&lt;/p&gt;
+
+&lt;p&gt;To become a leader, all you have to do is start speaking your mind. That simple.&lt;/p&gt;
+
+&lt;p&gt;Speaking your mind is how you learn. You force yourself to have an opinion, take a side, and voice it publicly. If you're consistently right, people will recognize this and you will quickly evolve into the decision making authority and leader.&lt;/p&gt;
+
+&lt;p&gt;But when you speak up, you might not always be right. In fact, when you start to really speak your mind, there's a good chance you'll often be wrong. When this happens, it can certainly be easy to hide behind silence.&lt;/p&gt;
+
+&lt;p&gt;If you're wrong, people might call you an idiot. And in the short term, you might actually feel like an idiot.&lt;/p&gt;
+
+&lt;p&gt;But it doesn't matter. When you put yourself out there, you expose your actual thoughts. You create a voice for yourself as well as subjecting your thought process to criticism.&lt;/p&gt;
+
+&lt;p&gt;Take in the criticism, recalibrate, and try again. You can tweak what was wrong before, and constantly iterate your thought process to success.&lt;/p&gt;
+
+&lt;p&gt;When you say nothing, you never put yourself out there. By not exposing what you think, you never challenge your own thought process, your ideas, and your beliefs. It's easier to hide behind silence than subject yourself to the risk of ridicule. Over time, however, those that speak out will continue to improve and others will remain static.&lt;/p&gt;
+
+&lt;p&gt;After constantly interating and optimizing your thought process, you'll start to hone your instincts and begin making the right decisions. By this point you'll have a voice for yourself in the group, have confidence in your opinions, and have naturally evolved into a leader for your group.&lt;/p&gt;
+
+&lt;hr&gt;
+
+
+&lt;p&gt;I've typically been pretty outspoken. And while this might all seem like common sense, I found that once I started paying attention to myself, I realized I was subconsciously defaulted to the majority on a several things that I actually had an opinions on.&lt;/p&gt;
+
+&lt;p&gt;I caught myself and changed my behavior, but I wouldve never realized that I was keeping quiet until I started to explicitly watch my own behavior.&lt;/p&gt;
+
+&lt;p&gt;Give it a shot, would love to hear thoughts or if you've had a similar experience.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>To Improve Your Work, Stop Working</title>
+   <link href="http://www.chrisyin.com/2013/08/01/sharpening-the-saw/"/>
+   <updated>2013-08-01T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/08/01/sharpening-the-saw</id>
+   <content type="html">&lt;p&gt;Over the last few months I've been in a depression.&lt;/p&gt;
+
+&lt;p&gt;Not a mental depression, but a depression in regards to personal development.&lt;/p&gt;
+
+&lt;p&gt;I define personal development as doing things that you enjoy working on in your free time. Not just anything, but things you actively work on to get better at without any external motivation to do so.&lt;/p&gt;
+
+&lt;p&gt;Recently I've spent all of my time working on my day job instead of taking the time to do any personal development. Things like reading, writing, or working on personal side projects that don't make any money :).&lt;/p&gt;
+
+&lt;p&gt;By spending all of my time working, I'm actually getting worse at work. And I'm not getting any better at my personal interests. Doubly bad.&lt;/p&gt;
+
+&lt;hr&gt; 
+
+
+&lt;p&gt;It's easy to get sucked into work. They pay you. Projects are handed to you. You feel productive when you work on something. You know what you have to deliver. Strategy and goals are set for you -- you just have to execute. Things are relatively straightforward.&lt;/p&gt;
+
+&lt;p&gt;Too often these factors lead people to spend all of time working. With non-stop work emails as the new norm and every email marked as &lt;em&gt;URGENT!!!&lt;/em&gt;, it's easy to feel like it's irresponsible to do anything other than work.&lt;/p&gt;
+
+&lt;p&gt;The problem with constant working is that while you might feel like you're being productive, you're only making incremental improvements. By constantly working on the same thing -- you close your mind and limit your ability to think and grow.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&quot;Most innovation comes from outside of the company.&quot;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;  -&lt;a href=&quot;http://www.inc.com/allison-fass/tony-hsieh-zappos-growth-strategies.html&quot;&gt;&lt;em&gt;Tony Hsieh&lt;/em&gt;&lt;/a&gt;, CEO of Zappos&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&quot;What we know about the brain is that the brain does not work on forming its connections while we are focused on the idea.&quot;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;  -&lt;a href=&quot;http://mixergy.com/course-cheat-sheet-deliberate-innovation/&quot;&gt;&lt;em&gt;Debra Kaye&lt;/em&gt;&lt;/a&gt;, Founder of Lucule Consulting&lt;/p&gt;
+
+&lt;p&gt;In order to innovate and make real strides in your career/ life, it's essential to lift yourself out of the day to day tactical work and just &lt;em&gt;do other things&lt;/em&gt;. Finish a book, write a blog post, volunteer, or work on a side project. Get out of the building.&lt;/p&gt;
+
+&lt;p&gt;By spending time applying your mind to other problems, you can learn and draw inspiration from outside. When you are focused on 1 problem, you develop tunnel vision. Your thinking narrows, and your thoughts can get boxed in. When you venture outside and let go, you're able to re-open your mind and see things in a novel way.&lt;/p&gt;
+
+&lt;p&gt;Outside of work, by developing other skills, you simply become a more valuable person. You learn new skill set, open your mind, and become a much more versatile thinker.&lt;/p&gt;
+
+&lt;p&gt;As a personal anecdote, I've found my best ideas come from moments where my mind is farthest from the problem at hand. If I get stuck on something, I'll start writing a post or start working on a side project and the answer serendipitously strikes me.&lt;/p&gt;
+
+&lt;p&gt;The difficulty for me is finding the right balance. I'm particularly fond of the way Jeff Atwood describes it in his post, &lt;a href=&quot;http://www.codinghorror.com/blog/2009/03/sharpening-the-saw.html&quot;&gt;Sharpening the Saw&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;A guy who stumbled into a lumberjack. The lumberjack is feverishly sawing at a very large tree. The lumberjack was sawing and sawing, yet going nowhere. The saw was about as sharp as a butter knife. So, he says to the lumberjack, &quot;I couldn't help noticing how hard you are working on that tree, but going nowhere.&quot;&lt;/p&gt;
+
+&lt;p&gt;The lumberjack replies with sweat dripping off of his brow, &quot;Yes...I know.&quot; The bystander replies and says, &quot;But your saw is so dull that it couldn't possibly cut through anything.&quot; &quot;I know&quot;, says the lumberjack, &quot;but I am too busy sawing to take time to sharpen my saw.&quot;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;I'm not sure if the post is meant to be read this way -- but to me, working is the tactical action of sawing away at the tree. Personal development is the act of sharpening the saw. In order to maximize your efficiency, you must find a balance between the two.&lt;/p&gt;
+
+&lt;p&gt;Constantly re-assess yourself, and be ruthlessly intellectually honest. Spend too much time sawing away and you never make a real impact. Spend too much time sharpening the saw, and you never get anywhere.&lt;/p&gt;
+
+&lt;p&gt;So force yourself to take time and do other things. Especially in startup, it can be hard to pry yourself away from all of the critical things happening. But make sure to take time every day or at least every week to let go of work and focus on building your own personal skill set and interests. You will end up serving not only your company, but also yourself much better in the long run.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Good Teams Succeed. Great Teams Fail.</title>
+   <link href="http://www.chrisyin.com/2013/06/24/the-best-teams-fail/"/>
+   <updated>2013-06-24T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/06/24/the-best-teams-fail</id>
+   <content type="html">&lt;p&gt;Ever since I started at my new job, I've been waiting for one thing -- to fail.&lt;/p&gt;
+
+&lt;p&gt;I hate failing. But I've been looking forward to it. Why?&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;For our group to turn into a team.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Now there's a big difference between people that work together and a team.&lt;/p&gt;
+
+&lt;p&gt;When people are simply working together, things are opaque. The flow of information is asymmetrical, sporadic.  The group can often feel mercenary-like. Driven by self interest and/or fear. They very tangibly lack &lt;em&gt;trust&lt;/em&gt; in each other.&lt;/p&gt;
+
+&lt;p&gt;This yields subpar work. When there's no trust, individuals act in self-interest. When people act in self-interest, the results of the group suffer.&lt;/p&gt;
+
+&lt;p&gt;A team is different. Things are transparent. People share thoughts, opinions, comments. Discussions become primarily strategic as opposed to tactical and consensus driven. The team moves from mercenary-like to missionary-like. Aligned by a single vision larger than any single person on the team. People &lt;em&gt;trust&lt;/em&gt; each other.&lt;/p&gt;
+
+&lt;p&gt;This is the golden state. There is meaning behind the work. People are empowered and self motivated. Amazing things happen.&lt;/p&gt;
+
+&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p&gt;The reason transparency is a such a powerful value for a company’s culture? It breeds trust, and trust is the foundation of great teamwork.&lt;/p&gt;&amp;mdash; Joel Gascoigne (@joelgascoigne) &lt;a href=&quot;https://twitter.com/joelgascoigne/statuses/340499460696203264&quot;&gt;May 31, 2013&lt;/a&gt;&lt;/blockquote&gt;
+
+
+&lt;script async src=&quot;//platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;So how to build trust? There's 2 main ways -- success and failure.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Success&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Your team succeeds. You deliver a high quality product, you close a big deal, etc. You've proven that your team can do something right.&lt;/p&gt;
+
+&lt;p&gt;I call this ability trust. Whatever you did worked before, so make it work again. Morale is high, and you hope to boil down the last success into a formula and replicate.&lt;/p&gt;
+
+&lt;p&gt;But ability trust is contingent upon success. It all works great when things are going well. But when things go south, this can quickly evaporate. People start pointing fingers, and fear &amp;amp; self interest takes over.&lt;/p&gt;
+
+&lt;p&gt;Ability trust is very ephemeral -- quickly won, but also very quickly lost. Teams need a more sustainable type of trust in conjunction with ability trust.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Failure&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The opposite. Your team works on something together, and everything falls apart.&lt;/p&gt;
+
+&lt;p&gt;1 of 2 things can happen. 1 -- the group turns on each other -- point fingers, spread blame, etc. A complete disaster. Or 2 -- the team will defend each other.&lt;/p&gt;
+
+&lt;p&gt;Not defend failure. But prove that even in failure, they trust each other's decisions and will defend them. 'Because of XYZ, we thought this was best. It was the best decision possible at the time. We'll get it right next time.'&lt;/p&gt;
+
+&lt;p&gt;When you are knowingly wrong and your team sticks up for you, it instantly creates a bond. It becomes larger than just work output. The team believes in your ability, despite the outcome. You're free to take risks, learn, and improve as opposed to just trying to cover your ass.&lt;/p&gt;
+
+&lt;p&gt;A good team will have one of these. But a great team will have both.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Team &gt; group of individual contributors.&lt;/p&gt;
+
+&lt;p&gt;Trust turns individual contributors into a team.&lt;/p&gt;
+
+&lt;p&gt;To create trust, teams must survive either success or failure.&lt;/p&gt;
+
+&lt;p&gt;To create long term teams, they must survive both success and failure.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Reading Notes - Made to Stick</title>
+   <link href="http://www.chrisyin.com/2013/05/28/made-to-stick/"/>
+   <updated>2013-05-28T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/05/28/made-to-stick</id>
+   <content type="html">&lt;p&gt;Just finished &lt;a href=&quot;http://amzn.to/114Pvtg&quot;&gt;Made to Stick&lt;/a&gt;. Here are some quick notes.&lt;/p&gt;
+
+&lt;p&gt;The book is about how to turn your ideas into reality. Ideas are incredibly powerful-- they are the root of everything we do. They can do something as simple as convince your friends to a restaurant you've wanted to try, all the way to getting somebody to quit their cushy job and help you start that company you've wanted to build.&lt;/p&gt;
+
+&lt;p&gt;But frequently our ideas get ignored. Months later after an opportunity has been missed or taken advantage of by someone else, you mutter under your breath, 'I had that idea months ago.' A useless comment -- you failed to get the buy in because you couldn't convey the value of the idea.&lt;/p&gt;
+
+&lt;p&gt;Miscommunication is defined as when an expert (someone who thinks abstractly) can't communicate with a novice (thinks concretely). The book provides a framework to bridge that gap.&lt;/p&gt;
+
+&lt;p&gt;It's called the SUCCESs framework (a bit cheesy, I know, but bear with me).&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;S&lt;/strong&gt;imple &lt;br /&gt;
+&lt;strong&gt;U&lt;/strong&gt;nexpected &lt;br /&gt;
+&lt;strong&gt;C&lt;/strong&gt;oncrete &lt;br /&gt;
+&lt;strong&gt;C&lt;/strong&gt;redible &lt;br /&gt;
+&lt;strong&gt;E&lt;/strong&gt;motional &lt;br /&gt;
+&lt;strong&gt;S&lt;/strong&gt;tory &lt;br /&gt;&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Simple&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Keep it simple. Every idea can be conveyed in 1 simple sentence.&lt;/p&gt;
+
+&lt;p&gt;An example -- Southwest Airlines. Their mantra is, 'We are &lt;em&gt;the&lt;/em&gt; low cost airline provider'. Nothing gets in the way of that. When people are coming up with new ideas, adding new things, changing things -- they always go back to that single idea. Does this help us become the low cost air provider? If not, then the answer is no.&lt;/p&gt;
+
+&lt;p&gt;It's simple, powerful, and succinct. Everyone can remember it and start to make better decisions based on it.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Unexpected&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If you can't grab people's attention, they won't listen. If people don't listen, you can't get your idea out. You need to do/say something unexpected or contrarian to get people listening and thinking.&lt;/p&gt;
+
+&lt;p&gt;Create knowledge gaps. Lead people down a road and pause -- as they fill in the next part on their own -- reveal something unexpected. It'll catch them off guard and keep them hooked, with the added benefit of creating a platform for them to start coming up with their own ideas/thoughts.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Concrete&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Concrete details are how to appeal to the masses. But concrete details are a double edged sword -- say too little and nobody knows what you're talking about. Say too much, and the audience loses interest.&lt;/p&gt;
+
+&lt;p&gt;Limit concrete details to 3 things -- &lt;em&gt;associations&lt;/em&gt;, &lt;em&gt;self interest&lt;/em&gt;, and &lt;em&gt;identities&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Associations are things people are familiar with. You can describe a grapefruit to someone who's never seen a grapefruit in 2 ways -- as either a fruit with a soft &amp;amp; porous skin with an edible pulp, or you can just say it's a larger, bitter orange. Simple and concrete.&lt;/p&gt;
+
+&lt;p&gt;2nd is self interest -- what is in it for me. The audience wants to know why they should care. Use concrete details to describe and sell the benefit of the benefit. You're not selling power drills, you're selling the ability for the audience to hang up pictures of their kids on the wall.&lt;/p&gt;
+
+&lt;p&gt;Last is identities. Who am I, and what would someone like me do? Play to people's identities -- learn what that group wants, and then describe it in detail.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Credible&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You have to be credible. Reference experts (Dr. Yin says don't smoke), aspirational people/celebrities
+(Lebron doesn't smoke), the antihero (this ex-smoker with cancer says don't smoke), or yourself (I quit smoking after I found out I was getting sick).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Emotional&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://bit.ly/13Xah2e&quot; alt=&quot;Maslow&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Maslow's hierarchy. The lower end is physical needs. The higher end is emotional needs. Take your idea from something serving the lower end of Maslow's hierarchy and aim higher. The stronger the emotion, the stronger the purpose.&lt;/p&gt;
+
+&lt;p&gt;Pegasus hall is an army mess hall in Baghdad. Imagein a mess hall -- thousands of sweaty soldiers pouring into a dirty cafeteria. Soldier after soldier in line grabbing food from an assembly line and eating off of a plastic cafeteria tray. Doesn't conjure a grand image.&lt;/p&gt;
+
+&lt;p&gt;One cook realized there was something more. Meal times were not simply just eating. For the soldiers, meal time was downtime; they were recharging. If they didn't eat well, they would be sluggish and unmotivated during the next mission. If they were took a nice break and relaxed, morale would be high and the would perform better on the field. Meal time wasn't about food -- &lt;em&gt;it was about recharging morale&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The cook spread the word to his team. From then on, Pegasus was known for the amazing meals they prepared. Fresh fruit, perfectly cooked steak, and spotless mess halls. Cooks would go through buckets and buckets of fruit to pick out the good ones. Wade through pounds of bad meat to find good pieces. All for the same pay and with the same ingredients at other inferior mess halls.&lt;/p&gt;
+
+&lt;p&gt;Aim high on Maslow's hierarchy. Serve a higher purpose.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Story&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;All of the above are components of a good story. Good stories are how experts (think abstractly) communicates with novices (think concretely).&lt;/p&gt;
+
+&lt;p&gt;There are 3 types of stories. Challenge, connection and creativity.&lt;/p&gt;
+
+&lt;p&gt;Challenge - the classic David vs Goliath story.&lt;/p&gt;
+
+&lt;p&gt;Connection - the 'Chicken Soup' type of story. An emotional story pulling on your heart strings -- ie Help this starving child in Africa, etc.&lt;/p&gt;
+
+&lt;p&gt;Creativity - the mental challenge. A story with turns and twists that challenges the audience to follow along and guess what is going to happen next.&lt;/p&gt;
+
+&lt;p&gt;Use these types of stories in different situations. If you're about to go into battle, get your troops riled up by telling a challenge story. If you want people to donate money to your charity, an connection story is probably better.&lt;/p&gt;
+
+&lt;p&gt;--&lt;/p&gt;
+
+&lt;p&gt;The biggest barrier to doing all this successfully is the curse of knowledge. The curse of knowledge is when you know more than your audience and leave out important details because you assume they are already known.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The way to get your ideas out is to become a great storyteller. The best part is you don't have to create the stories. If you can learn to spot great stories and re-tell them, you'll be golden.&lt;/p&gt;
+
+&lt;p&gt;Use the SUCCESs framework to craft your story and get your idea heard.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;Tell a &lt;strong&gt;S&lt;/strong&gt;imple, &lt;strong&gt;U&lt;/strong&gt;nexpected, &lt;strong&gt;C&lt;/strong&gt;oncrete, &lt;strong&gt;C&lt;/strong&gt;redible, and &lt;strong&gt;E&lt;/strong&gt;motional &lt;strong&gt;S&lt;/strong&gt;tory.&lt;/p&gt;&lt;/blockquote&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Are You Learning to Fail or Failing to Learn?</title>
+   <link href="http://www.chrisyin.com/2013/05/23/learning-to-fail/"/>
+   <updated>2013-05-23T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/05/23/learning-to-fail</id>
+   <content type="html">&lt;p&gt;Failure. It’s a daunting thing. People like to talk about celebrating failure. They champion it like it’s something to do.&lt;/p&gt;
+
+&lt;p&gt;I think that’s ridiculous.&lt;/p&gt;
+
+&lt;p&gt;Let me start off — I’m a big proponent of failing fast and making mistakes. I think it’s a great learning tool. As it goes,&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;“Good judgement comes from experience. And experience comes from bad judgement.”&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;But some people talk about failure as if it deserves the merits of success. I don’t agree with that. While I believe failure certainly is a prerequisite to success, I don’t think it is an indicator.&lt;/p&gt;
+
+&lt;p&gt;Failing makes me nauseous. It sucks. It’s embarrassing. You fail because you were wrong, because didn’t try hard enough, or because you just aren’t good enough. Failing is a direct reflection of your ability. So when you fail, it means you suck. And that sucks.&lt;/p&gt;
+
+&lt;p&gt;I juggle between two thoughts. 1 — I fail because I’m trying new things I’m uncomfortable with, moving forward and learning. 2 — I fail because I suck. I didn’t think it through carefully enough, and it’s a symptom of a bigger problem. To be honest, I’m not sure which is true. (Although I think I know the answer ;) )&lt;/p&gt;
+
+&lt;p&gt;What I can say is that I learn by doing. Some people like to think through a million scenarios before deciding on anything. I act, and then improve iteratively. To me, thinking and theory are great — but there is no teacher like experience.&lt;/p&gt;
+
+&lt;p&gt;As a result, I move faster than others. As another result, I’m usually the first to make mistakes and break things. And get in trouble. But I also typically learn at the highest velocity.&lt;/p&gt;
+
+&lt;p&gt;The toughest part for me is not letting the fear of more failures become the driver. It’s easy to crawl into a hole and pity yourself. Hope time will wash it all away. It doesn’t, and by staying in the hole, you make it harder to get out.&lt;/p&gt;
+
+&lt;p&gt;The way to overcome the fear and the failure is to move on. Move forward, be bold and make the best of what is remaining. Oftentimes I’m able to rise out of the gutter and succeed just by acting as if my prior mistake was totally insignificant. Inside, the mistake eats at me day by day until I’m able to drown it out with a resouding success.&lt;/p&gt;
+
+&lt;p&gt;Let victory wash away the stench of failure, not time or pity.&lt;/p&gt;
+
+&lt;p&gt;It’s a struggle, and I’m hoping to get better at it. I often wonder if I should be more concerned about failing less or learning to overcome the inevitable failure better. I have no idea.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>The Only Thing You Need to Succeed &amp; Be Happy</title>
+   <link href="http://www.chrisyin.com/2013/05/09/the-only-thing-you-need/"/>
+   <updated>2013-05-09T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/05/09/the-only-thing-you-need</id>
+   <content type="html">&lt;p&gt;Lately, I’ve been driving up to LA more often (I’m in San Diego). I hate the drive, so I usually throw a &lt;a href=&quot;http://bit.ly/10cuVtN&quot; title=&quot;PandoMonthly&quot;&gt;PandoMonthly&lt;/a&gt; talk into my car to help pass time. They’re all spectacular, but one that continues to stick out is the &lt;a href=&quot;http://bit.ly/15q6s8T&quot; title=&quot;Fireside Chat with Ben Horowitz&quot;&gt;Ben Horowitz chat&lt;/a&gt;. The whole thing is awesome — but one quote in particular resonated with me.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;“The number one thing we look for in an entrepreneur is courage. Aristotle said that courage is the first virtue. Reason is, if you don’t have that — you don’t have any virtue. All the other things — honesty, integrity — they don’t get activated unless you have courage. It’s easy to be honest — unless it’s going to cost you your job, your marriage, or something else that you care about. Then it’s hard to be honest. So without courage, and you don’t have anything. You’re a zero character person.”&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;It struck a chord with me. Courage really is the cornerstone of everything. You always start with raw courage, and build up from there. Without it, your character is ephemeral — constantly fluctuating and adapting to the situation. Sometimes low quality, sometimes medium, probably never high. There’s no concept of yourself. You’re merely trying to fit in instead of injecting your own flavor. Zero character.&lt;/p&gt;
+
+&lt;p&gt;You need courage. Otherwise you can’t be successful or happy. Real success requires being innovative and original. You can’t do that through imitation. Without courage, you try and fit in through imitation. And by definition, a copycat is always 2nd to originality.&lt;/p&gt;
+
+&lt;p&gt;And you won’t be happy. You’re constantly trying to fit in, instead of being yourself. You ignore things that bother you, and you start to build resentment. Ultimately, that becomes destructive — you burn out and stop caring about your work quality, environment, relationships, etc. And since work takes up most of our working hours, you can’t be happy if you’re unhappy at work.&lt;/p&gt;
+
+&lt;p&gt;But when you are courageous, everything seems to magically align. When I say courageous, I mean — speak up when you think something is wrong. Ask questions, have an opinion, do what you think is right. Don’t worry about what the norm is or what other people will think. Be yourself.&lt;/p&gt;
+
+&lt;p&gt;You might step on some toes. You might piss some people off. They’ll get over it. In the long run, people will respect you for having an opinion and being honest. You’ll develop a unique reputation and maybe even make some friends. But regardless, you’ll be unique and have some character.&lt;/p&gt;
+
+&lt;p&gt;And lastly, being courageous is easy — you just have to act like yourself all the time. It’s very natural, easy, and stress free. You maximize learning and minimize regret. If you disagree with everyone and are vocal about it — you’re either wrong and end up learning, or you’re right and look like a genius. There is no losing outcome.&lt;/p&gt;
+
+&lt;p&gt;So be courageous, live your life. It’s the surest way to be happy and successful.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>51 Ways to Become World Class</title>
+   <link href="http://www.chrisyin.com/2013/04/21/51-ways-to-become-world-class/"/>
+   <updated>2013-04-21T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/04/21/51-ways-to-become-world-class</id>
+   <content type="html">&lt;p&gt;Stumbled across this a few days ago. Really good stuff, so wanted to re-post it.&lt;/p&gt;
+
+&lt;p&gt;1.Know what you want. Clarity is power. And vague goals promote vague results.&lt;/p&gt;
+
+&lt;p&gt;2.Remember that every problem has a solution. Maybe you just can’t see it. Yet.&lt;/p&gt;
+
+&lt;p&gt;3.In this Age of Dramatic Distraction, the performer who focuses the best wins the most.&lt;/p&gt;
+
+&lt;p&gt;4.Before someone will help you, you need to help them.&lt;/p&gt;
+
+&lt;p&gt;5.Become the most passionate person you know. It’ll be contagious.&lt;/p&gt;
+
+&lt;p&gt;6.Know more about your craft/the work you do than anyone who has ever done the work you do…in the history of the world.&lt;/p&gt;
+
+&lt;p&gt;7.Join The 5 am Club. Your most valuable hours are 5am-8am. They have the least interruptions.&lt;/p&gt;
+
+&lt;p&gt;8.Devote yourself to learning something new about your field of mastery every day. Success belongs to the relentless learners. Because as you know more, you can achieve more.&lt;/p&gt;
+
+&lt;p&gt;9.Remember that when you transform your fitness, you’ll transform your business.&lt;/p&gt;
+
+&lt;p&gt;10.Don’t check your mobile when you’re meeting with another person. It’s rude. And rude people don’t reach world-class.&lt;/p&gt;
+
+&lt;p&gt;11.Every time you do what scares you, you take back the power that you gave to the thing that scared you. And so you become more powerful.&lt;/p&gt;
+
+&lt;p&gt;12.A problem is only a problem if you make the choice to see it as a problem.&lt;/p&gt;
+
+&lt;p&gt;13.Stop being a victim. Your business and personal life was made by you. No one else is responsible. To make it better, make better choices. And new decisions.&lt;/p&gt;
+
+&lt;p&gt;14.You can lead without a title. Don’t wait to get a position to stand for excellence, peak quality and overdelivery on every expectation.&lt;/p&gt;
+
+&lt;p&gt;15.Find your own style. Be an original. Every superstar differentiated themselves from The Herd. And marched to their own drumbeat.&lt;/p&gt;
+
+&lt;p&gt;16.Understand that when you play small with your success, you betray your potential. And the birthright you were born under.&lt;/p&gt;
+
+&lt;p&gt;17.Eat less food and you’ll get more done.&lt;/p&gt;
+
+&lt;p&gt;18.As you become more successful, stay really really hungry. Nothing fails like success. Because when you’re successful, it’s easy to stop outlearning+outOverDelivering+outthinking and outexecuting everyone around you. (Success is Beautiful. And dangerous).&lt;/p&gt;
+
+&lt;p&gt;19.If you’re not overprepared, you’re underprepared.&lt;/p&gt;
+
+&lt;p&gt;20.The only level of great manners to play at is “Exceedingly Polite”. In our world, this alone will make you a standout. And differentiate you in your marketplace.&lt;/p&gt;
+
+&lt;p&gt;21.Remember that the moment you think you’re a Master, you lose your Mastery. And the minute you think you know everything, you know nothing.&lt;/p&gt;
+
+&lt;p&gt;22.To double your results, double your level of execution.&lt;/p&gt;
+
+&lt;p&gt;23.Invest in your personal and pro development. All superstars do.&lt;/p&gt;
+
+&lt;p&gt;24.Get this year’s best Targets of Opportunity down onto a 1 Page Plan. Then review it every morning while the rest of the world sleeps.&lt;/p&gt;
+
+&lt;p&gt;25.You don’t get lucky. You create lucky.&lt;/p&gt;
+
+&lt;p&gt;26.When you push through a difficult project, you don’t get to the other side. You reach The Next Level.&lt;/p&gt;
+
+&lt;p&gt;27.Smile. And remember to inform your face.&lt;/p&gt;
+
+&lt;p&gt;28.Spend time in solitude every day. Your best ideas live there.&lt;/p&gt;
+
+&lt;p&gt;29.Debrief on how you lived out your day every night in a journal. This will not only record your personal history, it will make you uber-clear on what you’re doing right and what needs to be improved.&lt;/p&gt;
+
+&lt;p&gt;30.If your not being criticized a lot, you’re not doing very much. Ridicule is the price of ambition.&lt;/p&gt;
+
+&lt;p&gt;31.Develop a monomaniacal focus on just a few things. The secret to productivity is simplicity.&lt;/p&gt;
+
+&lt;p&gt;32.To get the results very few people have, be strong enough to do what very few people are willing to do.&lt;/p&gt;
+
+&lt;p&gt;33.Rest. Recover. It’ll make you stronger.&lt;/p&gt;
+
+&lt;p&gt;34.Buy a smaller TV and build a larger library.&lt;/p&gt;
+
+&lt;p&gt;35.Remember that the bigger the goal, the stronger a person you must become to achieve that goal. So goal-achieving is a superb practice for character-building.&lt;/p&gt;
+
+&lt;p&gt;36.Food fuels your body. Learning feeds your mind.&lt;/p&gt;
+
+&lt;p&gt;37.Don’t ask for respect. Earn it.&lt;/p&gt;
+
+&lt;p&gt;38.Finish what you start. And always end strong.&lt;/p&gt;
+
+&lt;p&gt;39.Breathe.&lt;/p&gt;
+
+&lt;p&gt;40.In business, don’t play to survive. Play to win.&lt;/p&gt;
+
+&lt;p&gt;41.Protect your good name. It’s your best asset.&lt;/p&gt;
+
+&lt;p&gt;42.Remember that words have power. Use the language of leadership versus the vocabulary of a victim.&lt;/p&gt;
+
+&lt;p&gt;43.Give more than you take. The marketplace rewards generosity.&lt;/p&gt;
+
+&lt;p&gt;44.Know that if it’s not messy, you’re not making progress.&lt;/p&gt;
+
+&lt;p&gt;45.Be a hero to a kid.&lt;/p&gt;
+
+&lt;p&gt;46.In business, aim for iconic. Go for legendary. Make history by how awesome you are at what you do.&lt;/p&gt;
+
+&lt;p&gt;47.Please don’t confuse activity with productivity. Many many people are simply busy being busy.&lt;/p&gt;
+
+&lt;p&gt;48.Your doubts are liars. Your fears are traitors. Stop buying the goods they are attempting to sell you.&lt;/p&gt;
+
+&lt;p&gt;49.The best anti-aging remedy in the world is working really hard.&lt;/p&gt;
+
+&lt;p&gt;50.World-Class performers have no plan B. Failure just isn’t an option.&lt;/p&gt;
+
+&lt;p&gt;51.You have the power to change the world—one brave act and one person at a time. Please use it.&lt;/p&gt;
+
+&lt;p&gt;Originally discovered via a Quora blog, &lt;a href=&quot;http://bit.ly/12JvhH0&quot;&gt;Musings of a Start-up Guy&lt;/a&gt;, which was a re-post of &lt;a href=&quot;http://bit.ly/12Jvqu3&quot;&gt;Robin Sharma’s blog&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Hello Coupa!</title>
+   <link href="http://www.chrisyin.com/2013/04/17/hello-coupa/"/>
+   <updated>2013-04-17T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/04/17/hello-coupa</id>
+   <content type="html">&lt;p&gt;We've just been acquired by Coupa. You can &lt;a href=&quot;http://bit.ly/XQq6aK&quot;&gt;read about it here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I think I can speak for the whole team when I say that we're all incredibly excited. There's something really special going on at Coupa, and I'm excited to help Coupa continue to succeed.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Goodbye Xpenser&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/xpenseroffice.jpg&quot; alt=&quot;Goodbye Xpenser!&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Hello Coupa!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/Coupa+2013.jpg&quot; alt=&quot;Hello Coupa!&quot; /&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>How I Use The Web</title>
+   <link href="http://www.chrisyin.com/2013/03/25/how-i-use-the-web/"/>
+   <updated>2013-03-25T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/03/25/how-i-use-the-web</id>
+   <content type="html">&lt;p&gt;Recently people have been asking how I use the web. Not sure why, but thought I’d write it down.&lt;/p&gt;
+
+&lt;p&gt;I use the web to get better at things I’m bad at. These are the apps that help me. All are free (some with paid options).&lt;/p&gt;
+
+&lt;p&gt;Things that are important to me are health, finances, productivity, reading, writing, thinking, and self reflection.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Health&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Meal Tracking – &lt;a href=&quot;http://bit.ly/14ipM6q&quot;&gt;My Fitness Pal&lt;/a&gt;. I’ve tried a few and they have the best food database. Easy to log, create custom foods, and repeat common foods. At the end of each day they tell you “If you ate like this every day, you would weight X”, which is a nice reminder (although it never goes down).&lt;/p&gt;
+
+&lt;p&gt;Exercise – I use &lt;a href=&quot;http://bit.ly/14ipSLd&quot;&gt;Sworkit&lt;/a&gt; in the mornings I’m too busy (or too lazy) for a real workout to give me a quick routine based on what I want to focus on and how much time I have. When I do have time to run, &lt;a href=&quot;http://bit.ly/YP0aGv&quot;&gt;Runkeeper&lt;/a&gt; is the best. Also since I live a pretty sedentary lifestyle (&lt;a href=&quot;http://chriseyin.wordpress.com/2013/03/24/standing-desk/&quot;&gt;hopefully this will change it&lt;/a&gt;), I also use &lt;a href=&quot;http://bit.ly/14ipSeh&quot;&gt;Moves&lt;/a&gt;. It’s a beautiful pedometer – helps me remember to get out and move a bit more.&lt;/p&gt;
+
+&lt;p&gt;Sleep – &lt;a href=&quot;http://bit.ly/14ipXhP&quot;&gt;Sleep Timer&lt;/a&gt; is amazing. Developed by the prodigies at Azumio, Sleep Timer gradually sounds an alarm when you’re in a lighter sleep so you wake up more naturally as opposed to being interrupted by an alarm during REM sleep. Also provides metrics on sleep patterns – average sleep time, duration, efficiency, and more. Really cool stuff.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Productivity&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Task Management – &lt;a href=&quot;http://www.asana.com&quot;&gt;Asana&lt;/a&gt;. It is the best, and I’ve tried them a bunch of them. It’s light, fast, and easy to use. Downside is their mobile app sucks right now. Mobile is for smaller on the go tasks(essentially chores), so in its place I use &lt;a href=&quot;http://bit.ly/14ipWdP&quot;&gt;Todoist&lt;/a&gt;. It keeps Asana clean, and when I get a free moment I’ll just run through a few Todoist tasks to feel good about myself.&lt;/p&gt;
+
+&lt;p&gt;Calendar – &lt;a href=&quot;http://calendar.google.com&quot;&gt;Google Calendar&lt;/a&gt; is my default web calendar and is viewed on the phone through &lt;a href=&quot;http://bit.ly/YP0lBE&quot;&gt;Sunrise&lt;/a&gt;. Although as of late I’ve been trying out &lt;a href=&quot;http://bit.ly/14iq2lT&quot;&gt;Tempo&lt;/a&gt;, and it’s not half bad — Sunrise looks better, but Tempo can auto dial conference call passcodes. Which is pretty nice.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Reading&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;News – I have a pretty long list of blogs and news sites that I keep in &lt;a href=&quot;http://bit.ly/14iq512&quot;&gt;Google Reader&lt;/a&gt;. I’ve spent years building this list, and it is my primary source of news consumption. That’s why I was &lt;a href=&quot;http://chriseyin.wordpress.com/2013/03/21/trust-in-a-consumer-business/&quot;&gt;slightly annoyed about Google Reader getting axed&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Curated – &lt;a href=&quot;http://bit.ly/14iq90w&quot;&gt;Quibb&lt;/a&gt;, &lt;a href=&quot;http://www.svbtle.com&quot;&gt;Svbtle&lt;/a&gt;, and &lt;a href=&quot;http://www.medium.com&quot;&gt;Medium&lt;/a&gt;, in that order. Save all the good articles in &lt;a href=&quot;http://www.getpocket.com&quot;&gt;Pocket&lt;/a&gt; for reference. Questions/discussions are directed to &lt;a href=&quot;http://www.quora.com&quot;&gt;Quora&lt;/a&gt;/&lt;a href=&quot;http://www.branch.com&quot;&gt;Branch&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Books – I have an enormous backlog of things to read on my &lt;a href=&quot;http://amzn.com/w/14VFOBTRXIMDJ&quot;&gt;Amazon Reading List&lt;/a&gt;. I pick a book from there every once in a while (a long while) and throw it on the Kindle.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Finance&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Personal – I use &lt;a href=&quot;http://bit.ly/14iqh00&quot;&gt;Mint&lt;/a&gt; to keep track of all personal expenses. Really easy to use, integrates well with banks, and nice graphs. The best feature is budgets — easy to set and stay within my limits every month.&lt;/p&gt;
+
+&lt;p&gt;Work – I use &lt;a href=&quot;http://www.xpenser.com&quot;&gt;Xpenser&lt;/a&gt; to keep track of work related expense (mainly purchases and time).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Writing&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://bit.ly/YP0y7H&quot;&gt;Draft&lt;/a&gt;. It’s easy to use and version control is really nice. I can quickly jot down some thoughts – edit, edit, edit – and then go back to see how my thoughts have progressed. Plus it just looks and feels great. Once I’m done, I copy and publish with &lt;a href=&quot;http://www.wordpress.com&quot;&gt;WordPress&lt;/a&gt;. Although now I'm using &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Thinking&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I’m always jotting down ideas and thoughts on my phone. I need &lt;a href=&quot;http://bit.ly/14iqlNB&quot;&gt;Evernote&lt;/a&gt; for that. Easy to use and syncs across all devices. I take all of my ideas/observations from the week, cut the crappy ones (so almost all of it), and then save in a Google Doc for long term tracking.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Self Improvement&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Vocab – I try to learn new words on a regular basis. I use &lt;a href=&quot;http://bit.ly/10tTCBz&quot;&gt;Evernote Clearly&lt;/a&gt; to read on the web and save words I don’t know with highlighter. The ones I actually want to learn go into &lt;a href=&quot;http://bit.ly/YP0CEF&quot;&gt;StudyBlue&lt;/a&gt;. It’s just flash cards — easy to use and they have a nice mobile app so I can quiz myself on the go.&lt;/p&gt;
+
+&lt;p&gt;Goals &amp;amp; Progress – I write down a single goal in Google Docs every week and then at the end of the week mark it either red (0%), yellow (somewhat done), or green (100% complete). The same for the month and the year. Daily habits that I’m trying to form go in &lt;a href=&quot;http://lift.do&quot;&gt;Lift&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Journal – I like to keep a trail of my thoughts for self reflection, and that’s done in &lt;a href=&quot;http://www.penzu.com&quot;&gt;Penzu&lt;/a&gt;. I don’t love it, but at this point I’m too invested in it to change.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Communication&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Calls – &lt;a href=&quot;http://www.skype.com&quot;&gt;Skype&lt;/a&gt; is still the predominant method. I hate it, but I have to use it. Google Voice for phone calls, and &lt;a href=&quot;http://bit.ly/YP0Hbo&quot;&gt;Viber&lt;/a&gt; for international calls.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.join.me&quot;&gt;Join.me&lt;/a&gt; for screen sharing. &lt;a href=&quot;http://www.uberconference.com&quot;&gt;UberConference&lt;/a&gt; for conference calls.&lt;/p&gt;
+
+&lt;p&gt;Storage - Drive, Dropbox, and Box.&lt;/p&gt;
+
+&lt;p&gt;Other: Sublime, S3, Heroku, Chrome, Twitter, Pandora, Cloudtab, Google Dictionary, Honey, Buffer, Bitly.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Trust in a Consumer Business</title>
+   <link href="http://www.chrisyin.com/2013/03/21/trust-in-a-consumer-business/"/>
+   <updated>2013-03-21T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/03/21/trust-in-a-consumer-business</id>
+   <content type="html">&lt;p&gt;I found myself trying out a few of &lt;a href=&quot;http://on.mash.to/Xt809o&quot;&gt;Evernote’s other apps&lt;/a&gt; today (&lt;a href=&quot;http://evernote.com/clearly/&quot;&gt;Clearly&lt;/a&gt; is amazing btw). Despite zero initial interest, necessity, coupled with bad reviews, I still managed to say eh, screw it — and download a few. I figured — it’s Evernote, they usually do cool stuff. I’ll give them a shot.&lt;/p&gt;
+
+&lt;p&gt;It made me think of &lt;a href=&quot;http://bit.ly/16M7f1O&quot;&gt;Keep&lt;/a&gt;, Google’s new Evernote competitor. While I know very little about Keep, I knew that I had no intention of learning more. It was a strange feeling, given that I have historically been a Google groupie. I’m usually all over their new products and defend shitty ones. After all, they make great stuff and give it away for free! Plus, since most of the web tools I use are already built by Google, it almost always makes more sense to go Google (even if I’m already invested in a competitor) — single login, they already know me, integrates well with other Google services, etc.&lt;/p&gt;
+
+&lt;p&gt;But no more. Because of Reader. Every time I use a Google application now, I wonder — are they going to shut this down on a whim? They’ve always been the company that didn’t do that — they built incredibly cool products and they gave them away all for free. Even things that you were pretty sure couldn’t make money. That was the magic of Google. You know they’re using your data — but you don’t care. There’s an inherent trust. You actively opt in to sending back data, sending feedback in, etc. Because you trust that they’ll use that data to build something that makes your life better. Sure, they use your info to make some money — but who cares? It’s not malicious — their products add so much value, and they’re not evil, right? And it’s largely been true.&lt;/p&gt;
+
+&lt;p&gt;But in a consumer driven business where you’re using people’s personal information to profit, trust becomes your most important currency.&lt;/p&gt;
+
+&lt;p&gt;And they’ve lost my trust. Unceremoniously shutting down Reader to &lt;a href=&quot;http://bit.ly/XtcFYX&quot;&gt;focus&lt;/a&gt; (&lt;a href=&quot;http://bit.ly/XtcFYX&quot;&gt;they called it spring cleaning&lt;/a&gt;) was a major blow to their brand. And I’m not the only one that feels this way – &lt;a href=&quot;http://bit.ly/16M7Alf&quot;&gt;Om wrote a great post&lt;/a&gt; about it, and there’s a &lt;a href=&quot;http://oreil.ly/XtabcT&quot;&gt;few&lt;/a&gt; &lt;a href=&quot;http://bit.ly/16M6plT&quot;&gt;others&lt;/a&gt; as well. I don’t trust them anymore and I won’t invest my time into another Google product and subsequently have to worry about it surviving another bout of spring cleaning.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Goodbye Google Reader</title>
+   <link href="http://www.chrisyin.com/2013/03/18/goodbye-google-reader/"/>
+   <updated>2013-03-18T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/03/18/goodbye-google-reader</id>
+   <content type="html">&lt;p&gt;After closing the last work related tab on my browser the other day, I fired up Google Reader to catch up on some news and browse through the latest posts. Ironically, the first thing I saw was this: &lt;a href=&quot;http://gigaom.com/2013/03/13/google-kills-google-reader-will-go-offline-on-july-1-2013/&quot;&gt;Google Kills Google Reader&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now while I lament the passing of Google Reader (and there's tons of good stuff on why (&lt;a href=&quot;http://blog.calbucci.com/2013/03/google-is-about-to-learn-tough-lesson.html&quot;&gt;read here&lt;/a&gt; or &lt;a href=&quot;http://www.youtube.com/watch?v=A25VgNZDQ08&quot;&gt;watch here&lt;/a&gt;), I'm not here to complain. I'm fully aware that Google could not care less about how I feel about this.&lt;/p&gt;
+
+&lt;p&gt;But, If you're as dependent on your RSS reader as I am, then what matters is finding a replacement.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.feedly.com&quot;&gt;Feedly&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.getprismatic.com&quot;&gt;Prismatic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.msgboy.com/index.html&quot;&gt;MsgBoy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://theoldreader.com/&quot;&gt;The Old Reader&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.feedspot.com&quot;&gt;Feedspot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.netvibes.com&quot;&gt;NetVibes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.newsblur.com&quot;&gt;NewsBlur&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.reederapp.com&quot;&gt;Reeder&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;via &lt;a href=&quot;http://lifehacker.com/5990456/google-reader-is-getting-shut-down-here-are-the-best-alternatives&quot;&gt;LifeHacker&lt;/a&gt; and Twitter&lt;/p&gt;
+
+&lt;p&gt;Now while I'm typically a pretty cheap guy, Google Reader was used so frequently and was such an important part of my day that I am perfectly happy spending a few dollars to get a good solution.&lt;/p&gt;
+
+&lt;p&gt;My ideal requirements:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Web based&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;List style feed&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Seamless transfer from Google Reader&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A team that seems they care enough about RSS that they're not just going to up and quit. (God forbid I have to go through this again!)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Magazine style feed option (I subscribe to a few design feeds, and I like to browse through the images for inspiration from time to time)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Similar interface (Learn how to use something new? Ridiculous!)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;The first one I found was Feedly. A quick search brought it up (they already had a &lt;a href=&quot;http://blog.feedly.com/2013/03/14/google-reader/&quot;&gt;blog post on it&lt;/a&gt;! Impressive), and I was already familiar with Feedly -- I tried it out when I was looking for a free RSS reader on my phone (did I mention I'm a cheap bastard?). Turns out it actually works pretty well -- looks better than Google Reader, they can do a list based feed and magazine style, their transfer from Google Reader was nice, plus it was on the web and free. It wasn't perfect, but it checked the boxes.&lt;/p&gt;
+
+&lt;p&gt;The other one everyone was raving about on Twitter was Prismatic. So I logged in, created an account, poked around, and left. It looked nice, but I thought they were trying to do a bit too much. While others users might need a place to discover news, I just need something that will take my Google Reader feed. Prismatic gave me too much, and couldn't figure out how to import in my Google Reader account. (to their credit, the founder responded to my complaint immediately and told me how -- it's actually pretty easy). Still, was a bit too much for me and I couldn't replicate the feed to what I needed -- organizing feed list style by folders and viewing by folder/subscription.&lt;/p&gt;
+
+&lt;p&gt;MsgBoy just didn't work for me. The Old Reader wasn't allowing any importing (due to to large amounts of traffic). I ended up really liking Feedspot and Netvibes as well (looked and felt just like Google Reader), but Feedly did too, and Feedly looked a bit better.&lt;/p&gt;
+
+&lt;p&gt;Now for the paid options -- Newsblur and Reeder. I would love to have paid for Reeder. But I need it to be on the web! So regrettable, had to axe this one as well. And despite all the hype, just really didn't like Newblur's interface.&lt;/p&gt;
+
+&lt;p&gt;So, ultimately I'm settling for Feedly (for now!) Seems to fit all of the criteria above best, and they have a nice mobile app to top it off. It seems to be the easiest way to continue living in a post Google Reader world.&lt;/p&gt;
+
+&lt;p&gt;Damn you, Google. You selfish bastards.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Living Hard Drive Free</title>
+   <link href="http://www.chrisyin.com/2013/03/15/living-hard-drive-free/"/>
+   <updated>2013-03-15T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/03/15/living-hard-drive-free</id>
+   <content type="html">&lt;p&gt;After switching machines every 2 months for the better part of a year, I finally bought a permanent laptop. However, after constantly changing machines, this whole experience has made it very difficult for me to keep track of my desktop files — I have folders, files, things downloaded from the web (books/docs/music/films) — and then when I’m forced to a new machine, I have to consolidate all of my desktop files onto a flash/hard drive, and then put it on my new machine.&lt;/p&gt;
+
+&lt;p&gt;While this doesn’t sound that bad, when you take one disorganized group of folders and then add another group of disorganized folders to it (often with similar names), and then do it 6 or 7 times, things can start to get messy. For example, I’ll look for a PDF I downloaded — I know it was in my reading folder, but I’ll have to check Desktop/Machine1/Reading, Desktop/Machine2/Reading, Desktop/Machine3/Reading and so on to find it. And that can get cumbersome when you’re doing it all day.&lt;/p&gt;
+
+&lt;p&gt;So when I got my new computer, it was a chance for a clean slate — forget all the old messy folders, I can do it right this time. Only download files I actually need, organize them well, and keep as few files on my desktop as possible. As for the old files, I’ll throw them all onto an old hard drive under the folder ‘Archive’. You gotta cut your losses.&lt;/p&gt;
+
+&lt;p&gt;But I failed. Ultimately, I started downloading things, saving files, and then creating folders to organize all of this as desktop clutter started to build. And then sometimes I would get that nagging suspicion that I’ve already downloaded this same PDF 7 other times on every other machine and just never got around to reading it. Which means I’ve not only been hoarding files &amp;amp; wasting space, but I’m also violating one main principle of life — not being selective enough about what I let into my life. Either I should’ve never downloaded it (demonstrating poor selection skills), or I should’ve read it already (demonstrating poor prioritization). Both are bad.&lt;/p&gt;
+
+&lt;p&gt;My strategy in real life to be selective and minimize unnecessary clutter — lay everything I have out in the open. This way it’s easy to see out what I’m actually using and not using. I can’t hide things in a box in the back of my closet. If it sits there and I haven’t touched it in months, I throw it away. Pretty simple.&lt;/p&gt;
+
+&lt;p&gt;So I decided to take the same strategy and apply it to my digital possessions. Minimize the amount of space so it’s easy to manage what I use, and discard what I don’t use. Also I wanted my solution to be in the cloud, because it makes the most sense. With the cloud, I’m actually limited by space (5GB on Dropbox is not a reasonable substitue for my 700GB hard drive), and it’s also accessible anywhere. I no longer have 700GB on my laptop, 1TB on my desktop, 200GB on my netbook and have to organize/maintain all of the different hard drives. My files are all in one place and they go with me everywhere. Machine agnostic.&lt;/p&gt;
+
+&lt;p&gt;I don’t want to have to open and fire up a web app every time I want to access my files, that’s a pain in the ass. There needs to be a desktop client as well. With that in mind, the options are pretty clear — Dropbox, Google Drive, and Box. I use all of these already, and so I took a look at how I’m currently using the services, and crafted a way to use them efficiently and mold it to my goal of moving my entire hard drive to the cloud.&lt;/p&gt;
+
+&lt;p&gt;Drive has largely replaced Microsoft Office for me. I’m using it on a daily basis for everything – to create spreadsheets, track sales, write copy/essays, track ideas/thoughts/goals, etc. Almost everything I do can be traced back to some sort of Google Doc. So I cleaned Drive up a bit and kept it that way. Drive would remain my main tool and my first option for any type of work.&lt;/p&gt;
+
+&lt;p&gt;As I looked through my Dropbox folder, I noticed that most of my folders in there are folders I share with other people. Mostly with me on the receiving end. While I do keep a bit of my own stuff in there, it’s mainly become a repository for shared info that can’t be done in Drive (code, pdf’s, contracts, etc). For the files that are personal, it’s mainly on the go material — reading. It has become sort of a flash drive, but in the cloud. I only have 5GB’s of space, so I can’t have all my files live in it. But the files on it are easy enough to access (Laptop, iPhone, iPad, Browser, and all without connection as well) that I will usually throw a PDF of a book in there before a flight or something. The added benefit is that everyone else uses it, so it’s easy to share files and pass around information. Since it’s only 5GB it can get of control pretty quickly if you have a lot of shared material, I’m going to try to keep it fairly ephemeral. Only books, music, documents, etc. that I need right now will be in there. Immediate consumption. It will conserve space, limit options and increase focus.&lt;/p&gt;
+
+&lt;p&gt;Lastly, I have Box. Pretty similar to Dropbox, except I have 50GB of space on there. It’s enough space to amass a good amount of stuff without quickly running out of space. But it’s also small enough that you don’t have a lot of room to hoard. If you’re downloading things as quickly as I am, you can fill up 50GB in a short amount of time if you’re not careful. Essentially only pictures, good books, and archived documents that are necessary will be saved onto there. Only qualified files that flow through Dropbox will enter Box. This ensures that most things in Box will actually be worth keeping — I’ve actually used the file in some capacity (probably read it), and I decided that it was worth keeping. Once in a while, I’ll probably have to go back and clean it out, but with only 50GB of space, it will be pretty quick to see what I’m actually using and not. This way I can start to curate a very high quality repository of information, and since I’ll have actually previously consumed all of the information, it will become a digital extension of my own knowledge.&lt;/p&gt;
+
+&lt;p&gt;With this funnel process — Drive to replace Office, Dropbox for keeping immediate files and sharing, and then Box as an archive of sorts — I can more easily reduce clutter and keep only the things that I actually need. In addition with everything I have in the cloud, theoretically, I’m making another step towards being truly machine agnostic. Which is cool, right?&lt;/p&gt;
+
+&lt;p&gt;–&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Update: 5/23/2013&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Got a new laptop from Coupa the other day, and started working on it with next to zero setup.&lt;/p&gt;
+
+&lt;p&gt;I leave my Coupa laptop at the office and my personal one at home. One day at work, I needed a file and looked on my Desktop and — shit, new computer. But oh wait! Found it in Box. Amazing.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Writing</title>
+   <link href="http://www.chrisyin.com/2013/03/12/writing/"/>
+   <updated>2013-03-12T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2013/03/12/writing</id>
+   <content type="html">&lt;p&gt;A few months ago, I wrote a post called Experiments. I was going to shift the purpose of my blog to become an idea/experiments driven outlet. The supposed goal was to gain insight about my ideas, learn, and get better at writing.&lt;/p&gt;
+
+&lt;p&gt;It all sounded great. This would create a purpose for the list of ideas that was accruing in my Evernote account. I would consistently learn about new things. I would have an excuse to write a bit more. Maintain a backlog of things to build. Checks all the boxes.&lt;/p&gt;
+
+&lt;p&gt;In reality, it didn’t work out that way. I found that while coming up with good ideas on a monthly basis wasn’t that hard (and I use the word good pretty liberally here), finding the time to actually test them out was near impossible.&lt;/p&gt;
+
+&lt;p&gt;Writing and coming up with the experiments to prove/disprove theories wasn’t hard. My drafts box is full of them. Google up some articles, look at some companies doing similar things, and then come up with some way to test the core theory behind it.&lt;/p&gt;
+
+&lt;p&gt;Taking the next step was what the tough part. I simply didn’t have time to build something and get real feedback that mattered every month. In the end, produced very little — a few half baked blog posts and web apps.&lt;/p&gt;
+
+&lt;p&gt;Turns out vetting ideas takes time (big surprise). And turns out that it’s not worth vetting ideas for the sake of getting better at vetting ideas. I had no desire to take them anywhere — I was happy with current work, and wanted to finish it out, not jump into some other wild goose chase on whim. This prohibited my ability to really prove/disprove things — frankly, I didn’t really care. I wasn’t going to do anything with it. In reality, I just wanted something to write about.&lt;/p&gt;
+
+&lt;p&gt;That’s when I got it. I just wanted to write about something. Turns out I’m just bad at coming up with things to write about. So I read &lt;a href=&quot;http://paulgraham.com/essay.html&quot;&gt;Paul Graham’s post on writing&lt;/a&gt;. His point is that you don’t need a well defined thesis or point to write. He compares writing to a river.&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;The river’s algorithm is simple. At each step, flow down. For the essayist this translates to: flow interesting. Of all the places to go next, choose the most interesting. One can’t have quite as little foresight as a river. I always know generally what I want to write about. But not the specific conclusions I want to reach; from paragraph to paragraph I let the ideas take their course.&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;There is no explicit purpose. An idea strikes you — just start writing. Let the ideas come out and take you somewhere. You don’t need a well crafted plan of what to write and what not to write. You just let it go where it goes. A lot of the stuff you write might suck and never take you anywhere interesting (I know a lot of mine do!). But you’ll have explored a new area — and once in awhile, you might actually write something worth reading.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Fanhattan UX Breakdown</title>
+   <link href="http://www.chrisyin.com/2012/09/26/fanhattan-ux-breakdown/"/>
+   <updated>2012-09-26T00:00:00-07:00</updated>
+   <id>http://www.chrisyin.com/2012/09/26/fanhattan-ux-breakdown</id>
+   <content type="html">&lt;p&gt;So, my first time doing one of these things, but I love Fanhattan and wanted to throw my opinion in. So here goes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The Product (iPad)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Fanhattan is a catalogue of all  film/TV media on the web that gives consumers a single point of discovery.&lt;/p&gt;
+
+&lt;p&gt;You search for things, Fanhattan tells you where it lives, and you can go there and watch it. Revenue is through affiliate marketing.&lt;/p&gt;
+
+&lt;p&gt;What Fanhattan ultimately wants from their users is what I'm going to call an Action. Action == Watching == Affiliate Revenue.&lt;/p&gt;
+
+&lt;p&gt;The user experience cycle goes from what I call Discovery --&gt; Intrigued --&gt; Learn More, then back to Discovery. Every stage should lead to an Action.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-circle.png&quot; alt=&quot;Fanhattan-Circle&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;While Fanhattan currently follows the cycle shown above, I think the UX has drop offs at certain points, and it would be nice to see a more fluid experience that gives me the info I need when I want it, encourages me to take action, and keeps bringing me back to Discovery. (Basing this off of personal experience, opinions may change if I were to look at user data.)&lt;/p&gt;
+
+&lt;p&gt;Let’s focus on the movie section. We'll start at Discovery, move to Intrigued, Learn More, and then back to Discovery.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-discovery.png&quot; alt=&quot;Discovery&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Discovery&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The Discovery section is currently broken into 7 horizontal panes in the top half of the screen. The panes are Smart Browse, Featured, Streaming, In Theatres, My Movies, My Friends, and Genre.&lt;/p&gt;
+
+&lt;p&gt;7 panes is a lot to swipe through. And a few overlap, so we can consolidate. Smart Browse can already filter by Genre, so no need for a standalone Genre pane. In addition, My Movies is 3 personal lists; let's make it all part of a dropdown menu associated with the &quot;Me&quot; button at the top (currently useless). Finally, Featured/Streaming/My Friends all help users discover films. Let’s group those together and call it Discover. We end up with 3 simple panes—Smart Browse, Discover, and In Theatres.&lt;/p&gt;
+
+&lt;p&gt;Since Discover is now 3 panes in 1, we need to reorganize it. In a recent &lt;a href=&quot;http://bit.ly/PmcZW0&quot;&gt;press release&lt;/a&gt;, Chris Thun noted that discovery is 3 things—algorithmic, curated, and social. And it makes sense; the user starts with a large list of movies, and it gets more personalized as you move from algorithmic to curated, and then even more with social. Let's reorganize the new Discovery category to reflect this.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-pyramid.png&quot; alt=&quot;Pyramid&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Start with most general-- the 1st filter should be All.&lt;/li&gt;
+&lt;li&gt;Most of the Streaming pane is new material. Group it into a filter called New. (Hulu/Amazon/Free can all be filtered in Smart Browse already)&lt;/li&gt;
+&lt;li&gt;Add Popular-- for movies trending amongst all users.&lt;/li&gt;
+&lt;li&gt;Re-label featured as Recommended. Take what the user likes and show similar films.&lt;/li&gt;
+&lt;li&gt;Last is Social, which is the currently the My Friends pane.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;p&gt;Keep Smart Browse the same (it's awesome), and re-sort In Theatres the same way we did Discover, from general to customized. We end up with something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan1.png&quot; alt=&quot;Fanhattan1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Just 3 panes for Discovery. Browse. Discover, from general films down to user specific. In Theatres for up &amp;amp; coming. The same material, but no swiping, easy to navigate &amp;amp; understand.&lt;/p&gt;
+
+&lt;p&gt;Also, when we tap on movie posters,  Watch List, Seen It, Be a Fan options pop up. Let's add Watch Now at the top so the user can immediately perform an Action when they see a film they like.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Intrigued&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If the user is unsure, they tap the movie poster and move to the Intrigued section. Currently for Intrigued, the bottom half of the screen turns into 3 columns (Photos, Watch Now, Movie Details). Tapping Discover pulls up a new screen (Learn More) with 9 separate panes (the first 3 panes are exactly the same as the columns in Intrigued).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-intrigued.png&quot; alt=&quot;Intrigued&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The user didn't perform an Action in Discovery, and came to Intrigued to help with their decision. However, the current setup doesn't help me make a decision --  I need a bit more. And tapping any of these columns simply brings me to to the same pane in Learn More (and tapping the rating brings me to Movie Details)&lt;/p&gt;
+
+&lt;p&gt;Unless I was already prepared to perform an action, my decision ends up taking place in Learn More, rendering the Intrigued section almost useless.&lt;/p&gt;
+
+&lt;p&gt;The basic info I need is Summary, Cast &amp;amp; Crew, Ratings, &amp;amp; Trailers. Combine all the panes together, info on the left, actions on the right. Each section (Poster, Ratings, Plot Summary, Cast) should open a new window when tapped (ie tapping the critics/viewer meters will bring up the Reviews window). The user now has the requisite info and is led to perform an Action, or go back to the Discovery stage.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-2.png&quot; alt=&quot;Fanhattan2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Learn More&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;At this point, we've provided all the basic info a user needs to make a decision. So either the user really wants to know the the film before they perform an Action or the user has already watched the film and wants to learn more. By swiping to the right, the user moves to Learn More. Here the user can get click on News, Discussions (&lt;a href=&quot;http://www.facebook.com/ThereWillBeBloodMovie&quot;&gt;Facebook&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/i/#!/search/?q=there+will+be+blood&amp;amp;src=typd&quot;&gt;Twitter&lt;/a&gt;, &lt;a href=&quot;http://getglue.com/movies/there_will_be_blood/paul_anderson&quot;&gt;GetGlue&lt;/a&gt;, etc), or watch Clips (&lt;a href=&quot;http://movieclips.com/&quot;&gt;MovieClips&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanattan-learnmore.png&quot; alt=&quot;LearnMore&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For the user who is still trying to make a decision, this window will tell them everything to actually watching the film. There is no more information we can provide-- the user will now either perform an Action (Watch Now in the top right), or reject the movie and go back to Discovery (click off the window).&lt;/p&gt;
+
+&lt;p&gt;The user who has already seen the film and wants to learn more has already performed an Action; we want to lead them back to Discovery. If they come this far for news/discussions/clips, I think it is safe to assume they at least mildly enjoyed the film. The user can then slide to the right and see an entire window of related films (categorized by Genre/Actors/Directors, etc) and this leads them back to the Discovery stage.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/www.chrisyin.com/static/fanhattan-related.png&quot; alt=&quot;Related&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Conclusion&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The user now consistently gains more info at every stage (Discovery, Intrigued, Learn More) and can perform an action at every step. And at the end, we lead them back to Discovery to start the cycle over, creating a continually engaging experience.&lt;/p&gt;
+
+&lt;p&gt;Overall, Fanhattan is still amazing -- just my 2 cents.&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>
