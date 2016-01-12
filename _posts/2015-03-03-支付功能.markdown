@@ -1,0 +1,33 @@
+---
+layout: post
+title: "打赏功能实现————tctip侧边按钮" 
+comments: true
+share: true
+tags: 网页设计
+---
+
+
+偶然下发现了tctip这款js插件，用户可通过插件扫描二维码，对网站的优质内容进行打赏。
+
+原版（目前尚处于初始版本阶段）：
+
+[https://github.com/joway/tctip](https://github.com/joway/tctip "https://github.com/joway/tctip")
+
+针对个人需求精简版：（只保留了支付宝和微信支付功能）
+
+[https://github.com/joway/tctip](https://github.com/joway/tctip "https://github.com/joway/tctip")
+
+感谢作者提供的帮助。交流可加群：188087193 
+
+优点：
+
+简单美观，无其余任何附加内容，操作简单易用，对阅读干扰小。
+
+缺点：
+
+目前暂时无法修改指定大小，移动端效果有待加强，还可以进一步精简。
+
+
+demo：
+
+[http://joway.github.io/message.html](http://joway.github.io/message.html "http://joway.github.io/message.html")

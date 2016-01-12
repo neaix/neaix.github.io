@@ -1,0 +1,625 @@
+---
+layout: post
+title: "extern和static的用法总结" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+## Extern： ##
+
+> extern[英][ˈekstɜ:n][美][ˈekstɜ:rn]
+> 
+> n.走读生，走读医学研究生; 
+> 
+> adj.<古>外（面）的，外来的; 
+
+# extern对于变量的用法： #
+
+- extern作为声明使用，就是告诉当前编译单元，不要为这个extern修饰的变量分配空间，这个变量已经在别的编译单元分配了空间。 
+- extern作为定义使用，用于创建外部变量，也可以认为是全局变量。
+
+修饰符extern用在变量或者函数的声明前，用来说明“此变量/函数是在别处定义的，要在此处引用”。
+
+
+变量的定义分配了变量的存储空间，并有可能赋一个初始值给变量，在程序中变量只能定义一次；    
+	
+	(如int i; 或 int i=1;)
+
+变量的声明主要声明了变量名和变量类型，没有分配空间定义也是一种声明。当在定义一个变量时，我们指出了其名称与类型。我们不能没定义一个变量就使用extern来声明它，在程序中可以声明多次。   
+	
+	(如extern int i; extern int i;)
+
+只要声明存在初始值，就被认为定义，不管是否有extern(例：extern int i=2是定义)
+
+
+还有一点全局变量默认编译器会自动为其赋值为0，而局部变量必须手动赋值
+
+一、 一般情况，在a.cpp定义一个t，然后在a_pub.h用extern声明它，在b.cpp 用include a_pub.h使用，
+
+如下情况
+
+1. 第一种情况：编译出错
+ 
+<code>
+
+	//Out.h       
+	extern int t=1;         //属于定义
+	
+	//Out.cpp
+	int t;                  //定义一个全局变量，这个cpp文件即使没有包含Out.pub.h头文件，也不能定义t
+							//因为一旦extern int t=1; 定义掉以后，所有文件对t的定义都是错误的了！
+							//但是，加入别的地方定义了extern int t =1 ;加入在另一个文件中要引用它，必须
+							//在那个文件里再声明extern int t; 才行！
+	//test.cpp
+	#include <iostream>
+	#include "Out_pub.h"
+	int main()
+	{
+		std::cout<<t<<std::endl;
+		return 0;
+	}
+</code>
+
+2. 第二种情况：//一般推荐这类形式的用法！
+  
+<code>
+
+	//Out.h       
+	extern int t;              //属于声明，可以有多个声明
+	extern int t;              //多加几个也正常.
+
+	//Out.cpp
+	int t;                        //定义一个全局变量，默认值为0,也可以改：int t=1;
+
+	//test.cpp
+	#include <iostream>
+	#include "Out.h"                                            
+	int main()
+	{
+		//main函数内自己再定义一个int t=3，不会出错，
+		//因为内部的定义会屏蔽外部(全局)的定义
+	    std::cout<<t<<std::endl;
+	    return 0;
+	}
+
+</code>
+
+我发现了一件事情，假如在
+
+A.h 中 ：
+	
+	extern int p = 1;
+
+A.cpp 中：
+
+	extern int p;
+	cout << p;
+
+是没用的，原因相当简单。。。因为头文件在不被cpp文件include的情况下，是不会被编译的，相当于没写！所以以后最好头文件声明，定义都放在cpp文件中，这样还有个好处是以后别的文件可以通过include的方式来调用它，否则一旦include会把定义也include 了，这样就会爆出多次定义的错误！
+
+
+extern还可以声明函数，具体用法和声明变量一样。
+
+二、也可在a.cpp定义，直接在b.cpp引用它，如下情况
+
+	//Out.cpp
+	int t;                        //定义一个全局变量，默认值为0,也可以改：int t=1;
+	
+	//test.cpp
+	#include <iostream>    
+	extern int t;              //声明一个外部的，若改为extern int i=2; 则重定义            
+	int main()
+	{
+	    std::cout<<t<<std::endl;
+	    return 0;
+	}
+
+三、extern的另一个用法：用于C++编译器，来编译extern的C函数时，出现问题的。
+
+原因，C++为了解决多态，会将函数名与参数合一起生成中间函数，此时若用C，也生成中间函数，所以编译时会出错
+
+例：
+
+	//Out.h
+	#ifdef __cplusplus          
+	extern "C"{
+	#endif
+	 
+	#include <stdio.h>         //若 Out.h里  直接#include <stdio.h> 
+	extern void aa();          //               extern void aa();
+	                           
+	#ifdef __cplusplus
+	}
+	#endif
+	
+	//Out.c
+	#include "Out.h"
+	void aa()
+	{
+	   printf("aa is running");
+	}
+	
+	//Test.cpp
+	#include <iostream>
+	using namespace std;
+	#include "Out.h"
+	int main()
+	{ 
+	   aa();
+	   return 0;
+	}
+
+	//上面代码编译会出错：
+	//unresolved external symbol "void __cdecl aa(void)" (?aa@@YAXXZ)，在VC6调试结果
+
+四、**const默认是局部变量**，即使是在全局中申明也一样，且在定义时，必须赋予初值。若想在外部引用，必须加extern
+
+例子：
+
+	//a.cpp
+	extern const int a=100;
+
+	//b.cpp
+	extern const int a;  //引用a.cpp中的
+
+**编译时，const变量将被常量表达式所替代**。# 不存储任何空间为const变量 #。所以这种情况下要放于head文件，且默认为局部变量：
+
+而若const变量不是用常量表达式所初始化的话，则不应该定义在head，而应该定义在cpp，然后用extern在head声明
+
+---
+
+## extern对于函数的用法： ##
+
+与变量一样，也有此函数是在别处定义的，要在此处引用的作用。
+
+除此之外，extern 还主要以 "extern C"的形式出现
+
+
+extern “C”的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern “C”后，会指示编译器这部分代码按C语言的进行编译，而不是C++的。由于C++支持函数重载，因此编译器编译函数的过程中会将函数的参数类型也加到编译后的代码中，而不仅仅是函数名；而C语言并不支持函数重载，因此编译C语言代码的函数时不会带上函数的参数类型，一般之包括函数名。
+
+
+从标准头文件说起
+
+	#ifndef __INCvxWorksh  /*防止该头文件被重复引用*/
+	#define __INCvxWorksh
+	#ifdef __cplusplus    //__cplusplus是cpp中自定义的一个宏
+	extern "C" {          //告诉编译器，这部分代码按C语言的格式进行编译，而不是C++的
+	#endif
+
+	    /**** some declaration or so *****/  
+
+	#ifdef __cplusplus
+	}
+	#endif
+	#endif /* __INCvxWorksh */
+
+
+####  extern “C”的含义  ####
+
+extern “C” 包含双重含义，从字面上即可得到：首先，被它修饰的目标是“extern”的（外来的）；其次，被它修饰的目标是“C”的。
+
+被extern “C”限定的函数或变量是extern类型的；
+
+####  1、extern关键字  ####
+
+extern是C/C++语言中表明函数和全局变量作用范围（可见性）的关键字，该关键字告诉编译器，其声明的函数和变量可以在本模块或其它模块中使用。
+通常，**在模块的头文件中对本模块提供给其它模块引用的函数和全局变量以关键字extern声明**。
+
+例如，如果模块B欲引用该模块A中定义的全局变量和函数时只需包含模块A的头文件即可。这样，**模块B中调用模块A中的函数时，在编译阶段，模块B虽然找不到该函数，但是并不会报错；它会在链接阶段中从模块A编译生成的目标代码中找到此函数。**
+
+与extern对应的关键字是static，被它修饰的全局变量和函数只能在本模块中使用。因此，一个函数或变量只可能被本模块使用时，其不可能被extern “C”修饰。
+
+####  2、被extern “C” 修饰的变量和函数是按照C语言方式编译和链接的  ####
+
+首先看看C++中对类似C的函数是怎样编译的。
+
+作为一种面向对象的语言，C++支持函数重载，而过程式语言C则不支持。函数被C++编译后在符号库中的名字与C语言的不同。例如，假设某个函数的原型为：
+
+void foo( int x, int y );
+
+该函数被C编译器编译后在符号库中的名字为**_foo**，
+
+而C++编译器则会产生像**_foo_int_int之类**的名字（不同的编译器可能生成的名字不同，但是都采用了相同的机制，生成的新名字称为“mangled name”）。
+
+_foo_int_int这样的名字包含了函数名、函数参数数量及类型信息，C++就是靠这种机制来实现函数重载的。 例如，**在C++中，函数void foo( int x, int y )与void foo( int x, float y )编译生成的符号是不相同的**，后者为_foo_int_float。
+
+同样地，C++中的变量除支持局部变量外，还支持类成员变量和全局变量。用户所编写程序的类成员变量可能与全局变量同名，我们以”.”来区分。而本质上，**编译器在进行编译时，与函数的处理相似，也为类中的变量取了一个独一无二的名字，这个名字与用户程序中同名的全局变量名字不同。**
+
+3、举例说明
+
+（1）未加extern “C”声明时的连接方式
+
+假设在C++中，模块A的头文件如下：
+
+	//模块A头文件　moduleA.h
+	#ifndef MODULE_A_H
+	#define MODULE_A_H
+	int foo( int x, int y );
+	#endif
+
+	//在模块B中引用该函数：
+	// 模块B实现文件　moduleB.cpp
+	#include "moduleA.h"
+	foo(2,3);
+
+实际上，在连接阶段，链接器会从模块A生成的目标文件moduleA.obj中寻找_foo_int_int这样的符号！
+
+（2）加extern “C”声明后的编译和链接方式
+
+加extern “C”声明后，模块A的头文件变为：
+
+	// 模块A头文件　moduleA.h
+	#ifndef MODULE_A_H
+	#define MODULE_A_H
+	extern "C" int foo( int x, int y );
+	#endif
+
+在模块B的实现文件中仍然调用foo(2,3)，其结果是：
+
+<1>A编译生成foo的目标代码时，没有对其名字进行特殊处理，采用了C语言的方式；
+<2>链接器在为模块B的目标代码寻找foo(2,3)调用时，寻找的是未经修改的符号名_foo。
+
+如果在模块A中函数声明了foo为extern “C”类型，而模块B中包含的是extern int foo(int x, int y)，则模块B找不到模块A中的函数；反之亦然。
+
+**extern “C”这个声明的真实目的是为了实现C++与C及其它语言的混合编程。**
+
+应用场合
+
+C++代码调用C语言代码、在C++的头文件中使用
+**在C++中引用C语言中的函数和变量，在包含C语言头文件**（假设为cExample.h）时，需进行下列处理：
+
+	extern "C"
+	{
+	#include "cExample.h"
+	}
+
+而**在C语言的头文件中，对其外部函数只能指定为extern类型，C语言中不支持extern “C”声明**，在.c文件中包含了extern “C”时会出现编译语法错误。
+
+	/* c语言头文件：cExample.h */
+	#ifndef C_EXAMPLE_H
+	#define C_EXAMPLE_H
+	extern int add(int x,int y);     //加入cpp调用的时候会在include头文件时候加extern "C"{},
+									//那么，这里直接int add(int x,int y);也是行的！
+	#endif
+
+	/* c语言实现文件：cExample.c */
+	#include "cExample.h"
+	int add( int x, int y )
+	{
+	　return x + y;
+	}
+
+	// c++实现文件，调用add：cppFile.cpp
+	extern "C"
+	{
+	　#include "cExample.h"        //如果这样编译通不过，换成 extern "C" int add(int , int ); 可以通过
+	}
+	int main(int argc, char* argv[])
+	{
+	　add(2,3);
+	　return 0;
+	}
+
+**如果C++调用一个C语言编写的.DLL时，当包括.DLL的头文件或声明接口函数时，应加extern “C”{}。**
+
+**在C中引用C++语言中的函数和变量**时，C++的头文件需添加extern “C”，但是在C语言中不能直接引用声明了extern “C”的该头文件，应该仅将C文件中将C++中定义的extern “C”函数声明为extern类型
+
+
+	// C中引用C++模板例程，文件分布就要按照下面这样子做！
+
+	//C++头文件 cppExample.h
+	#ifndef CPP_EXAMPLE_H
+	#define CPP_EXAMPLE_H
+	extern "C" int add( int x, int y );
+	#endif
+
+	//C++实现文件 cppExample.cpp
+	#include "cppExample.h"
+	int add( int x, int y )
+	{
+	　return x + y;
+	}
+
+	/* C实现文件 cFile.c
+	extern int add( int x, int y );//如果直接包含头文件会出错！因为C文件不支持extern "C" 的语法，
+								   //只能手动把extern "C" 变成 extern
+
+
+	int main( int argc, char* argv[] )
+	{
+	　add( 2, 3 );
+	　return 0;
+	}
+
+
+----
+----
+----
+
+
+## Static： ##
+
+static 用来控制变量的存储方式和可见性。
+
+什么时候用static?
+
+需要一个数据对象为整个类而非某个对象服务,同时又力求不破坏类的封装性,即要求此成员隐藏在类的内部，对外不可见。
+
+static的内部机制：
+
+静态数据成员要在程序一开始运行时就必须存在。因为函数在程序运行中被调用，所以静态数据成员不能在任何函数内分配空间和初始化。
+
+static被引入以告知编译器，将变量存储在程序的静态存储区而非栈上空间，静态数据成员按定义出现的先后顺序依次初始化，注意静态成员嵌套时，要保证所嵌套的成员已经初始化了。消除时的顺序是初始化的反顺序。
+
+static的优势：
+
+可以节省内存，因为它是所有对象所公有的，因此，对多个对象来说，静态数据成员只存储一处，供所有对象共用。静态数据成员的值对每个对象都是一样，但它的值是可以更新的。只要对静态数据成员的值更新一次，保证所有对象存取更新后的相同的值，这样可以提高时间效率。
+
+引用静态数据成员时，采用如下格式：
+         
+	<类名>::<静态成员名>
+	    
+
+如果静态数据成员的访问权限允许的话(即public的成员)，可在程序中，按上述格式来引用静态数据成员。
+
+**注意事项：**
+
+- 类的静态成员函数是属于整个类而非类的对象，所以它没有this指针，这就导致了它仅能访问类的静态数据和静态成员函数。
+- 不能将静态成员函数定义为虚函数。
+- 由于静态成员声明于类中，操作于其外，所以对其取地址操作，就多少有些特殊，变量地址是指向其数据类型的指针 ，函数地址类型是一个“nonmember函数指针”。
+- **由于静态成员函数没有this指针，所以就差不多等同于nonmember函数，结果就产生了一个意想不到的好处：成为一个callback函数，使得我们得以将C++和C-based X Window系统结合，同时也成功的应用于线程函数身上。**
+- static并没有增加程序的时空开销，相反她还缩短了子类对父类静态成员的访问时间，节省了子类的内存空间。
+- 静态数据成员在<定义或说明>时前面加关键字static。
+- **静态数据成员是静态存储的，所以必须对它进行初始化。（但并不一定是在声明时去初始化）**
+- 静态成员初始化与一般数据成员初始化不同:
+	初始化在类体外进行，而前面不加static，以免与一般静态变量或对象相混淆；
+	初始化时不加该成员的访问权限控制符private，public等；
+	初始化时使用作用域运算符来标明它所属类；
+	所以我们得出静态数据成员初始化的格式：
+	<数据类型><类名>::<静态数据成员名>=<值>
+- 为了防止父类的影响，可以在子类定义一个与父类相同的静态变量，以屏蔽父类的影响。这里有一点需要注意：我们说**静态成员为父类和子类共享**，但我们有重复定义了静态成员，这会不会引起错误呢？不会，我们的编译器采用了一种绝妙的手法：name-mangling 用以生成唯一的标志。
+
+ 
+
+下面看一个例子：
+	
+	#include <iostream.h>
+	class  Point
+	{
+	public:
+	 void output()
+	 {
+	 }
+	 static void init()
+	 {  
+	 } 
+	};
+	void main( void )
+	{
+	 Point pt;
+	 pt.init();
+	 pt.output();  
+	}
+这样编译是不会有任何错误的。
+
+下面这样看
+	#include <iostream.h>
+	class  Point
+	{
+	public:
+	 void output()
+	 {  
+	 }
+	 static void init()
+	 {  
+	 } 
+	};
+	void main( void )
+	{
+	 Point::output();
+	}
+
+这样编译会出错，错误信息：illegal call of non-static member function，为什么？
+因为在没有实例化一个类的具体对象时，类是没有被分配内存空间的。
+
+好的再看看下面的例子:
+
+	#include <iostream.h>
+	class  Point
+	{
+	public:
+	 void output()
+	 {  
+	 }
+	 static void init()
+	 {  
+	 } 
+	};
+	void main( void )
+	{
+	 Point::init();
+	}
+这时编译就不会有错误，因为在类的定义时，它静态数据和成员函数就有了它的内存区，它不属于类的任何一个具体对象。
+
+好的再看看下面的例子:
+	#include <iostream.h>
+	class  Point
+	{
+	public:
+	 void output()
+	 {  
+	 }
+	 static void init()
+	 { 
+	  x = 0;
+	  y = 0;
+	 }
+	private:
+	 int x;
+	 int y;
+	};
+	void main( void )
+	{
+	 Point::init();
+	}
+
+编译出错：
+
+	illegal reference to data member 'Point::x' in a static member function
+	illegal reference to data member 'Point::y' in a static member function
+
+在一个静态成员函数里错误的引用了数据成员，
+
+还是那个问题，静态成员（函数），不属于任何一个具体的对象，那么在类的具体对象声明之前就已经有了内存区，
+而现在非静态数据成员还没有分配内存空间，那么这里调用就错误了，就好像没有声明一个变量却提前使用它一样。
+也就是说在静态成员函数中不能引用非静态的成员变量。
+
+
+
+好的再看看下面的例子:
+	#include <iostream.h>
+	class  Point
+	{
+	public:
+	 void output()
+	 { 
+	 }
+	 static void init()
+	 { 
+	  x = 0;
+	  y = 0;
+	 }
+	private:
+	 static int x;
+	 static int y;
+	};
+	void main( void )
+	{
+	 Point::init();
+	}
+
+编译：
+
+	Linking...
+	test.obj : error LNK2001: unresolved external symbol "private: static int Point::y" 
+	test.obj : error LNK2001: unresolved external symbol "private: static int Point::x" 
+	Debug/Test.exe : fatal error LNK1120: 2 unresolved externals
+
+执行 link.exe 时出错.
+
+可以看到编译没有错误，连接错误，这又是为什么呢？
+这是因为**静态的成员变量要进行初始化**，可以这样：
+
+	#include <iostream.h>
+	class  Point
+	{
+	public:
+	 void output()
+	 { 
+	 }
+	 static void init()
+	 { 
+	  x = 0;
+	  y = 0;
+	 }
+	private:
+	 static int x;
+	 static int y;
+	};
+	int Point::x = 0;
+	int Point::y = 0;
+	void main( void )
+	{
+	 Point::init();
+	}
+
+在静态成员数据变量初始化之后就不会出现编译错误了。
+
+再看看下面的代码：
+
+	#include <iostream.h>
+	class  Point
+	{
+	public:
+	 void output()
+	 { 
+	 }
+	 static void init()
+	 { 
+	  x = 0;
+	  y = 0;
+	 }
+	private:
+	 static int x;
+	 static int y;
+	};
+	void main( void )
+	{
+	}
+
+编译没有错误，为什么？
+
+即使他们没有初始化，因为我们没有访问x，y，所以编译不会出错。  
+
+C++会区分两种类型的成员函数：**静态成员函数和非静态成员函数。这两者之间的一个重大区别是，静态成员函数不接受隐含的this自变量。所以，它就无法访问自己类的非静态成员。**
+
+在某些条件下，比如说在使用诸如pthread（它不支持类）此类的多线程库时，就必须使用静态的成员函数，因为**其地址同C语言函数的地址兼容**。这种铜限制就迫使程序员要利用各种解决办法才能够从静态成员函数访问到非静态数据成员。
+
+**第一个解决办法是声明类的所有数据成员都是静态的。运用这种方式的话，静态的成员函数就能够直接地访问它们**，例如：
+
+	class Singleton
+	{
+	 public:
+	  static Singleton * instance();
+	private:
+	  Singleton * p;
+	  static Lock lock;
+	};
+	
+	Singleton * Singleton::instance()
+	{
+	 lock.getlock(); // fine, lock is static
+	 if (!p)
+	  p=new Singleton;
+	 lock.unlock();
+	 return p;
+	}
+
+这种解决方法不适用于需要使用非静态数据成员的类。
+
+访问非静态数据成员
+
+将参照传递给需要考量的对象能够让静态的成员函数访问到对象的非静态数据：
+
+	class A
+	{
+	public:
+	  static void func(A & obj);
+	  intgetval() const; //non-static member function
+	private:
+	 intval;
+	};
+
+静态成员函数func()会使用参照obj来访问非静态成员val。
+
+	voidA::func(A & obj)
+	{
+	  int n = obj.getval();
+	}
+
+将一个参照或者指针作为静态成员函数的自变量传递，就是在模仿自动传递非静态成员函数里this自变量这一行为。
+
+
+
+
+----------
+
+####  参考资料：  ####
+
+
+- [http://jasonding1354.github.io/2014/11/13/Programming/extern%20c%E7%94%A8%E6%B3%95%E8%A7%A3%E6%9E%90/#](http://jasonding1354.github.io/2014/11/13/Programming/extern%20c%E7%94%A8%E6%B3%95%E8%A7%A3%E6%9E%90/#)
+- [https://sites.google.com/site/anythingiikegc/ge-zhong-jiao-cheng/c-ji-qiao/duo-wen-jian-bian-liang-gong-xiang](https://sites.google.com/site/anythingiikegc/ge-zhong-jiao-cheng/c-ji-qiao/duo-wen-jian-bian-liang-gong-xiang)
+- [http://blog.csdn.net/artechtor/article/details/2312766](http://blog.csdn.net/artechtor/article/details/2312766)
+- [http://c.biancheng.net/cpp/biancheng/view/209.html](http://c.biancheng.net/cpp/biancheng/view/209.html)

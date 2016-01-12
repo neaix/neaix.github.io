@@ -1,0 +1,544 @@
+---
+layout: post
+title: "注册表学习笔记" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+HKEY_CLASSES_ROOT根键，下面有许多“.xxx”的主键，这里登记的就是windows中扩展名与应用程序的对应关系(比如txt文件与记事本程序notepad.exe对应)。
+
+PS：在HKEY_CLASSES_ROOT中，一个扩展名一般都两个键，分别为.xxx和xxxfile，其中xxxfile叫做.xxx的主文件类型，该键记录了这种类型文件的图标、右键菜单、默认打开方式等。
+
+未知类型右键菜单：HKEY_CLASSES_ROOT/Unknown
+
+
+
+1. 注册表中的根键(指可以编辑器中看到的)只有5个，分别是：HKEY_CLASSES_ROOT、HKEY_CURRENT_USER、HKEY_LOCAL_MACHINE、HKEY_USERS、HKEY_CURRENT_CONFIG
+
+
+2. 子键(或称主键)：在这些主键下面的键全部称为主键。
+
+
+3. 键值：每个键对应的右窗口中的项目称为该键的键值，常用的有：字符串、可扩充字符串、DWORD值和二进制值。
+
+
+4. 数据：赋予键值的字符称为该键值的数据。
+
+
+5. ①字符串：可键入所有合法字符做为数据。
+
+②可扩充字符串：跟字符串类似，但可以键入变量，如%SystemRoot%system32notepad.exe。
+
+③二进制值：可以用来表示任意长度的整数，在注册表中以十六进制方式表示。
+
+④DWORD值：一般用作真假判断，0表示假；1表示真。
+
+6. 键值类型
+
+	      REG_SZ                    字符串值
+	      REG_BINARY           二进制值
+	      REG_DWQRD           DWQRD 值   
+	      REG_MULTI_SZ        多字符串值   
+	      REG_EXPAND_SZ    可扩充字符串值
+
+
+- HKEY_CLASSES_ROOT/Folder/shell 对一般文件夹和系统文件夹（文件夹和驱动器）的右键弹出菜单都起作用
+- HKEY_CLASSES_ROOT/Directory/shell 对一般文件夹（仅文件夹）右键单击菜单中弹出的部分内容
+- HKEY_CLASSES_ROOT/Drive/shell 对任意驱动器（仅驱动器)单击右键弹出的菜单的菜单项
+- HKEY_CLASSES_ROOT/*/shell 对任意文件单击右键弹出的菜单的菜单项
+
+ShellNew子键定义了将此文件类型加入到桌面右键弹出菜单的“新建”子菜单中。
+
+
+----------
+
+修改右键菜单有两种方法：
+
+# 一： 在shell键下修改右键菜单的方法： #
+
+
+
+①打开注册表，依次展开路径“HKEY_CLASSES_ROOT\*\shell”，
+
+右击shell→新建/项→输入子键名为“My Documents”(或中文名称)。
+
+②双击右边的“默认”→输入数值数据：“我的文档(&B)”，按确定。其中：(&B)为快捷键。
+
+③右击“My Documents”→新建/项→输入键名“command”，
+   双击“默认”→输入数值数据：“explorer.exe”(或绝对地址 )，按确定。
+
+
+①在shell键下修改右键菜单的路径
+
+- HKEY_CLASSES_ROOT\*\shell              (所有文件)
+- HKEY_CLASSES_ROOT\Directory\shell  (所有文件夹)
+- HKEY_CLASSES_ROOT\Folder\shell      (所有文件夹、驱动器)
+- HKEY_CLASSES_ROOT\AllFilesystemObjects\shell                  (所有文件、文件夹)
+- HKEY_CALSSES_ROOT\文件类型file\shell                                (指定文件)
+- HKEY_LOCAL_MACHINE\Software\CLASSES\Directory\shell     (软件文件夹)
+- HKEY_CLASSES_ROOT\drive\shell                                           (驱动器)
+- HKEY_CLASSES_ROOT\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell    (回收站)
+- HKEY_CLASSES_ROOT\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\shell  (我的电脑)
+- HKEY_CLASSES_ROOT\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shell   (我的文档)
+- 说明：以上红色的表示新建的子键。
+
+②command 的“**默认**”键值
+
+- 注册表     regedit：                  regedit.exe
+- 我的文档  My Documents：      explorer.exe
+- 控制面板  control：                  control.exe
+- 快速重启  Reboot：                  ShutDown -r -t 00
+- 在新窗口中打开 NewWindow： explorer.exe %1
+- 删除程序  Dezinstall：              rundll32.exe shell32.dll,Control_RunDLL appwiz.cpl
+- 虚拟DOS ：     C:\WINDOWS\SYSTEM32\CMD.EXE
+- 记事本 ：         C:\WINDOWS\notepad.exe 
+- 压缩文件：       C:\Program Files\WinRAR\WinRAR.exe  
+- 打开方式：       C:\Windows\rundll32.exe Shell32.dll,OpenAs_RunDLL  
+- 查看器：           rundll32.exe C:\WINDOWS\system32\shimgvw.dll,ImageView_Fullscreen %1
+- ACDSee：        C:\Program Files\ACD Systems\ACDSee\9.0\ACDSeeQV.exe  %1 
+
+
+
+# 二、在shellex键下修改右键菜单的方法 #
+
+
+在shellex键下修改右键菜单，切记！实际上是在shellex\ContextMenuHandlers键下修改右键菜单的。
+
+方法1：
+
+①打开注册表，依次展开路径“HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers”，
+右击ContextMenuHandlers→新建/项→输入子键名为“New”(或中文名称)；
+
+②双击右边的“默认”→输入数值数据：“{D969A300-E7FF-11d0-A93B-00A0C90F2719}”，按确定。
+
+方法2：
+
+打开注册表，依次展开路径“HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers”，
+
+右击ContextMenuHandlers→新建/项→输入子键名ID为“{D969A300-E7FF-11d0-A93B-00A0C90F2719}”；
+
+“默认”这项可不设置(或，双击右边的“默认”→输入数值数据：“新建”)。
+
+![](http://img457.ph.126.net/1B8BISBJ2dPNhyQgelqCWA==/1571756269953441542.jpg)
+
+参考的路径和键值ID
+
+同样，这个例子适应于在shellex\ContextMenuHandlers键下修改右键菜单。
+
+①在shellex\ContextMenuHandlers键下修改右键菜单的路径
+- 
+- HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers             (所有文件)
+- HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers  (所有文件夹)
+- HKEY_CLASSES_ROOT\Directory\Background\shellex\ContextMenuHandlers  (桌面空白处)
+- HKEY_CLASSES_ROOT\Folder\shellex\ContextMenuHandlers                        (所有文件夹、驱动器)
+- HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers  (所有文件、文件夹)
+- HKEY_CLASSES_ROOT\drive\shellex\ContextMenuHandlers                           (驱动器)
+- HKEY_CALSSES_ROOT\文件类型file\Shellex\ContextMenuHandlers                (指定文件)
+- HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\shellex\ContextMenuHandlers        (软件文件夹)
+- HKEY_CLASSES_ROOT\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shellex\ContextMenuHandlers   (回收站)
+- HKEY_CLASSES_ROOT\CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\Shellex\ContextMenuHandlers (我的电脑)
+- HKEY_CLASSES_ROOT\CLSID\{450D8FBA-AD25-11D0-98A8-0800361B1103}\shellex\ContextMenuHandlers  (我的文档)
+
+
+②在shellex\ContextMenuHandlers键下修改右键菜单的键值ID
+
+- 清空回收站      RecycleBin： {645FF040-5081-101B-9F08-00AA002F954E}
+- 复制到文件夹   Copy To：      {C2FBB630-2971-11d1-A18C-00C04FD75D13}
+- 移动到文件夹  Move To：      {C2FBB631-2971-11D1-A18C-00C04FD75D13}
+- 发送到             Send To：      {7BA4C740-9E81-11CF-99D3-00AA004AE837}
+- 新建                New：            {D969A300-E7FF-11d0-A93B-00A0C90F2719}
+- 打开方式         OpenWith：    {09799AFB-AD67-11d1-ABCD-00C04FC30936}
+
+
+----------
+
+
+
+
+## 新建菜单中的项： ##
+
+
+HKEY_CLASSES_ROOT根键，下面的许多“.xxx”的主键，这里登记的就是windows中扩展名与应用程序的对应关系(比如txt文件与记事本程序notepad.exe对应)。
+
+在这些.xxx主键下面的**ShellNew**主键就是用来控制新建菜单的！
+
+
+
+## 所有文件的右键： ##
+
+HKEY_CLASSES_ROOT根键下，打开*主键(*表示所有文件)，下面有两个与右键相关的键：
+
+Shell 和 Shellex/ContextMenuHandlers
+
+1. Shell：这个键下面一般为以下目录结构：
+
+HKEY_CLASSES_ROOT*shell
+
+HKEY_CLASSES_ROOT*shell/open
+
+HKEY_CLASSES_ROOT*shell/open/command
+
+表明*键（*泛指那些特定意义的文件夹）与command子键中所指定的应用程序建立了关联。
+
+Shellex：说明*键的文件类型与Windows系统中的外壳扩展中的属性页句柄建立了关联。在 Shellex/ContextMenuHandlers键下面，子键名一般为{454F08EA-A099-4353-834C- 8A66147D4A0F}形式，或该键的默认键值为这种形式。
+
+	{454F08EA-A099-4353-834C-8A66147D4A0F}在此键中一般是程序在注册表中注册的CLSID。
+	CLSID是class ID的缩写。对于每个组件类，都需要分配一个唯一表示它的代码，就是ID，为了避免冲突，微软使用GUID作为CLSID，有生成GUID的函数，主要是根据当时的时间、机器地址等信息动态产生，理论上可保证全球唯一。
+
+
+PS：
+
+1. 右键菜单上显示的文字是在该键的默认值中设置的！
+
+2. 为右键菜单选项设置快捷键：假设以MSDOS键名做了菜单文字，指定快捷键的方法时，在需要用做快捷键的字母前加& 。 如MS&DOS，则以D作为快捷键字母)。
+
+添加方法：
+
+1.打开“HKEY_CLASSES_ROOT/＊/”；
+
+2.在其下新建“shell”文件夹，再新建command文件夹，再将command的键值设为执行该命令时所用的可执行程序的绝对路径，并在其后加“％1”即可。
+
+例：在“HKEY_CLASSES_ROOT＊”下新建“shell用写字板打开command（&B）”子键，将command的键值设为“c：windowsnotepad.exe ％1”，就会在右键菜单中出现“用写字板打开”的命令了。（&B）起到快捷键的作用。
+
+
+
+
+
+
+## 驱动器右键菜单 ##
+
+1.看看驱动器的右键菜单，也多了个Go Dos选项。
+2.找到Drive主键，或在地址栏键入HKEY_CLASSES_ROOT/Drive，转到Shell子键。
+
+
+
+----------
+
+小技巧：
+
+按字母键定位
+
+	运行“regedit”命令打开注册表编辑器，展开“HKEY_CLASSES_ROOT\”分支，按“d”键，可以选中第一个以“d”开头的项，
+	再点击一下“r”键可直接查找到首个以“dr”开头的项，当然就是“driver”项了。
+	
+	注意：連续输入速度一定要快，太慢的话dr将被分成两次独立操作，结果只会定位到r开头的项。
+
+
+
+----------
+
+
+## .reg 修改注册表 ##
+
+
+
+语法 .Reg 文件
+
+.Reg 文件的语法如下：
+
+	RegistryEditorVersion
+	空行
+	[RegistryPath1]
+	"DataItemName1"="DataType1：DataValue1"
+	"DataItemName2"="DataType2：DataValue2"
+	空行
+	[RegistryPath2]
+	"DataItemName3"="DataType3：DataValue3"
+
+
+位置：
+
+RegistryEditorVersion要么是 Windows 2000、 Windows XP 和 Windows Server 2003 的 "Windows Registry Editor Version 5.00"，
+
+要么是 Windows 98 和 Windows NT 4.0 的 "REGEDIT4"。
+
+在基于 Windows 2000 的基于 Windows XP 的基于 Windows Server 2003 的计算机也适用的"REGEDIT4"标头。
+
+空行是一个空行。这标识新的注册表路径的开始。每个项或子项都是一个新的注册表路径。如果.reg 文件中，您有以下几种按键，空白行可以帮助您检查并进行故障排除的内容。
+
+RegistryPathx是该子项包含您要导入的第一个值的路径。将路径括在方括号内，并由反斜杠分隔每个层次结构级别。例如：
+	[
+	HKEY_LOCAL_ MACHINE\SOFTWARE\Policies\Microsoft\Windows\System
+	]
+
+.Reg 文件可以包含多个注册表路径。如果在注册表中不存在路径语句中的层次结构的底部，将创建一个新的子项。注册表文件的内容发送到注册表中输入它们的顺序。因此，如果您想要创建一个新子项与它下面的其他子项，则您必须按正确的顺序输入行。
+
+DataItemNamex是您想要导入的数据项目的名称。如果您的文件中的数据项在注册表中不存在，.reg 文件将添加该数据项的值）。如果数据项存在，.reg 文件中的值将覆盖现有的值。数据项的名称用引号引起来。紧跟在等号 (=) 后面的数据项的名称。
+
+DataTypex是数据类型注册表值，并紧随等号。对于 REG_SZ （字符串值） 以外的所有数据类型，紧跟一个冒号数据类型。如果数据类型是 REG_SZ，则不包括数据类型值或冒号。在这种情况下，Regedit.exe 假定 REG_SZ 的数据类型。下表列出了典型的注册表数据类型：
+
+在.reg 的数据类型
+
+REG_BINARY	十六进制
+REG_DWORD	双字节
+REG_EXPAND_SZ	hexadecimal(2)
+REG_MULTI_SZ	hexadecimal(7)
+
+
+DataValuex立即跟随冒号 （或等号后 REG_SZ），并且必须是以适当的格式 （例如，字符串或十六进制）。
+
+注意:
+
+注意注册表文件应包含在文件的底部的空行。
+
+
+
+
+
+
+若要使用.reg 文件删除注册表项，请将连字符 (-) 加在 RegistryPath 的前面。
+
+例如，
+
+	HKEY_LOCAL_MACHINE\Software\Test
+	
+	[
+	-HKEY_LOCAL_MACHINE\Software\Test
+	]
+
+
+若要使用.reg 文件删除注册表值，将“=-” 放在 DataItemName 后面。
+
+例如
+
+	HKEY_LOCAL_MACHINE\Software\Test
+	
+	"TestValue"=-
+
+要创建 .reg 文件，请使用 Regedit.exe **导出您想要删除的注册表项**，然后使用记事本来编辑该.reg 文件并插入连字符。
+
+
+----------
+
+
+<br>
+<br>
+<br>
+
+2015-4-15日更新：
+
+添加右键联级式菜单：
+
+MSDN样例：
+
+	Windows Registry Editor Version 5.00
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade]
+	"MUIVerb"="ExtendedSubCommandsKey cascade"
+	"ExtendedSubCommandsKey"="*\\shell\\msdncascade\\menus\\flyout1"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus]
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout1]
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout1\shell]
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout1\shell\cmd1]
+	"MUIVerb"="flyout2"
+	"ExtendedSubCommandsKey"="*\\shell\\msdncascade\\menus\\flyout2"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout1\shell\cmd2]
+	"MUIVerb"="Notepad"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout1\shell\cmd2\command]
+	@="notepad.exe %1"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2]
+	"ExtendedSubCommandsKey"=""
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell]
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell\cmd1]
+	"MUIVerb"="Calculator"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell\cmd1\command]
+	@="calc.exe"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell\cmd2]
+	"MUIVerb"="flyout3"
+	"ExtendedSubCommandsKey"="*\\shell\\msdncascade\\menus\\flyout3"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell\cmd3]
+	"MUIVerb"="Paint"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell\cmd3\command]
+	@="mspaint.exe \"%1\""
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell\cmd4]
+	"MUIVerb"="Sticky note"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout2\shell\cmd4\command]
+	@="StikyNot.exe"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3]
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3\shell]
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3\shell\cmd1]
+	"MUIVerb"="Command prompt"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3\shell\cmd1\command]
+	@="cmd.exe"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3\shell\cmd2]
+	"MUIVerb"="Snipping tool"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3\shell\cmd2\command]
+	@="SnippingTool.exe"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3\shell\cmd3]
+	"MUIVerb"="Sound Recorder"
+	
+	[HKEY_CLASSES_ROOT\*\shell\msdncascade\menus\flyout3\shell\cmd3\command]
+	@="SoundRecorder.exe"
+	
+	
+效果：
+
+![](http://ww1.sinaimg.cn/mw690/708485bfgw1er684gs1x1j20e903fmxt.jpg)
+
+做法：
+
+![](http://ww1.sinaimg.cn/mw690/708485bfgw1er684hfbjpj20qj0avmz1.jpg)
+
+![](http://ww4.sinaimg.cn/mw690/708485bfgw1er684it00tj20qq0ck40k.jpg)
+
+![](http://ww1.sinaimg.cn/mw690/708485bfgw1er684i1hozj20tn0bjtaw.jpg)
+
+![](http://ww2.sinaimg.cn/mw690/708485bfgw1er684j3fqkj20n70b4jsu.jpg)
+
+没有截图的都是一般性操作，
+
+把该注册表导出后的reg文件：
+
+	Windows Registry Editor Version 5.00
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper]
+	@=""
+	"MUIVerb"="FileHelper"
+	"ExtendedSubCommandsKey"="AllFilesystemObjects\\shell\\FileHelper\\menus\\FileHelper"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus]
+	@=""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper]
+	@=""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell]
+	@=""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1]
+	@=""
+	"MUIVerb"="压缩"
+	"ExtendedSubCommandsKey"="AllFilesystemObjects\\shell\\FileHelper\\menus\\FileHelper\\shell\\cmd1"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell]
+	@=""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\7z]
+	@=""
+	"MUIVerb"="压缩到*.7z"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\7z\command]
+	@="\"C:\\Program Files (x86)\\FileHelper\\7za.exe\" \"a\" \"%1.7z\" \"%1\""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\rar]
+	@=""
+	"MUIVerb"="压缩到*.rar"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\rar\command]
+	@="\"C:\\Program Files (x86)\\FileHelper\\7za.exe\" \"a\" \"%1.rar\" \"%1\""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\tar]
+	@=""
+	"MUIVerb"="压缩到*.tar"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\tar\command]
+	@="\"C:\\Program Files (x86)\\FileHelper\\7za.exe\" \"a\" \"%1.tar\" \"%1\""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\zip]
+	@=""
+	"MUIVerb"="压缩到*.zip"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd1\shell\zip\command]
+	@="\"C:\\Program Files (x86)\\FileHelper\\7za.exe\" \"a\" \"%1.zip\" \"%1\""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd2]
+	@=""
+	"MUIVerb"="解压"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd2\command]
+	@="\"C:\\Program Files (x86)\\FileHelper\\7za.exe\" \"x\" \"%1\""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd3]
+	@=""
+	"MUIVerb"="加密"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd3\command]
+	@="\"C:\\Program Files (x86)\\FileHelper\\fenc.exe\" \"%1\""
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd4]
+	@=""
+	"MUIVerb"="解密"
+	
+	[HKEY_CLASSES_ROOT\AllFilesystemObjects\shell\FileHelper\menus\FileHelper\shell\cmd4\command]
+	@="\"C:\\Program Files (x86)\\FileHelper\\fdec.exe\" \"%1\""
+	
+
+
+上面的方法是我自己尝试出来的，网上有一种更加流行的方法如下，但是我不知道为什么，在我的电脑上交就是不行。
+
+网上教程：[http://www.bkjia.com/Windowsjc/739060.html](http://www.bkjia.com/Windowsjc/739060.html "http://www.bkjia.com/Windowsjc/739060.html")
+
+步骤1:转到
+
+HKEY_CLASSES_ROOT\*\shell
+
+在这里命名为ContextMenu.
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45U595-1.png)
+
+然后在左侧空白处鼠标右键,选择新建一个字符串值
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45S142-2.png)
+
+名字设置为MUIVerb,名字必须为MUIVerb,这就是所谓的标准名字(Canonical Verbs).然后双击它,打开后将其值设置为ContextMenu这个字符串就是在鼠标右键中显示的名称（你当然可以设置为其他的值）
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45Vc1-3.png)
+
+经过这一步,我们可以在一个具体的文件上鼠标右键了,就会出现一个名字为ContextMenu的鼠标右键选项，注意是一个文件,而不是一个目录.也就是说,这个时候我在一个应用程序,doc文档,txt文本或者图片上鼠标右键会出现而在一个包含有子文件的文件夹上或者桌面上鼠标右键是不会出现的.
+
+然后我们需要为我们添加的选项添加命令,和建立MUIVerb同样的步骤建立一个SubCommands,
+
+其值设置为ContextMenu.1;ContextMenu.2;ContextMenu.3;ContextMenu.4;ContextMenu.5好的我们暂且先添加这5个选项吧，每一个选项对应于一个命令（应用程序）
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45T413-6.png)
+
+这时候。在一个应用程序图标上鼠标右键可以看到ContextMenu选项右边出现了一个小小的黑色箭头，不过现在还不能展开，因为我们还没有为其添加具体的应用程序
+
+现在我们来添加具体的命令选项，以使那个黑色的小箭头能够展开。在注册表中展开到下面这个位置：
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\
+
+然后在shell上新建一个键（key），如图所示，名字为ContextMenu.1
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45W403-8.png)
+
+然后转到ContextMenu.1中，将默认的值设置为应用程序的名字（总之是你想要其显示的字符）
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45V392-9.png)
+
+然后再在ContextMenu.1上新建一个键，名字为command，然后转到新建的command键，在command键中默认的值设置为应用程序路径
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45UZ6-10.png)
+
+然后同样的方式建立ContextMenu.2;ContextMenu.3;ContextMenu.4;ContextMenu.5
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45S118-11.png)
+
+还可以为键添加icon
+
+![](http://www.bkjia.com/uploads/allimg/140310/0F45W2G-13.png)
+

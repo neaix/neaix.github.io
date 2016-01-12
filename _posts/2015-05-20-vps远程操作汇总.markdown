@@ -1,0 +1,130 @@
+---
+layout: post
+title: "VPS基本操作汇总" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+1. 直接在终端里（如cmd）中：
+	
+	ssh root@你vps的IP地址
+
+再输入密码，即可登录！
+
+----------
+
+2. 修改root默认密码，（在root用户下）
+
+		$ sudo passwd
+
+然后再输入两次密码即可。
+
+3. 查询当前各个进程网络连接状态
+		
+		netstat -atunlp
+
+4. 查询对应端口所占用的​进程：
+
+ 如何干掉当前访问者
+
+    # netstat -anp | grep 3306
+    tcp        0      0 172.16.113.194:3306         172.16.113.194:10764        ESTABLISHED 30869/mysqld
+    事情紧急，强杀
+    # kill -9 30869
+
+
+（之前一直遇到Address already in use，网上说是端口占用，但是我kill了mysql还是会自己启动，不知道怎么办，只能重新装系统）
+
+另外还有：
+
+	lsof -i 用以显示符合条件的进程情况
+
+	例子：
+	sudo lsof -i:8087
+	sudo kill *pid*//*部分用对应进程的PID来填充哦
+
+
+5. 远程访问数据库：
+
+
+1）本机登陆mysql：mysql -uroot -ppasswd ；
+
+改变数据库：use mysql;
+
+2）从所有主机：
+
+	grant all privileges on *.* to root@"%" identified by "password" with grant option;  
+	flush privileges;
+
+3）从指定主机：
+
+	grant all privileges on *.* to root@"192.168.11.205" identified by "password" with grant option; 
+	
+	flush privileges;
+
+4)  进mysql库查看host为%的数据是否添加：
+
+	use mysql; 
+	select * from user;
+
+5)  只读权限dump数据库：  
+	
+	mysqldump -h 172.192.1.12 -uroot -p123456 --single-transaction your_db > your_db_bk.sql
+
+6)  通过MySQL端口远程连接
+
+	mysql： mysql -h 122.128.10.114 -P 3306 -uroot -ppasswd   
+	// -P mysql在/etc/mysql/my.cnf 配置文件配置的端口，-p 密码
+
+
+这里有一个地方被网上的傻逼教程给坑了。注意，假如你要能够让远程服务器来访问你的话，就要把 bind-address 给注释掉！而不是赋予ip值！
+		
+	用#注释掉！
+	#bind-address		= 45.62.113.44
+
+	然后还要重启mysql！！！
+	sudo restart mysql
+
+
+
+假如不这样的话，只能本机的ip去访问！
+
+然后就能够远程访问数据库了！
+
+
+另外：
+
+在windows下安装mysql后连接数据库：
+
+cmd下：
+	
+	mysql -h 192.168.1.16 -uroot -ppasswd
+
+
+6. 有时候vps一买来或者一开机访问ip时什么都没有，那就重启web服务下：
+
+	service apache2 restart；
+
+这样才能让phpmyadmin这种生效。
+
+
+
+
+
+
+----------
+
+## 常见错误： ##
+
+1. 主义VPS之间的区别并不仅仅局限于操作系统版本的区别，有时候同样的操作系统但是提供商不同，就会有不同的目录和不同的默认配置。对于部分VPS而言，www目录下和usr/share/目录下都是可以通过ip访问的到的，然而对于部分vps只有www/html/目录才能被外部访问。
+
+正是这个原因，所以一开始我在搬瓦工的vps上面装puhsysinfo和phpmyadmin都出现了无法访问的情况，但是在host1plus的vps上是可行的。
+
+找到原因就是因为搬瓦工只支持访问html目录。但是不能把Phpmyadmin目录都移动过去，若都移动过去就会变成目录形式展示在网址上了。应该：
+
+		
+	sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+
+把在html/下建立快捷方式！​

@@ -1,0 +1,10 @@
+---
+layout: post
+title: "STL标准库小结" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+1. 泛型算法remove是用保留元素覆盖要删除的元素，对于vector最好采用erase的方法。

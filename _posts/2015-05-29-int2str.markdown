@@ -1,0 +1,105 @@
+---
+layout: post
+title: "C/C++数值与字符串之间的转换方法汇总" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+1. 用memcpy方法可以实现将int等保存到字符类型的数组中。
+
+示例：
+
+	 long long_data=-9828;
+     unsigned char data[4];
+	 memcpy(data,&t,4); //将long类型的数据用4个char保存。
+
+	 long my_long_data=0;
+	 memcpy(&tt,data,4);//从4个char中还原出long类型数据。
+
+
+
+
+2. 用函数的方法：
+
+#### int/long/float/double转字符串 ####
+
+- 方法1：itoa, ltoa（a表示array数组的意思）
+
+头文件：stdlib.h
+
+示例：
+
+	    int a = 3;
+	    long b = 23;
+	    char buf1[30] = "";
+	    itoa(a, buf1, 10);//10表示十进制，buf1保存的内容为"3"
+	    char buf2[30] = "";
+	    ltoa(b, buf2, 10);//10表示十进制，buf2保存的内容为"32"
+
+- 方法2：sprintf()
+
+头文件：stdio.h
+
+示例：
+
+	    int a = 3;
+	    float b = 4.2f;
+	    char buf[30] = "";
+	    sprintf(buf, "%d,%f", a, b);//buf保存的内容为"3,4.2"，可对比printf
+
+- 方法3：ostringstream
+
+头文件：#include <sstream>
+
+示例：
+
+    int a = 3;
+    float b = 4.2f;
+    ostringstream s1;
+    s1<<a<<","<<b;//可对比cout
+    string s2 = s1.str();//s2保存的内容为"3,4.2"
+
+
+#### 字符串转int/long/float/double ####
+
+
+- 方法1：atoi,atol,atof
+
+头文件：stdlib.h
+
+示例：
+
+	int a = atoi("32");
+	long b = atol("333");
+	double c = atof("23.4");
+
+- 方法2：strtol, strtod
+
+头文件：stdlib.h
+
+示例：
+
+	long b = strtol("333", NULL, 10);//10表示十进制
+	double c = strtod("32.3", NULL);
+
+- 方法3：sscanf
+
+头文件：stdio.h
+
+示例：
+    int a;
+    float b;
+    sscanf("23 23.4", "%d %f", &a, &b);//对比scanf
+
+方法4：istringstream
+
+头文件：#include <sstream>
+
+示例：
+
+    int a;
+    float b;
+    istringstream s1("23 23.4");
+    s1>>a>>b;//对比cin

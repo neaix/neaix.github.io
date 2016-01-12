@@ -1,0 +1,55 @@
+---
+layout: post
+title: "C++常见错误" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+## 1. switch的case语句中不可定义任何对象，因为跳转定义对象是不合法的！ ##
+
+但是很奇怪的一点:
+
+ 		case 3:
+			while (cin >> Name){
+				Student stu("Name");
+				lib.addStu(stu);
+			}
+			break;
+这样却是合法的，猜测原因在于：
+
+switch语句的各个case之间并没有用{}，所以在一个case里定义了一个东西在别的case都可以访问，但是case的跳转却会导致它们无法定义，所以不能用了。正是因为这个矛盾才导致不能直接在case里定义，但是可以手动加个代码块来弄(这个方法是我自己想的，不知道可不可靠)！
+
+## 2. 当时用过了while (cin >> Name)这类时，流会因为eof而无效，这时要用cin.clear()! ##
+
+
+## 3. C++函数中传入二维数组： ##
+
+ 主要有三种方式
+
+	方法一， 形参给出第二维的长度。
+    void fun（int a[][2]，int m）
+	void fun（int （*a）[2]，int m，int n）
+
+	方法二，形参声明为指向数组的指针。
+    void fun（int *a[]，int m，int n）//**a
+
+	方法三，形参声明为指针的指针。
+	void fun(char **str);
+
+
+## 4. 对于那些需要返回某个类的成员的函数，在返回值那里切记要写上引用！（除非只是想得到其拷贝值） ##
+
+	eg:
+	
+	Book& Admin::serchBook()
+
+## 5. C/C++ 字符串常量 "xxxxx" 的类型是 char * , 而不是string !!! ##
+
+所以在异常处理的时候如果用string来捕获则会失败！
+
+
+
+
+

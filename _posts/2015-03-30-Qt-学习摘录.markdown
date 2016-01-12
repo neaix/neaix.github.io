@@ -1,0 +1,1973 @@
+---
+layout: post
+title: "Qt-学习摘录" 
+comments: true
+share: true
+tags: Qt
+---
+
+# 综述 #
+
+		Qt 是一个跨平台的框架。跨平台 GUI 通常有三种实现策略：
+	
+		API 映射：API 映射是说，界面库使用同一套 API，将其映射到不同的底层平台上面。
+		
+		API 模拟：前面提到，API 映射会“缺失”不同平台的特定功能，而 API 模拟则是解决这一问题。不同平台的有差异 API，将使用工具库自己的代码用于模拟出来。如微软提供的 DirectX
+		
+		GUI 模拟：任何平台都提供了图形绘制函数，例如画点、画线、画面等。有些工具库利用这些基本函数，在不同绘制出自己的组件，这就是 GUI 模拟。
+		
+		Qt Creator 帮助我们在 HelloWorld 项目文件夹下生成了四个文件：main.cpp，mainwindow.cpp，mainwindow.h 和 HelloWorld.pro。pro 文件就是 Qt 工程文件（project file），由 qmake 处理，生成 make 程序所需要的 makefile；main.cpp 里面就是一个main函数，作为应用程序的入口函数；其他两个文件就是先前我们曾经指定的文件名的文件。
+		
+		
+		#include <QApplication>
+		#include <QLabel>
+		
+		int main(int argc, char *argv[])
+		{
+		    QApplication app(argc, argv);
+		
+		    QLabel label("Hello, world");
+		    label.show();
+		
+		    return app.exec();
+		}
+		
+
+
+----------
+# 信号槽 #
+
+		
+		前两行是 C++ 的 include 语句，这里我们引入的是QApplication以及QLabel这两个类。main()函数中第一句是创建一个QApplication类的实例。对于 Qt 程序来说，main()函数一般以创建 application 对象
+		
+		GUI 程序是QApplication，非 GUI 程序是QCoreApplication。
+		QApplication实际上是QCoreApplication的子类。
+		
+		 application 对象用于管理 Qt 程序的生命周期，开启事件循环，这一切都是必不可少的。
+		
+		在我们创建了QApplication对象之后，直接创建一个QLabel对象，构造函数赋值“Hello, world”。
+		
+		最后调用QLabel的show()函数将其显示出来。
+		
+		main()函数最后，调用app.exec()，开启事件循环。我们现在可以简单地将事件循环理解成一段无限循环。正因为如此，我们在栈上构建了QLabel对象，却能够一直显示在那里（试想，如果不是无限循环，main()函数立刻会退出，QLabel对象当然也就直接析构了）。
+	
+	
+
+
+
+	当某个事件发生之后，比如，按钮检测到自己被点击了一下，它就会发出一个信号（signal）。
+	如果有对象对这个信号感兴趣，它就会使用连接（connect）函数，意思是，用自己的一个函数（成为槽（slot））来处理这个信号。
+	也就是说，当信号发出时，被连接的槽函数会自动被回调。
+	这就类似观察者模式：当发生了感兴趣的事件，某一个操作就会被自动触发。（这里提一句，Qt 的信号槽使用了额外的处理来实现，并不是 GoF 经典的观察者模式的实现方式。）
+	
+	
+	#include <QApplication>
+	#include <QPushButton>
+	 
+	int main(int argc, char *argv[])
+	{
+	    QApplication app(argc, argv);
+	 
+	    QPushButton button("Quit");
+	    QObject::connect(&button, &QPushButton::clicked，&QApplication::quit);
+	    button.show();
+	 
+	    return app.exec();
+	}
+	
+	按钮在 Qt 中被称为QPushButton。对它的创建和显示，同前文类似。
+	
+	在 Qt 5 中，QObject::connect()有五个重载：
+	QMetaObject::Connection connect(const QObject *, const char *,
+	                                const QObject *, const char *,
+	                                Qt::ConnectionType);
+	 
+	QMetaObject::Connection connect(const QObject *, const QMetaMethod &,
+	                                const QObject *, const QMetaMethod &,
+	                                Qt::ConnectionType);
+	 
+	QMetaObject::Connection connect(const QObject *, const char *,
+	                                const char *,
+	                                Qt::ConnectionType) const;
+	 
+	QMetaObject::Connection connect(const QObject *, PointerToMemberFunction,
+	                                const QObject *, PointerToMemberFunction,
+	                                Qt::ConnectionType)
+	 
+	QMetaObject::Connection connect(const QObject *, PointerToMemberFunction,
+	                                Functor);
+	
+	
+	这五个重载的返回值都是QMetaObject::Connection
+	connect(sender,signal,receiver,slot);
+	
+	这是我们最常用的形式。connect()一般会使用前面四个参数，
+	第一个是发出信号的对象，
+	第二个是发送对象发出的信号，
+	第三个是接收信号的对象，
+	第四个是接收对象在接收到信号之后所需要调用的函数。
+	也就是说，当 sender 发出了 signal 信号之后，会自动调用 receiver 的 slot 函数。
+	我们可以套用这个形式去分析上面给出的五个重载。
+	第一个，sender 类型是const QObject *，signal 的类型是const char *，receiver 类型是const QObject *，slot 类型是const char *。这个函数将 signal 和 slot 作为字符串处理。
+	第二个，sender 和 receiver 同样是const QObject *，但是 signal 和 slot 都是const QMetaMethod &。我们可以将每个函数看做是QMetaMethod的子类。因此，这种写法可以使用QMetaMethod进行类型比对。
+	第三个，sender 同样是const QObject *，signal 和 slot 同样是const char *，但是却缺少了 receiver。这个函数其实是将 this 指针作为 receiver。
+	第四个，sender 和 receiver 也都存在，都是const QObject *，但是 signal 和 slot 类型则是PointerToMemberFunction。看这个名字就应该知道，这是指向成员函数的指针。
+	第五个，前面两个参数没有什么不同，最后一个参数是Functor类型。这个类型可以接受 static 函数、全局函数以及 Lambda 表达式。
+	由此我们可以看出，connect()函数，sender 和 receiver 没有什么区别，都是QObject指针；主要是 signal 和 slot 形式的区别。具体到我们的示例，我们的connect()函数显然是使用的第五个重载，最后一个参数是QApplication的 static 函数quit()。也就是说，当我们的 button 发出了clicked()信号时，会调用QApplication的quit()函数，使程序退出。
+	信号槽要求信号和槽的参数一致，所谓一致，是参数类型一致。如果不一致，允许的情况是，槽函数的参数可以比信号的少，即便如此，槽函数存在的那些参数的顺序也必须和信号的前面几个一致起来。这是因为，你可以在槽函数中选择忽略信号传来的数据（也就是槽函数的参数比信号的少），但是不能说信号根本没有这个数据，你就要在槽函数中使用（就是槽函数的参数比信号的多，这是不允许的）。
+	
+	// !!! Qt 5
+	#include <QApplication>
+	#include <QPushButton>
+	
+	int main(int argc, char *argv[])
+	{
+	    QApplication app(argc, argv);
+	
+	    QPushButton button("Quit");
+	    QObject::connect(&button, &QPushButton::clicked, &QApplication::quit);
+	    button.show();
+	
+	    return app.exec();
+	}
+	
+	
+	
+	
+	#include <QApplication>
+	#include <QPushButton>
+	#include <QDebug>
+	int main(int argc, char *argv[])
+	{
+	    QApplication a(argc, argv);
+	    QPushButton button("Quit");
+	    QObject::connect(&button,&QPushButton::clicked,[](bool){
+	        qDebug() << "You clicked me!";
+	    });
+	    button.show();
+	    return a.exec();
+	}
+	
+	
+	
+	
+
+# Qt-自定义信号槽 #
+
+## newspaper.h ##
+
+	#ifndef NEWSPAPER
+	#define NEWSPAPER
+	#include <QObject>
+	//Newspaper这个类继承了QObject类。只有继承了QObject类的类，才具有信号槽的能力。
+	//凡是QObject类（不管是直接子类还是间接子类），都应该在第一行代码写上Q_OBJECT。
+	//不管是不是使用信号槽，都应该添加这个宏。这个宏的展开将为我们的类提供信号槽机制、
+	//国际化机制以及 Qt 提供的不基于 C++ RTTI 的反射能力。
+	//这个宏将由 moc做特殊处理，不仅仅是宏展开这么简单。moc 会读取标记了 Q_OBJECT 的
+	//头文件，生成以 moc_ 为前缀的文件，比如 newspaper.h 将生成 moc_newspaper.cpp。
+	//注意，由于 moc 只处理头文件中的标记了Q_OBJECT的类声明，不会处理 cpp 文件中的类
+	//似声明。因此，如果我们的Newspaper和Reader类位于 main.cpp 中，是无法得到 moc
+	//的处理的。所以建议把要加Q_OBKECT宏的文件弄到头文件中不要弄在cpp文件里
+	class Newspaper : public QObject{
+	    Q_OBJECT
+	public:
+	    Newspaper(const QString & name): m_name(name){} //构造函数
+	    void send(){            //成员函数
+	        emit newPaper(m_name);
+	    //emit 是 Qt 对 C++ 的扩展，是一个关键字（其实也是一个宏）。emit 的作用是发出newPaper()信号。
+	    //感兴趣的接收者会关注这个信号。我们将实际的报纸名字m_name当做参数传给这个信号。
+	    //当接收者连接这个信号时，就可以通过槽函数获得实际值。这样就完成了数据从发出者到接收者的一个转移。
+	    }
+	signals:  //signals 块所列出的，就是该类的信号。信号就是一个个的函数名，返回值是 void
+	          //参数是该类需要让外界知道的数据。
+	          //信号作为函数名，不需要在 cpp 函数中添加任何实现,moc会帮我们实现信号函数所需要的函数体.
+	    void newPaper(const QString &name);
+	private:
+	    QString m_name;
+	};
+	
+	#endif // NEWSPAPER
+	
+
+----------
+
+## reader.h ##
+
+	#ifndef READER
+	#define READER
+	#include <QObject>
+	#include <QDebug>
+	//因为这个类需要接受信号，所以将其继承QObject，并且添加Q_OBJECT宏。
+	class Reader : public QObject{
+	    Q_OBJECT
+	public:
+	    Reader(){} //构造函数
+	    //成员函数。
+	    //Qt 5 中，任何成员函数、static 函数、全局函数和 Lambda 表达式都可以作为槽函数。
+	    //与信号函数不同，槽函数必须自己完成实现代码。
+	    void receiveNewspaper(const QString & name){
+	        qDebug() << "Receives Newspaper:" << name;
+	        //qDebug类似于cout
+	    }
+	    };
+	#endif // READER
+
+
+----------
+
+
+## main.cpp ##
+
+
+	#include <QCoreApplication>
+	
+	#include "newspaper.h"
+	#include "reader.h"
+	
+	int main(int argc, char *argv[])
+	{
+	    QCoreApplication a(argc,argv);
+	    Newspaper newspaper("Newspaper A");
+	    Reader reader;
+	    QObject::connect(&newspaper,&Newspaper::newPaper,
+	                     &reader,&Reader::receiveNewspaper);
+	    //由于上面的连接，当下面的send()信号发出时，自动调用reader的槽函数，打印出语句
+	    newspaper.send();
+	    return a.exec();
+	}
+	
+	
+	//总结：
+	//发送者和接收者都需要是QObject的子类
+	//（当然，槽函数是全局函数、Lambda 表达式等无需接收者的时候除外）；
+	//使用 signals 标记信号函数，信号是一个函数声明，返回 void，不需要实现函数代码；
+	//槽函数是普通的成员函数，作为成员函数，会受到 public、private、protected 的影响；
+	//使用 emit 在恰当的位置发送信号
+	//使用QObject::connect()函数连接信号和槽。
+	
+	
+
+
+# Qt-模块 #
+
+
+Qt 5 模块分为 Essentials Modules 和 Add-on Modules 两部分。
+
+前者是基础模块，在所有平台上都可用；
+
+后者是扩展模块，建立在基础模块的基础之上，在能够运行 Qt 的平台之上可以酌情引入。
+
+Qt 基础模块分为以下几个：
+
+Qt Core，提供核心的非 GUI 功能，所有模块都需要这个模块。这个模块的类包括了动画框架、定时器、各个容器类、时间日期类、事件、IO、JSON、插件机制、智能指针、图形（矩形、路径等）、线程、XML 等。所有这些类都可以通过 <QtCore> 头文件引入。
+
+Qt Gui，提供 GUI 程序的基本功能，包括与窗口系统的集成、事件处理、OpenGL 和 OpenGL ES 集成、2D 图像、字体、拖放等。这些类一般由 Qt 用户界面类内部使用，当然也可以用于访问底层的 OpenGL ES 图像 API。Qt Gui 模块提供的是所有图形用户界面程序都需要的通用功能。
+
+Qt Multimedia，提供视频、音频、收音机以及摄像头等功能。这些类可以通过 <QtMultimedia> 引入，而且需要在 pro 文件中添加 QT += multimedia。
+
+Qt Network，提供跨平台的网络功能。这些类可以通过 <QtNetwork> 引入，而且需要在 pro 文件中添加 QT += network。
+
+Qt Qml，提供供 QML（一种脚本语言，也提供 JavaScript 的交互机制） 使用的 C++ API。这些类可以通过 <QtQml> 引入，而且需要在 pro 文件中添加 QT += qml。
+
+Qt Quick，允许在 Qt/C++ 程序中嵌入 Qt Quick（一种基于 Qt 的高度动画的用户界面，适合于移动平台开发）。这些类可以通过 <QtQuick> 引入，而且需要在 pro 文件中添加 QT += quick。
+
+Qt SQL，允许使用 SQL 访问数据库。这些类可以通过 <QtSql> 引入，而且需要在 pro 文件中添加 QT += sql。
+
+Qt Test，提供 Qt 程序的单元测试功能。这些类可以通过 <QtTest> 引入，而且需要在 pro 文件中添加 QT += testlib。
+
+Qt Webkit，基于 WebKit2 的实现以及一套全新的 QML API（顺便说一下，Qt 4.8 附带的是 QtWebkit 2.2）。
+
+Qt 扩展模块则有更多的选择：
+
+Qt 3D，提供声明式语法，在 Qt 程序中可以简单地嵌入 3D 图像。Qt 3D 为 Qt Quick 添加了 3D 内容渲染。Qt 3D 提供了 QML 和 C++ 两套 API，用于开发 3D 程序。
+
+Qt Bluetooth，提供用于访问蓝牙无线设备的 C++ 和 QML API。
+
+Qt Contacts，用于访问地址簿或者联系人数据库的 C++ 和 QML API。
+
+Qt Concurrent，封装了底层线程技术的类库，方便开发多线程程序。
+Qt D-Bus，这是一个仅供 Unix 平台使用的类库，用于利用 D-Bus 协议进行进程间交互。
+
+Qt Graphical Effects，提供一系列用于实现图像特效的类，比如模糊、锐化等。
+
+Qt Image Formats，支持图片格式的一系列插件，包括 TIFF、MNG、TGA 和 WBMP。
+
+Qt JS Backend，该模块没有公开的 API，是 V8 JavaScript 引擎的一个移植。这个模块仅供 QtQml 模块内部使用。
+
+Qt Location，提供定位机制、地图和导航技术、位置搜索等功能的 QML 和 C++ API。
+
+Qt OpenGL，方便在 Qt 应用程序中使用 OpenGL。该模块仅仅为了程序从 Qt 4 移植到 Qt 5 的方便才保留下来，如果你需要在新的 Qt 5 程序中使用 OpenGL 相关技术，需要使用的是 QtGui 模块中的 QOpenGL。
+
+Qt Organizer，使用 QML 和 C++ API 访问组织事件（organizer event）。organizer API 是 Personal Information Management API 的一部分，用于访问 Calendar 信息。通过 Organizer API 可以实现：从日历数据库访问日历时间、导入 iCalendar 事件或者将自己的事件导出到 iCalendar。
+
+Qt Print Support，提供对打印功能的支持。
+
+Qt Publish and Subscribe，为应用程序提供对项目值的读取、导航、订阅等的功能。
+
+Qt Quick 1，从 Qt 4 移植过来的 QtDeclarative 模块，用于提供与 Qt 4 的兼容。如果你需要开发新的程序，需要使用 QtQuick 模块。
+
+Qt Script，提供脚本化机制。这也是为提供与 Qt 4 的兼容性，如果要使用脚本化支持，请使用 QtQml 模块的 QJS* 类。
+
+Qt Script Tools，为使用了 Qt Script 模块的应用程序提供的额外的组件。
+
+Qt Sensors，提供访问各类传感器的 QML 和 C++ 接口。
+
+Qt Service Framework，提供客户端发现其他设备的服务。Qt Service Framework 为在不同平台上发现、实现和访问服务定义了一套统一的机制。
+
+Qt SVG，提供渲染和创建 SVG 文件的功能。
+
+Qt System Info，提供一套 API，用于发现系统相关的信息，比如电池使用量、锁屏、硬件特性等。
+
+Qt Tools，提供了 Qt 开发的方便工具，包括 Qt CLucene、Qt Designer、Qt Help 以及 Qt UI Tools 。
+
+Qt Versit，提供了对 Versit API 的支持。Versit API 是 Personal Information Management API 的一部分，用于 QContacts 和 vCard 以及 QOrganizerItems 和 iCalendar 之间的相互转换。
+
+Qt Wayland，仅用于 Linux 平台，用于替代 QWS，包括 Qt Compositor API（server）和 Wayland 平台插件（clients）。
+
+Qt WebKit，从 Qt 4 移植来的基于 WebKit1 和 QWidget 的 API。
+
+Qt Widgets，使用 C++ 扩展的 Qt Gui 模块，提供了一些界面组件，比如按钮、单选框等。
+
+Qt XML，SAX 和 DOM 的 C++ 实现。该模块已经废除，请使用 QXmlStreamReader/Writer。
+
+Qt XML Patterns，提供对 XPath、XQuery、XSLT 和 XML Schema 验证的支持。
+
+这里需要强调一点，由于 Qt 的扩展模块并不是 Qt 必须安装的部分，因此 Qt 在未来版本中可能会提供更多的扩展模块，这里给出的也仅仅是一些现在确定会包含在 Qt 5 中的一部分，另外还有一些，比如 Qt Active、Qt QA 等，则可能会在 beta 及以后版本中出现。
+
+
+
+
+
+# Qt-MainWindow简介 #
+
+
+QMainWindow是 Qt 框架带来的一个预定义好的主窗口类。所谓主窗口，就是一个普通意义上的应用程序（不是指游戏之类的那种）最顶层的窗口。
+
+
+它实际上分成了几个部分：
+![](http://files.devbean.net/images/2012/08/mw-struct-600x365.png)
+
+
+通常，各个图形界面框架都会使用操作系统本地代码来生成一个窗口。如果你不喜欢本地样式，比如 QQ 这种，它其实是自己将标题栏绘制出来，这种技术称为 DirectUI，也就是无句柄绘制。
+
+Qt 的主窗口支持多个工具条。你可以将工具条拖放到不同的位置，因此这里说是 Area。
+
+在工具条区域内部是 Dock Widget Area，这是停靠窗口的显示区域。所谓停靠窗口，就像 Photoshop 的工具箱一样，可以停靠在主窗口的四周，也可以浮动显示。
+
+
+
+
+
+
+# Qt-添加动作 #
+
+
+----------
+
+Qt 使用QAction类作为动作。这个类就是代表了窗口的一个“动作”，这个动作可能显示在菜单，作为一个菜单项，当用户点击该菜单项，对用户的点击做出响应；也可能在工具栏，作为一个工具栏按钮，用户点击这个按钮就可以执行相应的操作。
+
+无论是出现在菜单栏还是工具栏，用户选择之后，所执行的动作应该都是一样的。因此，Qt 并没有专门的菜单项类，只是使用一个QAction类，抽象出公共的动作。当我们把QAction对象添加到菜单，就显示成一个菜单项，添加到工具栏，就显示成一个工具按钮。用户可以通过点击菜单项、点击工具栏按钮、点击快捷键来激活这个动作。
+
+QAction包含了图标、菜单文字、快捷键、状态栏文字、浮动帮助等信息。当把一个QAction对象添加到程序中时，Qt 自己选择使用哪个属性来显示，无需我们关心。同时，Qt 能够保证把QAction对象添加到不同的菜单、工具栏时，显示内容是同步的。也就是说，如果我们在菜单中修改了QAction的图标，那么在工具栏上面这个QAction所对应的按钮的图标也会同步修改。
+
+
+
+## mainwindow.h ##
+
+	#ifndef MAINWINDOW_H
+	#define MAINWINDOW_H
+	
+	#include <QMainWindow>
+	
+	namespace Ui {
+	class MainWindow;
+	}
+	
+	class MainWindow : public QMainWindow
+	{
+	    Q_OBJECT
+	
+	public:
+	    explicit MainWindow(QWidget *parent = 0);
+	    ~MainWindow();
+	
+	private:
+	    void open();
+	    QAction *openAction;
+	    Ui::MainWindow *ui;
+	};
+	
+	#endif // MAINWINDOW_H
+
+
+## mainwindow.cpp ##
+
+![](http://files.devbean.net/images/2012/08/mw-action.png)
+
+	
+	#include "mainwindow.h"
+	#include "ui_mainwindow.h"
+	#include <QAction>
+	#include <QMenuBar>
+	#include <QMessageBox>
+	#include <QStatusBar>
+	#include <QToolBar>
+	
+	MainWindow::MainWindow(QWidget *parent) : //构造函数
+	    QMainWindow(parent),
+	    ui(new Ui::MainWindow)
+	{
+	    ui->setupUi(this);  //系统默认的
+	
+	    setWindowTitle(tr("Main Window"));//调用了setWindowTitle()，设置主窗口的标题。
+	    //注意我们的文本使用tr()函数，这是一个用于 Qt 国际化的函数。
+	    //我们可以使用 Qt 提供的国际化工具，将tr()函数的字符串提取出来，进行国际化。
+	    //由于所需进行国际化的文本应该被大多数人认识，所以，tr()函数里面一般会是英文文本。
+	
+	
+	    openAction = new QAction(QIcon(":/images/doc-open"),tr("&Open..."), this);
+	    //在堆（因为用了new）上创建了openAction对象。在QAction构造函数，我们传入了一个图标、一个文本和 this 指针。
+	    //图标我们使用了QIcon，传入值是一个字符串，这个字符串对应于 Qt 资源文件中的一段路径。Qt 资源文件的后缀名是qrc。
+	    //如果我们使用 Qt Creator，我们可以在新建文件中看到 Qt 资源文件。Qt 资源文件其实是一个 XML 描述的文件，表示 Qt 应用程序所需要的各个资源。
+	    //（注意，资源文件需要在 pro 文件中使用 RESOURCES 引入。）
+	    //QIcon的参数，以 : 开始，意味着从资源文件中查找资源。:/images/doc-open就是找到了这里的 document-open.png 这个文件。
+	    //QAction第二个参数中，文本值前面有一个 &，意味着这将成为一个快捷键。注意看截图中 File 的 F 有一个下划线。
+	
+	    openAction->setShortcut(QKeySequence::Open);
+	    //这里使用了setShortcut()函数，用于说明这个QAction的快捷键。
+	    //Qt 的QKeySequence为我们定义了很多内置的快捷键（即自身指定的快捷键）
+	    //虽然我们也完全可以自己定义一个tr("Ctrl+O")来实现快捷键。但这样跨平台性不好了。
+	    //使用QKeySequence类来添加快捷键，会根据平台的不同来定义相应的快捷键。
+	
+	    openAction->setStatusTip(tr("Open an existing file"));
+	    //setStatusTip()则实现了当用户鼠标滑过这个 action 时，在主窗口下方的状态栏显示相应的提示。
+	
+	    connect(openAction,&QAction::triggered,this,&MainWindow::open);
+	    //trigger是触发的意思，当用户点击了这个QAction时，会自动触发MainWindow的open()函数
+	
+	    //QMainWindow的函数——menuBar()，创建菜单栏
+	    QMenu *file = menuBar()->addMenu((tr("&File")));
+	    file->addAction(openAction);
+	
+	    //QMainWindow的函数——toolBar()，创建工具栏
+	    QToolBar *toolBar = addToolBar(tr("&File"));
+	    toolBar->addAction(openAction);
+	
+	    //QMainWindow的函数——statusBar()，创建状态栏
+	    statusBar();
+	}
+	
+	MainWindow::~MainWindow()
+	{
+	    delete ui;
+	}
+	
+	
+	void MainWindow::open(){
+	    QMessageBox::information(this,tr("Information"),tr("Open"));
+	}
+
+
+
+
+## main.cpp ##
+
+	#include "mainwindow.h"
+	#include <QApplication>
+	
+	int main(int argc, char *argv[])
+	{
+	    QApplication a(argc, argv);
+	    MainWindow w;
+	    w.show();
+	
+	    return a.exec();
+	}
+
+
+# Qt-资源文件和Pro文件 #
+
+
+	Qt 资源系统是一个跨平台的资源机制，用于将程序运行时所需要的资源以二进制的形式存储于可执行文件内部。
+	
+	在工程上点右键，选择“添加新文件…”，可以在 Qt 分类下找到“Qt 资源文件”：
+	
+	![](http://files.devbean.net/images/2012/08/qtc-qrc-create-600x409.png)
+	
+	
+	点击“选择…”按钮，打开“新建 Qt 资源文件”对话框。在这里我们输入资源文件的名字和路径，点击下一步，选择所需要的版本控制系统，然后直接选择完成。
+	
+	我们首先需要添加前缀，比如我们将前缀取名为 images。然后选中这个前缀，继续点击添加文件，可以找到我们所需添加的文件。这里，我们选择 document-open.png 文件。当我们完成操作之后，Qt Creator 应该是这样子的：
+	
+	![](http://files.devbean.net/images/2012/08/qtc-qrc-added-600x403.png)
+	
+	这么做带来的一个问题是，如果以后我们要更改文件名，比如将 docuemnt-open.png 改成 docopen.png，那么，所有使用了这个名字的路径都需要修改。所以，更好的办法是，我们给这个文件去一个“别名”，以后就以这个别名来引用这个文件。具体做法是，选中这个文件，添加别名信息：
+	
+	![](http://files.devbean.net/images/2012/08/qtc-qrc-alias-600x403.png)
+	
+	这样，我们可以直接使用:/images/doc-open引用到这个资源，无需关心图片的真实文件名。
+	
+	资源编辑窗口最下方有一个“语言”。这个可以对资源进行国际化。比如我们新建一个前缀，将语言设置为 fr，再添加一个文件 document-open-fr.png：
+	
+	![](http://files.devbean.net/images/2012/08/qtc-qrc-lang-600x403.png)
+	
+	我们可以使用:/images/fr/doc-open引用到 document-open-fr.png 这个文件。这个“语言”的作用是，如果 Qt 发现，本机的本地化信息是 fr 的话（QLocale::system().name()返回 fr_FR），则使用:/images/fr/doc-open这个图片；如果不是，则默认使用:/images/doc-open这个。
+	
+	当我们编译工程之后，我们可以在构建目录中找到 qrc_res.cpp 文件，这就是 Qt 将我们的资源编译成了 C++ 代码。
+	
+	
+	## pro文件： ##
+	
+	MainWindow.pro  ：
+		
+		QT       += core gui
+		
+		greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+		
+		TARGET = MainWindow
+		TEMPLATE = app
+		
+		
+		SOURCES += main.cpp\
+		        mainwindow.cpp
+		
+		HEADERS  += mainwindow.h
+		
+		FORMS    += mainwindow.ui
+		
+	
+	首先，我们定义了 QT，用于告诉编译器，需要使用哪些模块。
+	
+	我们通常需要添加 core 和 gui。
+	
+	第二行，如果 Qt 的主版本号（QT_MAJOR_VERSION）大于 4，也就是 Qt 5，则需要另外添加 widgets（因为在 Qt 5 中，所有组件都是在 widgets 模块定义的）。
+	
+	TARGET 是生成的程序的名字。
+	
+	TEMPLATE 是生成 makefile 所使用的模板，比如 app 就是编译成一个可执行程序，而 lib 则是编译成一个链接库（默认是动态链接库）。
+	
+	SOURCES 和 HEADERS 顾名思义，就是项目所需要的源代码文件和头文件。
+	
+	以后随着项目的不断增大，pro 文件通常会非常复杂。
+	
+
+
+# Qt-对象模型 #
+
+GUI 界面需要同时具有运行时的效率以及更高级别的灵活性。为了解决这一问题，Qt “扩展”了标准 C++。所谓“扩展”，实际是在使用标准 C++ 编译器编译 Qt 源程序之前，Qt 先使用一个叫做 moc（Meta Object Compiler，元对象编译器）的工具，先对 Qt 源代码进行一次预处理（注意，这个预处理与标准 C++ 的预处理有所不同。Qt 的 moc 预处理发生在标准 C++ 预处理器工作之前，并且 Qt 的 moc 预处理不是递归的。），生成标准 C++ 源代码，然后再使用标准 C++ 编译器进行编译。
+
+如信号函数是不需要编写实现代码的，那怎么可以通过标准 C++ 的编译呢？），这其实就是 moc 进行了处理之后的效果。
+
+
+Qt 使用 moc，为标准 C++ 增加了一些特性：
+
+- 信号槽机制，用于解决对象之间的通讯，可以认为是 Qt 最明显的特性之一；
+
+- 可查询，并且可设计的对象属性；
+
+- 强大的事件机制以及事件过滤器；
+
+- 基于上下文的字符串翻译机制（国际化），也就是 tr() 函数，我们简单地介绍过；
+
+- 复杂的定时器实现，用于在事件驱动的 GUI 中嵌入能够精确控制的任务集成；
+
+- 层次化的可查询的对象树，提供一种自然的方式管理对象关系。
+
+- 智能指针（QPointer），在对象析构之后自动设为 0，防止野指针；
+
+- 能够跨越库边界的动态转换机制。
+
+
+通过继承QObject类，我们可以很方便地获得这些特性。
+
+moc 其实实现的是一个叫做元对象系统（meta-object system）的机制。使得标准 C++ 更适合于进行 GUI 编程。
+
+QObject是以对象树的形式组织起来的。当你创建一个QObject对象时，会看到QObject的构造函数接收一个QObject指针作为参数，这个参数就是 parent，也就是父对象指针。这相当于，在创建QObject对象时，可以提供一个其父对象，我们创建的这个QObject对象会自动添加到其父对象的children()列表。当父对象析构的时候，这个列表中的所有对象也会被析构。（注意，这里的父对象并不是继承意义上的父类！）这种机制在 GUI 程序设计中相当有用。例如，一个按钮有一个QShortcut（快捷键）对象作为其子对象。当我们删除按钮的时候，这个快捷键理应被删除。
+
+QWidget是能够在屏幕上显示的一切组件的父类。QWidget继承自QObject，因此也继承了这种对象树关系。一个孩子自动地成为父组件的一个子组件。因此，它会显示在父组件的坐标系统中，被父组件的边界剪裁。例如，当用户关闭一个对话框的时候，应用程序将其删除，那么，我们希望属于这个对话框的按钮、图标等应该一起被删除。
+
+Qt 引入对象树的概念，在一定程度上解决了内存问题。
+
+当一个QObject对象在**堆**上创建的时候，Qt 会同时为其创建一个对象树。不过，对象树中对象的顺序是没有定义的。****这意味着，销毁这些对象的顺序也是未定义的。****Qt 保证的是，任何对象树中的 QObject对象 delete 的时候，如果这个对象有 parent，则自动将其从 parent 的children()列表中删除；如果有孩子，则自动 delete 每一个孩子。Qt 保证没有QObject会被 delete 两次，这是**由析构顺序决定的**。
+
+如果QObject在**栈**上创建，Qt 保持同样的行为。正常情况下，这也不会发生什么问题。来看下下面的代码片段：
+
+	{
+	    QWidget window;
+	    QPushButton quit("Quit", &window);
+	}
+
+作为父组件的 window 和作为子组件的 quit 都是QObject的子类（事实上，它们都是QWidget的子类，而QWidget是QObject的子类）。这段代码是正确的，quit 的析构函数不会被调用两次，因为标准 C++ （ISO/IEC 14882:2003）要求，**局部对象的析构顺序应该按照其创建顺序的相反过程。**因此，这段代码在超出作用域时，会先调用 quit 的析构函数，将其从父对象 window 的子对象列表中删除，然后才会再调用 window 的析构函数。
+
+
+但是，如果我们使用下面的代码：
+
+	{
+	    QPushButton quit("Quit");
+	    QWidget window;
+	
+	    quit.setParent(&window);
+	}
+
+我们看到，在上面的代码中，作为父对象的 window 会首先被析构，因为它是最后一个创建的对象。在析构过程中，它会调用子对象列表中每一个对象的析构函数，也就是说， quit 此时就被析构了。然后，代码继续执行，在 window 析构之后，quit 也会被析构，因为 quit 也是一个局部变量，在超出作用域的时候当然也需要析构。但是，这时候已经是第二次调用 quit 的析构函数了，C++ 不允许调用两次析构函数，因此，程序崩溃了。
+
+由此我们看到，Qt 的对象树机制虽然帮助我们在一定程度上解决了内存问题，但是也引入了一些值得注意的事情。所以，我们最好从开始就养成良好习惯，在 Qt 中，**尽量在构造的时候就指定 parent 对象，并且大胆在堆上创建。**
+
+在 main() 函数中，不应该在堆上面创建对象。这是由于如果在 main() 中在堆上面创建对象，app.exec() 函数是一个死循环，创建出的这个对象没有办法被 delete。
+
+另外的原因是，由于我们的 QApplication 是在栈上面创建的，在堆上面创建的 QLabel 对象生命周期要长于 QApplication，这在 Qt 中是应该避免的。而对于我们自己定义的组件就没有这个问题，因为不在 main() 函数中，我们始终可以保证最晚在关闭时销毁（当然是不发生内存泄露的情况下），也就没有这个问题。
+
+使用 new 创建的对象全部是在堆上面创建的，不使用 new 的都是在栈上创建的。
+
+
+
+# Qt-布局管理器 #
+
+我们创建一个窗口，把按钮放上面，把图标放上面，这样就成了一个界面。在放置时，组件的位置尤其重要。我们必须要指定组件放在哪里，以便窗口能够按照我们需要的方式进行渲染。这就涉及到组件定位的机制。Qt 提供了两种组件定位机制：绝对定位和布局定位。
+
+绝对定位就是一种最原始的定位方法：给出这个组件的坐标和长宽值。这样，Qt 就知道该把组件放在哪里以及如何设置组件的大小。但是这样做带来的一个问题是，如果用户改变了窗口大小，比如点击最大化按钮或者使用鼠标拖动窗口边缘，采用绝对定位的组件是不会有任何响应的。如果你需要让组件自动更新，就要自己编写相应的函数来响应这些变化。或者，还有更简单的方法：禁止用户改变窗口大小。但这总不是长远之计。
+
+针对这种变化的需求，Qt 提供了另外的一种机制——布局——来解决这个问题。你只要把组件放入某一种布局，布局由专门的布局管理器进行管理。当需要调整大小或者位置的时候，Qt 使用对应的布局管理器进行调整。
+
+
+效果图：
+
+![](http://files.devbean.net/images/2012/09/layout-demo.png)
+
+![](http://files.devbean.net/images/2012/09/layout-demo-2-600x88.png)
+
+	#include "mainwindow.h"
+	//#include <QApplication>
+	//#include <QWidget>
+	//#include <QObject>
+	//#include <QSpinBox>
+	//#include <QSlider>
+	//#include <QHBoxLayout>
+	//也可以用下面的两个include来代替所有界面头文件和组件头文件
+	#include <QtGui>
+	#include <QtWidgets>
+	int main(int argc, char *argv[])
+	{
+	    QApplication a(argc, argv);
+	
+	    QWidget window;
+	    window.setWindowTitle("Enter your age");
+	
+	    QSpinBox *spinBox = new QSpinBox(&window);
+	    //QSpinBox就是只能输入数字的输入框，并且带有上下箭头的步进按钮。
+	
+	    QSlider *slider = new QSlider (Qt::Horizontal,&window);
+	    //QSlider则是带有滑块的滑竿。
+	    
+	    //使用setRange()函数设置其范围。
+	    spinBox->setRange(0,130);
+	    slider->setRange(0,130);
+	
+	    //下面有两个connect，使得无论哪一方改变，都会同步改变另一方！
+	    
+	    QObject::connect(slider,&QSlider::valueChanged,spinBox,&QSpinBox::setValue);
+	    
+	    //这个是函数指针！之所以要用函数指针来绑定QSpinBox的valueChanged是因为valueChanged有两个信号
+	    //分别是：void valueChanged(int)，void valueChanged(const QString &)
+	    //用函数指针可以指定它发出int版本的信号类型然后再连接。
+	    void (QSpinBox:: *spinBoxSignal)(int)=&QSpinBox::valueChanged;
+	    QObject::connect(spinBox,spinBoxSignal,slider,&QSlider::setValue);
+	    
+	    spinBox->setValue(35);//默认值35
+	
+	    //QHBoxLayout就是布局管理器（在堆上建立）
+	    QHBoxLayout *layout = new QHBoxLayout;
+	    
+	    //(widget是控件/部件/组件的意思)
+	    //下面添加上面所设置好的组件
+	    layout->addWidget(spinBox);
+	    layout->addWidget(slider);
+	    
+	    //并把该布局管理器设置为窗口的布局管理器
+	    //并且，布局管理器很聪明地做出了正确的行为：保持QSpinBox宽度不变，自动拉伸QSlider的宽度。
+	    window.setLayout(layout);
+	
+	    window.show();
+	
+	    return a.exec();
+	}
+
+
+
+Qt 提供了几种布局管理器供我们选择：
+ 
+- QHBoxLayout：按照水平方向从左到右布局；
+
+- QVBoxLayout：按照竖直方向从上到下布局；
+
+- QGridLayout：在一个网格中进行布局，类似于 HTML 的 table；
+
+- QFormLayout：按照表格布局，每一行前面是一段文本，文本后面跟随一个组件（通常是输入框），类似 HTML 的 form；
+
+- QStackedLayout：层叠的布局，允许我们将几个组件按照 Z 轴方向堆叠，可以形成向导那种一页一页的效果。
+
+
+
+# Qt-菜单栏、工具栏和状态栏 #
+
+
+Qt 将用户与界面进行交互的元素抽象为一种“动作”，使用QAction类表示。QAction可以添加到菜单上、工具栏上。
+
+我们假设窗口还是建立在QMainWindow类之上，这会让我们的开发简单许多。在实际开发过程中，QMainWindow通常只作为“主窗口”，对话框窗口则更多地使用QDialog类。我们会在后面看到，QDialog类会缺少一些QMainWindow类提供方便的函数，比如menuBar()以及toolBar()。
+
+继续使用《添加动作》一文中的代码：
+
+
+
+## mainwindow.cpp ##
+
+	#include "mainwindow.h"
+	#include "ui_mainwindow.h"
+	#include <QAction>
+	#include <QMenuBar>
+	#include <QMessageBox>
+	#include <QStatusBar>
+	#include <QToolBar>
+
+	MainWindow::MainWindow(QWidget *parent) : //构造函数
+	    QMainWindow(parent),
+	    ui(new Ui::MainWindow)
+	{
+	    ui->setupUi(this);  //系统默认的
+	
+	    setWindowTitle(tr("Main Window"));
+	    openAction = new QAction(QIcon(":/images/document-open.png"),tr("&Open..."), this);
+	    openAction->setShortcut(QKeySequence::Open);
+	    openAction->setStatusTip(tr("Open an existing file"));
+	
+	    connect(openAction,&QAction::triggered,this,&MainWindow::open);
+	
+	    //使用menuBar()函数，Qt 为我们创建了一个菜单栏。menuBar()是QMainWindow提供的函数
+	    //menuBar()函数会返回窗口的菜单栏，如果没有菜单栏则会新创建一个。
+	    //所以在并没有创建一个菜单栏对象的时候就可以直接利用它的返回值来进行操作！
+	    //Qt 中，表示菜单的类是QMenuBar。QMenuBar代表的是窗口最上方的一条菜单栏。
+	    //我们使用其addMenu()函数为其添加菜单。提供了一个字符串作为参数，将其作为新创建的菜单的文本显示出来。
+	    //至于 & 符号，可以为菜单创建一个快捷键。
+	    QMenu *file = menuBar()->addMenu((tr("&File")));
+	    file->addAction(openAction);
+	
+	    //QToolBar部分非常类似。但使用的是addToolBar()函数添加新工具栏。
+	    //之所以与前面不同是因为一个窗口只有一个菜单栏，但是却可能有多个工具栏
+	    //工具栏可以设置成固定的、浮动的等等，具体设置可以参考 Qt 文档。
+	    QToolBar *toolBar = addToolBar(tr("&File"));
+	    toolBar->addAction(openAction);
+	
+	    QToolBar *toolBar2 = addToolBar(tr("Tool Bar 2"));
+	    toolBar2->addAction(openAction);
+	    
+	    //添加状态栏只要这么一个函数就够了
+	    //因为这个函数会返回一个QStatusBar对象，如果没有则先创建再返回。
+	    //有关QStatusBar的更多信息，请参考 Qt 文档。
+	    statusBar();
+	}
+	
+	MainWindow::~MainWindow()
+	{
+	    delete ui;
+	}
+
+
+	void MainWindow::open(){
+	    QMessageBox::information(this,tr("Information"),tr("Open"));
+	}
+
+
+
+
+特别注意！！！
+
+头文件里要加个openAction的成员才能正确编译！！！
+
+
+## mainwindow.h ##
+
+	#ifndef MAINWINDOW_H
+	#define MAINWINDOW_H
+	
+	#include <QMainWindow>
+	
+	namespace Ui {
+	class MainWindow;
+	}
+	
+	class MainWindow : public QMainWindow
+	{
+	    Q_OBJECT
+	
+	public:
+	    explicit MainWindow(QWidget *parent = 0);
+	    ~MainWindow();
+	
+	private:
+	    void open();   
+	    QAction *openAction; //这两个东西切记别忘了！！！
+	    Ui::MainWindow *ui;
+	};
+	
+	#endif // MAINWINDOW_H
+
+
+
+# Qt-对话框简介 #
+
+
+很多不能或者不适合放入主窗口的功能组件都必须放在对话框中设置。对话框通常会是一个顶层窗口，出现在程序最上层，用于实现短期任务或者简洁的用户交互。
+
+Qt 中使用QDialog类实现对话框。就像主窗口一样，我们通常会设计一个 类 继承QDialog（Dialog是对话的意思）。
+
+QDialog（及其子类，以及所有Qt::Dialog类型的类）对于其 parent 指针都有额外的解释：
+
+- 如果 parent 为 NULL，则该对话框会作为一个顶层窗口（即这时，任务栏中显示两个窗口）
+
+- 否则则作为其父组件的子对话框（此时，其默认出现的位置是 parent 的中心，默认比父对话框小，且任务栏中不单独出现一个任务）。
+
+- 顶层窗口与非顶层窗口的区别在于，顶层窗口在任务栏会有自己的位置，而非顶层窗口则会共享其父组件的位置。
+
+代码仍然延续上面的：
+
+	#include "mainwindow.h"
+	#include "ui_mainwindow.h"
+	#include <QDialog>
+	MainWindow::MainWindow(QWidget *parent) :
+	    QMainWindow(parent),
+	    ui(new Ui::MainWindow)
+	{
+	    ui->setupUi(this);
+	
+	    setWindowTitle(tr("Main Window"));
+	
+	    openAction = new QAction(QIcon(":/images/doc-open"),tr("Open..."),this);
+	    openAction->setShortcuts(QKeySequence::Open);
+	    openAction->setStatusTip(tr("Open an existing file"));
+	    connect(openAction, &QAction::triggered, this, &MainWindow::open);
+	
+	    QMenu *file = menuBar()->addMenu(tr("&File"));
+	    file->addAction(openAction);
+	
+	    QToolBar *toolBar = addToolBar(tr("&File"));
+	    toolBar->addAction(openAction);
+	
+	}
+	
+	MainWindow::~MainWindow()
+	{
+	    delete ui;
+	}
+	//以上代码和之前一样
+	//下面是关键
+	void MainWindow::open(){
+	
+	    //用QDialog创建了一个对话框，设置其标题为“Hello, dialog!”，然后调用exec()将其显示出来。
+	
+	    QDialog dialog;  // 另一个版本：QDialog dialog(this);
+	    dialog.setWindowTitle(tr("Hello , dialog!"));
+	    dialog.exec();
+	}
+
+
+不加this时：
+
+![](http://files.devbean.net/images/2012/09/dialog-without-parent.png)
+
+加了this的版本会跳出很小的一个子对话框！
+
+
+对话框分为模态对话框和非模态对话框。
+
+所谓模态对话框，就是会阻塞同一应用程序中其它窗口的输入。模态对话框很常见，比如“打开文件”功能。你可以尝试一下记事本的打开文件，当打开文件对话框出现时，我们是不能对除此对话框之外的窗口部分进行操作的。
+
+与此相反的是非模态对话框，例如查找对话框，我们可以在显示着查找对话框的同时，继续对记事本的内容进行编辑。
+
+Qt 有两种级别的模态对话框：应用程序级别的模态和窗口级别的模态，默认是应用程序级别的模态。
+
+应用程序级别的模态是指，当该种模态的对话框出现时，用户必须首先对对话框进行交互，直到关闭对话框，然后才能访问程序中其他的窗口。
+
+窗口级别的模态是指，该模态仅仅阻塞与对话框关联的窗口，但是依然允许用户与程序中其它窗口交互。窗口级别的模态尤其适用于多窗口模式。
+
+Qt中：
+
+- 使用QDialog::exec()实现应用程序级别的模态对话框，
+
+- 使用QDialog::open()实现窗口级别的模态对话框，
+
+- 使用QDialog::show()实现非模态对话框。
+
+
+在上面的示例中，我们调用了exec()将对话框显示出来，因此这就是一个模态对话框。当对话框出现时，我们不能与主窗口进行任何交互，直到我们关闭了该对话框。
+
+但是，当我们把代码改成下列时，
+	
+	void MainWindow::open()
+	{
+	    QDialog dialog(this);
+	    dialog.setWindowTitle(tr("Hello, dialog!"));
+	    dialog.show(); //或者dialog.open(); 
+	}
+
+我们会发现对话框一闪而过。这时因为show()或者open()函数不会阻塞当前线程，对话框会显示出来，然后函数立即返回，代码继续执行。
+
+注意，dialog 是建立在栈上的，show()函数返回，MainWindow::open()函数结束，dialog 超出作用域被析构，因此对话框消失了。
+
+当我们将 dialog 改成堆上建立，就没有这个问题了：
+
+	void MainWindow::open()
+	{
+	    QDialog *dialog = new QDialog;
+	    dialog->setWindowTitle(tr("Hello, dialog!"));
+	    dialog->show(); //或者open()
+	}
+
+	//注意，这边要把“.”改成“—>” ！！！
+
+
+但是这样子 dialog 存在内存泄露！dialog 使用 new 在堆上分配空间，却一直没有 delete。
+
+解决方案：
+
+	void MainWindow::open()
+	{
+	    QDialog *dialog = new QDialog;
+	    dialog->setAttribute(Qt::WA_DeleteOnClose);
+	    dialog->setWindowTitle(tr("Hello, dialog!"));
+	    dialog->show();
+	}
+
+setAttribute()函数设置对话框关闭时，自动销毁对话框。
+
+另外，QObject还有一个deleteLater()函数，该函数会在当前事件循环结束时销毁该对话框（具体到这里，需要使用exec()开始一个新的事件循环）。关于事件循环，我们会在后面的文章中详细说明。
+
+
+
+# Qt-对话框数据传递 #
+
+
+对话框的出现用于完成一个简单的或者是短期的任务。对话框与主窗口之间的数据交互相当重要
+
+模态对话框使用了exec()函数将其显示出来。exec()函数的真正含义是开启一个新的事件循环。
+
+所谓事件循环，可以理解成一个无限循环。Qt 在开启了事件循环之后，系统发出的各种事件才能够被程序监听到。这个事件循环相当于一种轮询的作用。
+
+既然是无限循环，当然在开启了事件循环的地方，代码就会被阻塞，后面的语句也就不会被执行到。因此，对于使用了exec()显示的模态对话框，我们可以在exec()函数之后直接从对话框的对象获取到数据值。
+
+既然是无限循环，当然在开启了事件循环的地方，代码就会被阻塞，后面的语句也就不会被执行到。因此，对于使用了exec()显示的模态对话框，我们可以在exec()函数之后直接从对话框的对象获取到数据值。
+
+
+## mainwindow.cpp ##
+
+	#include "mainwindow.h"
+	#include "ui_mainwindow.h"
+	#include <QDialog>
+	#include <QDebug>
+	MainWindow::MainWindow(QWidget *parent) :
+	    QMainWindow(parent),
+	    ui(new Ui::MainWindow)
+	{
+	    ui->setupUi(this);
+	
+	    setWindowTitle(tr("Main Window"));
+	
+	    openAction = new QAction(QIcon(":/images/doc-open"),tr("Open..."),this);
+	    openAction->setShortcuts(QKeySequence::Open);
+	    openAction->setStatusTip(tr("Open an existing file"));
+	    connect(openAction, &QAction::triggered, this, &MainWindow::open);
+	
+	    QMenu *file = menuBar()->addMenu(tr("&File"));
+	    file->addAction(openAction);
+	
+	    QToolBar *toolBar = addToolBar(tr("&File"));
+	    toolBar->addAction(openAction);
+	
+	}
+	
+	MainWindow::~MainWindow()
+	{
+	    delete ui;
+	}
+	//以上代码和之前一样
+	
+	void MainWindow::open(){
+	
+	    //用QDialog创建了一个对话框，设置其标题为“Hello, dialog!”，然后调用exec()将其显示出来。
+	    QDialog dialog(this);
+	    dialog.setWindowTitle(tr("Hello, dialog!"));
+	    dialog.exec();
+	    //在exec()函数之后，我们直接可以获取到 dialog 的数据值。
+	    //直到对话框关闭，exec()函数返回，此时，我们就可以取得对话框的数据。
+	    qDebug() << dialog.result();
+	}
+
+需要注意的一点是，如果我们设置 dialog 的属性为WA_DeleteOnClose，那么当对话框关闭时，对象被销毁，我们就不能使用这种办法获取数据了。在这种情况下，我们可以考虑使用 parent 指针的方式构建对话框，避免设置WA_DeleteOnClose属性；或者是利用另外的方式。
+
+实际上，QDialog::exec()是有返回值的，其返回值是QDialog::Accepted或者QDialog::Rejected。一般我们会使用类似下面的代码:
+
+	QDialog dialog(this);
+	if (dialog.exec() == QDialog::Accepted) {
+	    // do something
+	} else {
+	    // do something else
+	}
+
+来判断对话框的返回值，也就是用户是点击了“确定”还是“取消”。更多细节请参考QDialog文档。
+
+如果是非模态对话框，QDialog::show()函数会立即返回，如果我们也这么写，就不可能取得用户输入的数据。因为show()函数不会阻塞主线程，show()立即返回，用户还没有来得及输入，就要执行后面的代码，当然是不会有正确结果的。这时我们就要使用信号槽机制。
+
+由于非模态对话框在关闭时可以调用QDialog::accept()或者QDialog::reject()或者更通用的QDialog::done()函数，所以我们可以在这里发出信号。
+
+另外，如果找不到合适的信号发出点，我们可以重写QDialog::closeEvent()函数，在这里发出信号。在需要接收数据的窗口（这里是主窗口）连接到这个信号即可。
+
+	// in dialog:
+	void UserAgeDialog::accept()
+	{
+	    emit userAgeChanged(newAge); // newAge is an int
+	    QDialog::accept();
+	}
+	 
+	// in main window:
+	void MainWindow::showUserAgeDialog()
+	{
+	    UserAgeDialog *dialog = new UserAgeDialog(this);
+	    connect(dialog, &UserAgeDialog::userAgeChanged, this, &MainWindow::setUserAge);
+	    dialog->show();
+	}
+	 
+	// ...
+	 
+	void MainWindow::setUserAge(int age)
+	{
+	    userAge = age;
+	}
+
+不要担心如果对话框关闭，是不是还能获取到数据。因为 Qt 信号槽的机制保证，在槽函数在调用的时候，我们始终可以使用sender()函数获取到 signal 的发出者。
+
+关于sender()函数，可以在文档中找到更多的介绍。顺便说一句，sender()函数的存在使我们可以利用这个函数，来实现一个只能打开一个的非模态对话框（方法就是在对话框打开时在一个对话框映射表中记录下标记，在对话框关闭时利用sender()函数判断是不是该对话框，然后从映射表中将其删除）。
+
+
+# Qt-标准对话框 QMessageBox #
+
+
+所谓标准对话框，是 Qt 内置的一系列对话框，用于简化开发。事实上，有很多对话框都是通用的，比如打开文件、设置颜色、打印设置等。这些对话框在所有程序中几乎相同，因此没有必要在每一个程序中都自己实现这么一个对话框。
+
+Qt 的内置对话框大致分为以下几类：
+
+- QColorDialog：选择颜色；
+
+- QFileDialog：选择文件或者目录；
+
+- QFontDialog：选择字体；
+
+- QInputDialog：允许用户输入一个值，并将其值返回；
+
+- QMessageBox：模态对话框，用于显示信息、询问问题等；
+
+- QPageSetupDialog：为打印机提供纸张相关的选项；
+
+- QPrintDialog：打印机配置；
+
+- QPrintPreviewDialog：打印预览；
+
+- QProgressDialog：显示操作过程。
+
+
+QMessageBox用于显示消息提示。我们一般会使用其提供的几个 static 函数：
+
+- void about(QWidget * parent , const QString & title , const QString & text)：显示关于对话框。这是一个最简单的对话框，其标题是 title，内容是 text，父窗口是 parent。对话框只有一个 OK 按钮。
+
+
+- void aboutQt(QWidget * parent, const QString & title = QString())：显示关于 Qt 对话框。该对话框用于显示有关 Qt 的信息。
+
+
+- StandardButton critical(QWidget * parent, const QString & title, const QString & text, StandardButtons buttons = Ok, StandardButton defaultButton = NoButton)：显示严重错误对话框。这个对话框将显示一个红色的错误符号。我们可以通过 buttons 参数指明其显示的按钮。默认情况下只有一个 Ok 按钮，我们可以使用StandardButtons类型指定多种按钮。
+
+
+- StandardButton information(QWidget * parent, const QString & title, const QString & text, StandardButtons buttons = Ok, StandardButton defaultButton = NoButton)：QMessageBox::information()函数与QMessageBox::critical()类似，不同之处在于这个对话框提供一个普通信息图标。
+
+
+- StandardButton question(QWidget * parent, const QString & title, const QString & text, StandardButtons buttons = StandardButtons( Yes | No ), StandardButton defaultButton = NoButton)：  QMessageBox::question()函数与QMessageBox::critical()类似，不同之处在于这个对话框提供一个问号图标，并且其显示的按钮是“是”和“否”两个。
+
+
+- StandardButton warning(QWidget * parent, const QString & title, const QString & text, StandardButtons buttons = Ok, StandardButton defaultButton = NoButton)：QMessageBox::warning()函数与QMessageBox::critical()类似，不同之处在于这个对话框提供一个黄色叹号图标。
+
+
+
+直接弹出一个消息提醒（无图标）和一个ok选项
+
+	QMessageBox msgBox;
+	msgBox.setText("The document has been modified.");
+	msgBox.exec();
+
+![](http://doc.qt.io/qt-5/images/msgbox1.png)
+
+
+但是一般要告诉用户做什么，如下：
+
+	QMessageBox msgBox;
+	msgBox.setText("The document has been modified.");
+	msgBox.setInformativeText("Do you want to save your changes?");
+	msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+	msgBox.setDefaultButton(QMessageBox::Save);
+	int ret = msgBox.exec();
+
+
+样式：
+
+![](http://doc.qt.io/qt-5/images/msgbox2.png)
+
+再加上msgBox.setDetailedText("str")；可实现显示细节按钮：
+
+![](http://doc.qt.io/qt-5/images/msgbox4.png)
+
+
+The exec() slot returns the StandardButtons value of the button that was clicked.然后就可以进行后续操作了！
+
+	
+	switch (ret) {
+	    //注意，按钮的int值可以用QMessageBox::Save 来代替
+	      case QMessageBox::Save:
+	          // Save was clicked
+	          break;
+	      case QMessageBox::Discard:
+	          // Don't Save was clicked
+	          break;
+	      case QMessageBox::Cancel:
+	          // Cancel was clicked
+	          break;
+	      default:
+	          // should never be reached
+	          break;
+	    }
+
+
+
+# Qt-深入Qt5信号槽新语法 #
+
+
+
+仍然使用我们在自定义信号槽中设计的Newspaper类。
+
+	//!!! Qt5
+	#include <QObject>
+	
+	////////// newspaper.h
+	class Newspaper : public QObject
+	{
+	    Q_OBJECT
+	public:
+	    Newspaper(const QString & name) :
+	        m_name(name)
+	    {
+	    }
+	
+	    void send() const
+	    {
+	        emit newPaper(m_name);
+	    }
+	
+	signals:
+	    void newPaper(const QString &name) const;
+	
+	private:
+	    QString m_name;
+	};
+	
+	////////// reader.h
+	#include <QObject>
+	#include <QDebug>
+	
+	class Reader : public QObject
+	{
+	    Q_OBJECT
+	public:
+	    Reader() {}
+	
+	    void receiveNewspaper(const QString & name) const
+	    {
+	        qDebug() << "Receives Newspaper: " << name;
+	    }
+	};
+	
+	////////// main.cpp
+	#include <QCoreApplication>
+	
+	#include "newspaper.h"
+	#include "reader.h"
+	
+	int main(int argc, char *argv[])
+	{
+	    QCoreApplication app(argc, argv);
+	
+	    Newspaper newspaper("Newspaper A");
+	    Reader reader;
+	    QObject::connect(&newspaper, &Newspaper::newPaper,
+	                     &reader,    &Reader::receiveNewspaper);
+	    
+	    //这里我们使用了取址操作符，取到Newspaper::newPaper()信号的地址，
+	    //同样类似的取到了Reader::receiveNewspaper()函数地址。编译器能够
+	    //利用这两个地址，在编译期对这个连接操作进行检查，如果有个任何错误
+	    //（包括对象没有这个信号，或者信号参数不匹配等），编译时就会发现。
+		newspaper.send();
+	
+	    return app.exec();
+	}
+
+如果信号有重载，比如我们向Newspaper类增加一个新的信号：
+
+	void newPaper(const QString &name, const QDate &date);
+
+此时如果还是按照前面的写法，编译器会报出一个错误：由于这个函数（注意，信号实际也是一个普通的函数）有重载，因此不能用一个取址操作符获取其地址。
+
+对此，我们也给出了一个解决方案，使用一个函数指针来指明到底是哪一个信号：
+
+	void (Newspaper:: *newPaperNameDate)(const QString &, const QDate &) = &Newspaper::newPaper;
+	QObject::connect(&newspaper, newPaperNameDate,
+	                 &reader,    &Reader::receiveNewspaper);
+
+我们使用了函数指针newspaperNameDate声明一个带有QString和QDate两个参数，返回值是 void 的函数，将该函数作为信号，与Reader::receiveNewspaper()槽连接起来。显式指明所需要用到的那个函数就行了。
+
+也可以写成：
+
+	QObject::connect(&newspaper,
+	                 (void (Newspaper:: *)(const QString &, const QDate &))&Newspaper::newPaper,
+	                 &reader,
+	                 &Reader::receiveNewspaper);
+
+
+
+# Qt-文件对话框 #
+
+在前面讨论了 Qt 标准对话框QMessageBox
+
+今天讨论另外一个标准对话框：QFileDialog -----文件对话框。
+
+使用QFileDialog来打开一个文本文件，并将修改过的文件保存到硬盘。
+
+完整代码如下：
+
+## mainwindow.h ##
+
+	#ifndef MAINWINDOW_H
+	#define MAINWINDOW_H
+	
+	#include <QMainWindow>
+	
+	class QTextEdit;
+	
+	class MainWindow : public QMainWindow
+	{
+	    Q_OBJECT
+	
+	public:
+	    explicit MainWindow(QWidget *parent = 0);
+	    ~MainWindow();
+	
+	private slots:
+	    void openFile();   //函数声明，并且要在private slots:内声明！
+	    void saveFile();
+	
+	private:
+	    QAction *openAction;   //别忘了添加私有成员！并指定为指针！！！
+	    QAction *saveAction;
+	
+	    QTextEdit *textEdit;
+	};
+	
+	#endif // MAINWINDOW_H
+	
+
+
+## mainwindow.cpp ##
+
+	#include <QtGui>
+	#include <QtWidgets>
+	#include "mainwindow.h"
+	
+	MainWindow::MainWindow(QWidget *parent) :
+	    QMainWindow(parent)
+	{
+	    openAction = new QAction(QIcon(":/images/file-open"), tr("&Open..."), this);
+	    openAction->setShortcuts(QKeySequence::Open);
+	    openAction->setStatusTip(tr("Open an existing file"));
+	    connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
+	    //之所以这些参数前要加&是因为他们其实是函数！（openFile和saveFile函数要自己写）
+	
+	    saveAction = new QAction(QIcon(":/images/file-save"), tr("&Save..."), this);
+	    saveAction->setShortcuts(QKeySequence::Save);
+	    saveAction->setStatusTip(tr("Save a new file"));
+	    connect(saveAction, &QAction::triggered, this, &MainWindow::saveFile);
+	    //我们使用connect()函数，为这两个QAction对象添加响应的动作。
+	
+	    QMenu *file = menuBar()->addMenu(tr("&File"));
+	    file->addAction(openAction);
+	    file->addAction(saveAction);
+	
+	    QToolBar *toolBar = addToolBar(tr("&File"));
+	    toolBar->addAction(openAction);
+	    toolBar->addAction(saveAction);
+	
+	    textEdit = new QTextEdit(this);
+	    //QTextEdit类用于显示富文本文件。即可显示文本、图片、表格等等。
+	    setCentralWidget(textEdit);
+	    //QMainWindow有一个setCentralWidget()函数，可将一个组件作为窗口的中心组件，放在窗口中央显示区。
+	}
+	
+	MainWindow::~MainWindow()
+	{
+	}
+	
+	void MainWindow::openFile()
+	{
+	    //使用QFileDialog::getOpenFileName()来获取需要打开的文件的路径。
+	    //这个函数的函数原型：
+	//    QString getOpenFileName(QWidget * parent = 0,  //父窗口
+	//                            const QString & caption = QString(),//对话框标题
+	//                            const QString & dir = QString(), //对话框打开时的默认目录,
+	                                                               //若为“.” 则代表程序运行目录
+	                                                               //若为 “/” 则代表当前盘符的根目录
+	//                            const QString & filter = QString(),//过滤器。用于过滤特定的后缀名。
+	                                                               //用来规定只能打开特定类型的文件。
+	                                                               //如果需要多个过滤器，使用“;;”分割
+	//                            QString * selectedFilter = 0,    //默认选择的过滤器；
+	//                            Options options = 0)             //对话框的一些参数设定，比如只显示文件夹等等
+	                                                               //每个选项可以使用 | 运算组合起来。
+	    //它的所有参数都是可选的
+	
+	    QString path = QFileDialog::getOpenFileName(this, tr("Open File"), ".", tr("Text Files(*.txt)"));
+	    //QFileDialog::getOpenFileName()返回值是选择的文件路径。将其赋值给 path。
+	
+	    //通过判断 path 是否为空，可以确定用户是否选择了某一文件。
+	    if(!path.isEmpty()) {
+	        //创建一个QFile对象，将用户选择的文件路径传递给这个对象。
+	        QFile file(path);
+	
+	        //QFile::open()，其参数是指定的打开方式。
+	        //这里我们使用只读方式和文本方式打开这个文件，若成功则返回ture
+	        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+	            QMessageBox::warning(this, tr("Read File"), tr("Cannot open file:\n%1").arg(path));
+	            return;
+	        }//这是打开失败的时候弹出的警告
+	
+	        //使用QTextStream::readAll()读取文件所有内容，
+	        //然后将其赋值给QTextEdit显示出来。
+	        QTextStream in(&file);  //先绑定
+	        textEdit->setText(in.readAll());  //setText()函数来放入文本内容
+	        file.close();       //别忘了关闭文件
+	    } else {
+	        QMessageBox::warning(this, tr("Path"), tr("You did not select any file."));
+	    }
+	}
+	
+	void MainWindow::saveFile()
+	{
+	    QString path = QFileDialog::getSaveFileName(this, tr("Save File"), ".", tr("Text Files(*.txt)"));
+	    if(!path.isEmpty()) {
+	        QFile file(path);
+	        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+	            QMessageBox::warning(this, tr("Write File"), tr("Cannot open file:\n%1").arg(path));
+	            return;
+	        }
+	        QTextStream out(&file);
+	        out << textEdit->toPlainText();
+	        file.close();
+	    } else {
+	        QMessageBox::warning(this, tr("Path"), tr("You did not select any file."));
+	    }
+	}
+
+
+
+## main.cpp ##
+
+	#include <QApplication>
+	#include "mainwindow.h"
+	
+	int main(int argc, char *argv[])
+	{
+	    QApplication a(argc, argv);
+	
+	    MainWindow w;
+	    w.show();
+	
+	    return a.exec();
+	}
+
+
+
+demo:
+
+![](http://files.devbean.net/images/2012/09/qfiledialog-kde.png)
+
+
+
+# Qt-事件 #
+
+
+
+事件（event）是由系统或者 Qt 本身在不同的时刻发出的。当用户按下鼠标、敲下键盘，或者是窗口需要重新绘制的时候，都会发出一个相应的事件。一些事件在对用户操作做出响应时发出，如键盘事件等；另一些事件则是由系统自动发出，如计时器事件。
+
+事件也就是我们通常说的“事件驱动（event drive）”程序设计的基础概念。事件的出现，使得程序代码不会按照原始的线性顺序执行。
+
+没有事件，程序将阻塞在那里，不执行任何代码。
+
+在 Qt 中，事件的概念似乎同信号槽类似。在 Qt 中，我们关心的更多的是事件关联的一个信号。
+
+信号由具体的对象发出，然后会马上交给由connect()函数连接的槽进行处理；
+
+而对于事件，Qt 使用一个事件队列对所有发出的事件进行维护，当新的事件产生时，会被追加到事件队列的尾部。前一个事件完成后，取出后面的事件进行处理。但是，必要的时候，Qt 的事件也可以不进入事件队列，而是直接处理。
+
+信号一旦发出，对应的槽函数一定会被执行。但是，事件则可以使用“事件过滤器”进行过滤，对于有些事件进行额外的处理，另外的事件则不关心。
+
+- 如果我们使用组件，我们关心的是信号槽；
+
+- 如果我们自定义组件，我们关心的是事件。
+
+当事件发生时，Qt 将创建一个事件对象。Qt 中所有事件类都继承于QEvent。在事件对象创建完毕后，Qt 将这个事件对象传递给QObject的event()函数。event()函数并不直接处理事件，而是按照事件对象的类型分派给特定的事件处理函数（event handler）。
+
+在所有组件的父类QWidget中，定义了很多事件处理的回调函数，如keyPressEvent()、keyReleaseEvent()、mouseDoubleClickEvent()、mouseMoveEvent()、mousePressEvent()、mouseReleaseEvent()等。这些函数都是 protected virtual 的，也就是说，我们可以在子类中重新实现这些函数。
+
+## mouse.h ##
+
+	#ifndef MOUSE
+	#define MOUSE
+	
+	class EventLabel : public QLabel //继承了QLabel
+	{
+	protected:
+	    void mouseMoveEvent(QMouseEvent *event);
+	    void mousePressEvent(QMouseEvent *event);
+	    void mouseReleaseEvent(QMouseEvent *event);
+	//覆盖了mousePressEvent()、mouseMoveEvent()和MouseReleaseEvent()三个函数。
+	};
+	
+	
+	void EventLabel::mouseMoveEvent(QMouseEvent *event)
+	{
+	    //QLabel是支持 HTML 代码的，因此我们直接使用了 HTML 代码来格式化文字。
+
+	    this->setText(QString("<center><h1>Move: (%1, %2)</h1></center>")
+
+	    //QString的arg()函数可以自动替换掉QString中出现的占位符。
+	    //语句将会使用 x 替换 %1，y 替换 %2，因此，这个语句生成的QString为 [x, y]。
+	                  .arg(QString::number(event->x()), QString::number(event->y())));
+	}
+	//例如：QString("[%1, %2]").arg(x, y);  语句将会使用 x 替换 %1，y 替换 %2，因此，这个语句生成的QString为 [x, y]。
+	
+	void EventLabel::mousePressEvent(QMouseEvent *event)
+	{
+	    this->setText(QString("<center><h1>Press: (%1, %2)</h1></center>")
+	                  .arg(QString::number(event->x()), QString::number(event->y())));
+	}
+	
+	void EventLabel::mouseReleaseEvent(QMouseEvent *event)
+	{
+	    QString msg;
+	    msg.sprintf("<center><h1>Release: (%d, %d)</h1></center>",
+	                event->x(), event->y());
+	    this->setText(msg);
+	}
+	
+	#endif // MOUSE
+	
+
+
+## main.cpp: ##
+
+	#include "mainwindow.h"
+	#include <QApplication>
+	#include <QtGui>
+	#include <QtWidgets>
+	#include "mouse.h"
+	int main(int argc, char *argv[])
+	{
+	    QApplication a(argc, argv);
+	    EventLabel *label = new EventLabel;
+	    label->setWindowTitle("MouseEvent Demo");
+	    label->resize(300, 200);
+	    label->show();
+	
+	    return a.exec();
+	}
+
+
+![](http://files.devbean.net/images/2012/09/eventlabel-demo.png)
+
+
+要点击鼠标之后才能在mouseMoveEvent()函数中显示鼠标坐标值.
+
+这是因为QWidget中有一个mouseTracking属性，该属性用于设置是否追踪鼠标。只有鼠标被追踪时，mouseMoveEvent()才会发出。如果mouseTracking是 false（默认即为false），则组件在至少一次鼠标点击之后，才能够被追踪，也就是能够发出mouseMoveEvent()事件。如果mouseTracking为 true，则mouseMoveEvent()直接可以被发出。
+
+把main里的内容加上下面所示的  label->setMouseTracking(true); 就行了。
+
+	EventLabel *label = new EventLabel;
+	label->setWindowTitle("MouseEvent Demo");
+	label->resize(300, 200);
+	label->setMouseTracking(true);
+	label->show();
+
+
+# Qt-事件的接受与忽略 #
+
+
+## 初始版本： ##
+
+	//!!! Qt5
+	// ---------- custombutton.h ---------- //
+	class CustomButton : public QPushButton
+	{
+	    Q_OBJECT
+	public:
+	    CustomButton(QWidget *parent = 0);
+	private:
+	    void onButtonCliecked();
+	};
+	 
+	// ---------- custombutton.cpp ---------- //
+	CustomButton::CustomButton(QWidget *parent) :
+	    QPushButton(parent)
+	{
+	    connect(this, &CustomButton::clicked,
+	            this, &CustomButton::onButtonCliecked);
+	}
+	 
+	void CustomButton::onButtonCliecked()
+	{
+	    qDebug() << "You clicked this!";
+	}
+	 
+	// ---------- main.cpp ---------- //
+	int main(int argc, char *argv[])
+	{
+	    QApplication a(argc, argv);
+	 
+	    CustomButton btn;
+	    btn.setText("This is a Button!");
+	    btn.show();
+	 
+	    return a.exec();
+	}
+
+
+点击按钮，会在控制台打印出“You clicked this!”字符串。
+
+向CustomButton类添加一个事件函数：
+
+## CustomButton.h ##
+	
+	#ifndef CUSTOMBUTTON_H
+	#define CUSTOMBUTTON_H
+	#include <QtGui>
+	#include <QtWidgets>
+	
+	class CustomButton : public QPushButton
+	{
+	    Q_OBJECT
+	public:
+	    CustomButton(QWidget *parent = 0);
+	    void mousePressEvent(QMouseEvent *event);
+	    //重写CustomButton的mousePressEvent()函数,把父类的实现覆盖掉了
+	    //注意!mousePressEvent()函数是本来父类QPushButton就有的！！！
+	private:
+	    void onButtonCliecked();
+	};
+	#endif // CUSTOMBUTTON_H
+
+
+## CustomButton.cpp ##
+
+	#include "CustomButton.h"
+	
+	CustomButton::CustomButton(QWidget *parent) :
+	    QPushButton(parent)
+	{
+	    connect(this, &CustomButton::clicked,
+	            this, &CustomButton::onButtonCliecked);
+	    //由于有自己版本的mousePressEvent()函数，所以不会去执行父类QPushButton版本的mousePressEvent()
+	    //但是，正因为如此，由于clicked信号是由父类的mousePressEvent()发出的
+	    //如果把它覆盖了，会导致它不会发出clicked信号，导致槽函数onButtonCliecked()无效
+	    //所以当重写事件回调函数时，时刻注意是否需要通过调用父类的同名函数来确保原有实现仍能进行！
+	
+	    //注意分清楚信号和事件的区别！
+	    //事件是会自己实时监听到合适时刻自动执行相关内容的
+	    //信号需要人为connect，并且需要槽函数进行执行
+	}
+	
+	void CustomButton::onButtonCliecked()
+	{
+	    qDebug() << "You clicked this!";
+	}
+	
+	void CustomButton::mousePressEvent(QMouseEvent *event)
+	{
+	    if (event->button() == Qt::LeftButton) {
+	        qDebug() << "left";
+	    } else {
+	        QPushButton::mousePressEvent(event);
+	    }
+	}
+
+
+
+我们可以把 Qt 的事件传递看成链状：如果子类没有处理这个事件，就会继续向其父类传递。
+
+Qt 的事件对象有两个函数：accept()和ignore()。
+
+前者用来告诉 Qt，这个类的事件处理函数想要处理这个事件；后者则告诉 Qt，这个类的事件处理函数不想要处理这个事件。
+
+可以使用isAccepted()来查询这个事件是不是已经被接收了。
+
+具体来说：如果一个事件处理函数调用了一个事件对象的accept()函数，这个事件就不会被继续传播给其父组件；如果它调用了事件的ignore()函数，Qt 会从其父组件中寻找另外的接受者。
+
+Qt 中的事件都是 protected 的，因此，重写的函数必定存在着其父类中的响应函数，所以，希望忽略事件（所谓忽略，是指自己不想要这个事件），只要调用父类的响应函数即可。
+
+Qt 做了特殊的设计：事件对象默认是 accept 的，而作为所有组件的父类QWidget的默认实现则是调用ignore()。这么一来，如果你自己实现事件处理函数，不调用QWidget的默认实现，你就等于是接受了事件；如果你要忽略事件，只需调用QWidget的默认实现。下面可以从代码级别来理解这一点，我们可以查看一下QWidget的mousePressEvent()函数的实现：
+
+	void QWidget::mousePressEvent(QMouseEvent *event)
+	{
+	    event->ignore();
+	    if ((windowType() == Qt::Popup)) {
+	        event->accept();
+	        QWidget* w;
+	        while ((w = QApplication::activePopupWidget()) && w != this){
+	            w->close();
+	            if (QApplication::activePopupWidget() == w)
+	                w->hide(); // hide at least
+	        }
+	        if (!rect().contains(event->pos())){
+	            close();
+	        }
+	    }
+	}
+
+待补充，未看懂
+
+
+# Qt-event() #
+
+
+事件对象创建完毕后，Qt 将这个事件对象传递给QObject的event()函数。event()函数并不直接处理事件，而是将这些事件对象按照它们不同的类型，分发给不同的事件处理器（event handler）。
+
+如果你希望在事件分发之前做一些操作，就可以重写这个event()函数了。例如，我们希望在一个QWidget组件中监听 tab 键的按下，那么就可以继承QWidget，并重写它的event()函数，来达到这个目的：
+
+	//CustomWidget是一个普通的QWidget子类。
+	//如果传入的事件已被识别并且处理，则需要返回 true，否则返回false。
+	bool CustomWidget::event(QEvent *e) //参数即需要转发的事件对象
+	{
+	    if (e->type() == QEvent::KeyPress) {
+	        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);//把e强制类型转化为QKeyEvent *
+	        if (keyEvent->key() == Qt::Key_Tab) {
+	            qDebug() << "You press tab.";	
+	            return true;
+	        }
+	    }
+	    return QWidget::event(e);
+	//我们处理过自己感兴趣的事件之后，可以直接返回 true，表示我们已经对此事件进行了处理；
+	//对于其它我们不关心的事件，则需要调用父类的event()函数继续转发，否则这个组件就只能处理我们定义的事件了。
+	}
+
+如果返回值是 true，并且，该事件对象设置了accept()，那么 Qt 会认为这个事件已经处理完毕，不会再将这个事件发送给其它对象，而是会继续处理事件队列中的下一事件。
+
+
+注意，在event()函数中，调用事件对象的accept()和ignore()函数是没有作用的，不会影响到事件的传播。
+
+我们可以通过使用QEvent::type()函数可以检查事件的实际类型，其返回值是QEvent::Type类型的枚举。
+
+
+Qt 5 中QObject::event()函数的源代码：
+
+	bool QObject::event(QEvent *e)
+	{
+	    switch (e->type()) {
+	    case QEvent::Timer:
+	        timerEvent((QTimerEvent*)e);
+	        break;
+	 
+	    case QEvent::ChildAdded:
+	    case QEvent::ChildPolished:
+	    case QEvent::ChildRemoved:
+	        childEvent((QChildEvent*)e);
+	        break;
+	    // ...
+	    default:
+	        if (e->type() >= QEvent::User) {
+	            customEvent(e);
+	            break;
+	        }
+	        return false;
+	    }
+	    return true;
+	}
+
+同前面我们所说的一样，Qt 也是使用QEvent::type()判断事件类型，然后调用了特定的事件处理器。比如，如果event->type()返回值是QEvent::Timer，则调用timerEvent()函数。
+
+QWidget::event()中也有如下的代码：
+
+	switch (event->type()) {
+	    case QEvent::MouseMove:
+	        mouseMoveEvent((QMouseEvent*)event);
+	        break;
+	    // ...
+	}
+		
+timerEvent()和mouseMoveEvent()这样的函数，就是事件处理器 event handler。
+
+也就是说，event()函数中实际是通过事件处理器来响应一个具体的事件。这相当于event()函数将具体事件的处理“委托”给具体的事件处理器。而这些事件处理器是 protected virtual 的，因此，我们重写了某一个事件处理器，即可让 Qt 调用我们自己实现的版本。
+
+由此可以见，event()是一个集中处理不同类型的事件的地方。
+
+重写 event()函数的作用：屏蔽掉某些不需要的事件处理器。比如一个只能响应 tab 键的组件。
+
+
+# Qt-事件过滤器 #
+
+
+有时候，对象需要查看、甚至要拦截发送到另外对象的事件。例如，对话框可能想要拦截按键事件，不让别的组件接收到；或者要修改回车键的默认处理。
+
+QObject有一个eventFilter()函数，用于建立事件过滤器。这个函数的签名如下：
+
+    virtual bool QObject::eventFilter ( QObject * watched, QEvent * event );
+
+所谓事件过滤器，可以理解成一种过滤代码。检查接收到的事件。如果这个事件是我们感兴趣的类型，就进行我们自己的处理；如果不是，就继续转发。
+
+这个函数返回一个 bool 类型，如果你想将参数 event 过滤出来，比如，不想让它继续转发，就返回 true，否则返回 false。
+
+事件过滤器调用所谓时间在目标对象（即参数里面的watched对象）接收到事件对象之前。也就是说，如果你在事件过滤器中停止了某个事件，那么，watched对象以及以后所有的事件过滤器根本不会知道这么一个事件。
+
+
+## mainwindow.h ##
+
+	#ifndef MAINWINDOW_H
+	#define MAINWINDOW_H
+	#include <QtGui>
+	#include <QtWidgets>
+	#include <QMainWindow>
+	
+	class MainWindow : public QMainWindow
+	{
+	    Q_OBJECT
+	
+	public:
+	    MainWindow(QWidget *parent = 0);//重写它的eventFilter()函数。
+	    ~MainWindow();
+	
+	protected:
+	     bool eventFilter(QObject *obj, QEvent *event);  
+		 //这个过滤器是protected的，及只能该类及其子类才能安装这个过滤器
+	private:
+	     QTextEdit *textEdit;
+	};
+	
+	#endif // MAINWINDOW_H
+
+## mainwindow.cpp ##
+
+	#include "mainwindow.h"
+	
+	MainWindow::MainWindow(QWidget *parent)
+	    : QMainWindow(parent)
+	{
+	    textEdit = new QTextEdit;
+	    setCentralWidget(textEdit);
+	
+	    textEdit->installEventFilter(this);//安装事件过滤器！！！（别忘了安装）
+	}
+	
+	MainWindow::~MainWindow()
+	{
+	
+	}
+	
+	bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+	 {
+	     if (obj == textEdit) { //首先判断这个对象是不是我们感兴趣的组件
+	         if (event->type() == QEvent::KeyPress) { //然后判断这个事件的类型
+	             //这里我们设置成不想让textEdit组件处理键盘按下的事件。
+	             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+	             qDebug() << "Ate key press" << keyEvent->key();
+	             return true; //表示处理掉了这个事件，这个事件也就被吞掉了
+	         } 
+	         else {  
+	             return false; //这个事件不是我们要过滤的事件，所以该事件继续处理，所以返回 false
+	         }
+	     } 
+	     else {
+	         // pass the event on to the parent class
+	         return QMainWindow::eventFilter(obj, event);
+	         //对于其它的组件，我们并不保证是不是也需要过滤器，于是最保险的办法是调用父类的函数去判断。
+	     }
+	 }
+
+
+
+eventFilter()函数相当于创建了过滤器，然后我们需要安装这个过滤器。安装过滤器需要调用QObject::installEventFilter()函数。这个函数的签名如下：
+
+
+    void QObject::installEventFilter ( QObject * filterObj )
+
+这个函数接受一个QObject *类型的参数。eventFilter()函数是QObject的一个成员函数，因此，任意QObject都可以作为事件过滤器（问题在于，如果你没有重写eventFilter()函数，这个事件过滤器是没有任何作用的，因为
+**默认的事件过滤器是什么都不会过滤**）。
+
+已经存在的过滤器则可以通过QObject::removeEventFilter()函数移除。
+
+我们可以向一个对象上面安装多个事件处理器，只要调用多次installEventFilter()函数。如果一个对象存在多个事件过滤器，那么，最后一个安装的会第一个执行，也就是后进先执行的顺序。
+
+事件过滤器的强大之处在于，我们可以为整个应用程序添加一个事件过滤器。
+
+因为 installEventFilter()函数是QObject的函数，而QApplication或者QCoreApplication对象都是QObject的子类，因此，我们可以向QApplication或者QCoreApplication添加事件过滤器。
+
+这种全局的事件过滤器将会在所有其它特性对象的事件过滤器之前调用。但这种行为会严重降低整个应用程序的事件分发效率。因此，除非是不得不使用的情况，否则的话我们不应该这么做。
+
+事件过滤器和被安装过滤器的组件必须在同一线程，否则，过滤器将不起作用。另外，如果在安装过滤器之后，这两个组件到了不同的线程，那么，只有等到二者重新回到同一线程的时候过滤器才会有效。
+
+
+
+# Qt-事件总结 #
+
+
+
+Qt 中有很多种事件：鼠标事件、键盘事件、大小改变的事件、位置移动的事件等等。如何处理这些事件，Qt采用对每一种事件对应一个事件处理函数。
+
+Qt 具有这么多种事件处理函数，肯定有一个地方对其进行分发。这个分发的函数，就是event()。显然，当QMouseEvent产生之后，event()函数将其分发给mouseEvent()事件处理器进行处理。
+
+event()函数会有两个问题：
+
+event()函数是一个 protected 的函数，这意味着我们要想重写event()，必须继承一个已有的类。试想，我的程序根本不想要鼠标事件，程序中所有组件都不允许处理鼠标事件，是不是我得继承所有组件，一一重写其event()函数？protected 函数带来的另外一个问题是，如果我基于第三方库进行开发，而对方没有提供源代码，只有一个链接库，其它都是封装好的。我怎么去继承这种库中的组件呢？
+
+
+event()函数的确有一定的控制，不过有时候我的需求更严格一些：我希望那些组件根本看不到这种事件。event()函数虽然可以拦截，但其实也是接收到了QMouseEvent对象。我连让它收都收不到。这样做的好处是，模拟一种系统根本没有那个事件的效果，所以其它组件根本不会收到这个事件，也就无需修改自己的事件处理函数。这种需求怎么办呢？
+
+
+这两个问题是event()函数无法处理的。于是，Qt 提供了另外一种解决方案：事件过滤器。
+
+事件过滤器给我们一种能力，让我们能够完全移除某种事件。事件过滤器可以安装到任意QObject类型上面，并且可以安装多个。如果要实现全局的事件过滤器，则可以安装到QApplication或者QCoreApplication上面。
+
+这里需要注意的是，如果使用installEventFilter()函数给一个对象安装事件过滤器，那么该事件过滤器只对该对象有效，只有这个对象的事件需要先传递给事件过滤器的eventFilter()函数进行过滤，其它对象不受影响。如果给QApplication对象安装事件过滤器，那么该过滤器对程序中的每一个对象都有效(做到全局控制)，任何对象的事件都是先传给eventFilter()函数。
+
+事件过滤器可以解决刚刚我们提出的event()函数的两点不足：
+
+- 首先，事件过滤器不是 protected 的，因此我们可以向任何QObject子类安装事件过滤器；
+
+- 其次，事件过滤器在目标对象接收到事件之前进行处理，如果我们将事件过滤掉，目标对象根本不会见到这个事件。
+
+
+
+
+----------
+
+
+事实上，还有一种方法。Qt 事件的调用最终都会追溯到QCoreApplication::notify()函数，因此，最大的控制权实际上是重写QCoreApplication::notify()。这个函数的声明是：
+
+
+    virtual bool QCoreApplication::notify ( QObject * receiver, QEvent * event );
+
+该函数会将event发送给receiver，也就是调用receiver->event(event)，其返回值就是来自receiver的事件处理器。注意，这个函数为任意线程的任意对象的任意事件调用，因此，它不存在事件过滤器的线程的问题。不过我们并不推荐这么做，因为notify()函数只有一个，而事件过滤器要灵活得多。
+
+现在我们可以总结一下 Qt 的事件处理，实际上是有五个层次：
+
+1. 重写paintEvent()、mousePressEvent()等事件处理函数。这是最普通、最简单的形式，同时功能也最简单。
+
+1. 重写event()函数。event()函数是所有对象的事件入口，QObject和QWidget中的实现，默认是把事件传递给特定的事件处理函数。
+
+1. 在特定对象上面安装事件过滤器。该过滤器仅过滤该对象接收到的事件。
+
+1. 在QCoreApplication::instance()上面安装事件过滤器。该过滤器将过滤所有对象的所有事件，因此和notify()函数一样强大，但是它更灵活，因为可以安装多个过滤器。全局的事件过滤器可以看到 disabled 组件上面发出的鼠标事件。全局过滤器有一个问题：只能用在主线程。
+
+1. 重写QCoreApplication::notify()函数。这是最强大的，和全局事件过滤器一样提供完全控制，并且不受线程的限制。但是全局范围内只能有一个被使用（因为QCoreApplication是单例的）。
+
+上述事件处理顺序：
+
+全局事件过滤器被第一个调用
+
+之后是该对象上面的事件过滤器
+
+其次是event()函数
+
+最后是特定的事件处理函数。
+
+
+# Qt-自定义事件 #
+
+
+自定义事件可以用在单线程的程序中，作为一种对象间通讯的机制。多线程的程序中也尤其有用。
+
+为什么需要使用事件，而不是信号槽呢？主要原因是，事件的分发既可以是同步的，又可以是异步的，而函数的调用或者说是槽的回调总是同步的。事件的另外一个好处是，它可以使用过滤器。
+
+Qt 自定义事件需要继承 QEvent 类，最重要的是提供一个QEvent::Type类型的参数，作为自定义事件的类型值。
+
+QEvent::Type是QEvent定义的一个枚举。因此，我们可以传递一个 int 值。但是需要注意的是，我们的自定义事件类型不能和已经存在的 type 值重复，否则会有不可预料的错误发生。
+
+因为系统会将你新增加的事件当做系统事件进行派发和调用。在 Qt 中，系统保留 0 – 999 的值，也就是说，你的事件 type 要大于 999。这种数值当然非常难记，所以 Qt 定义了两个边界值：QEvent::User和QEvent::MaxUser。我们的自定义事件的 type 应该在这两个值的范围之间。其中，QEvent::User的值是 1000，QEvent::MaxUser的值是 65535。从这里知道，我们最多可以定义 64536 个事件。
+
+通过这两个枚举值，我们可以保证我们自己的事件类型不会覆盖系统定义的事件类型。但是，这样并不能保证自定义事件相互之间不会被覆盖。
+
+为了解决这个问题，Qt 提供了一个函数：registerEventType()，用于自定义事件的注册。该函数签名如下：
+
+
+    static int QEvent::registerEventType ( int hint = -1 );
+
+这个函数是 static 的，因此可以使用QEvent类直接调用。函数接受一个 int 值，其默认值是 -1；函数返回值是向系统注册的新的 Type 类型的值。如果 hint 是合法的，也就是说这个 hint 不会发生任何覆盖（系统的以及其它自定义事件的），则会直接返回这个值；否则，系统会自动分配一个合法值并返回。因此，使用这个函数即可完成 type 值的指定。这个函数是线程安全的，不必另外添加同步。
+
+我们可以在QEvent子类中添加自己的事件所需要的数据，然后进行事件的发送。Qt 中提供了两种事件发送方式：
+
+
+1.
+
+	static bool QCoreApplication::sendEvent(QObject *receiver,
+	                                        QEvent *event);
+
+直接将event事件发送给receiver接受者，使用的是QCoreApplication::notify()函数。函数返回值就是事件处理函数的返回值。在事件被发送的时候，event对象并不会被销毁。通常我们会在栈上创建event对象，例如：
+
+	QMouseEvent event(QEvent::MouseButtonPress, pos, 0, 0, 0);
+	QApplication::sendEvent(mainWindow, &event);
+
+
+
+2.
+
+	static void QCoreApplication::postEvent(QObject *receiver,
+	                                        QEvent *event);
+
+将event事件及其接受者receiver一同追加到事件队列中，函数立即返回。
+因为 post 事件队列会持有事件对象，并且在其 post 的时候将其 delete 掉，**因此，我们必须在堆上创建event对象**。当对象被发送之后，再试图访问event对象就会出现问题（因为 post 之后，event对象就会被 delete）。
+
+当控制权返回到主线程循环时，保存在事件队列中的所有事件都通过notify()函数发送出去。
+
+事件会根据 post 的顺序进行处理。如果你想要改变事件的处理顺序，可以考虑为其指定一个优先级。默认的优先级是Qt::NormalEventPriority。
+
+这个函数是线程安全的。
+
+
+
+
+----------
+
+现在已经能够将事件发送出去，还剩下最后一步：处理自定义事件。
+
+我们可以重写QObject::customEvent()函数，该函数接收一个QEvent对象作为参数：
+
+
+    void QObject::customEvent(QEvent *event);
+
+可以通过转换 event 对象类型来判断不同的事件：
+
+	void CustomWidget::customEvent(QEvent *event) {
+	    CustomEvent *customEvent = static_cast<CustomEvent *>(event);
+	    // ...
+	}
+
+也可以在event()函数中直接处理：
+
+	bool CustomWidget::event(QEvent *event) {
+	    if (event->type() == MyCustomEventType) {
+	        CustomEvent *myEvent = static_cast<CustomEvent *>(event);
+	        // processing...
+	        return true;
+	    }
+	    return QWidget::event(event);
+	}
+
+
+----------
+

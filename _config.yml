@@ -1,58 +1,107 @@
-# Build settings
-markdown: redcarpet
+﻿title:            Joway
+description:      沧浪之水清兮，可以濯吾缨。 沧浪之水浊兮，可以濯吾足。
+logo:             site-logo.png
+disqus_shortname: Joway
+search:           true
+# Change url to your domain. Leave localhost server or blank when working locally.
+url:              https://joway.github.io
+asset_url:        https://joway.github.io 
+
+
+
+
+# Owner/author information
+owner:
+  name:           Joway.W
+  avatar:         bio-photo.jpg
+  email:          670425438@qq.com
+  # Social networking links used in footer. Update and remove as you like.
+  twitter:        
+  facebook:       
+  github:         joway
+  stackexchange:  
+  linkedin:       
+  instagram:      
+  flickr:         
+  tumblr:         
+  weibo:          http://weibo.com/670425438 
+  # For Google Authorship https://plus.google.com/joway
+  google_plus:    https://plus.google.com/joway
+
+# Analytics and webmaster tools stuff goes here
+google_analytics:   
+google_verify:      
+# https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
+bing_verify:         
+google_ads_display: false
+tb_ads_display: false
+# Links to include in top navigation
+# For external links add external: true
+links:
+  - title: 主页
+    url: /
+  - title: 博客
+    url: /blog.html
+  - title: 分类
+    url: /tags.html
+  - title: 项目
+    url: /project.html
+  - title: 相册
+    url: /photos/index.html
+  - title: 留言
+    url: /message.html
+  - title: 乌托邦
+    url: /literature.html
+  - title: 关于
+    url: /about.html
+    external: true
+
+# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone:    Asia/Shanghai
+future:      true
+highlighter: 
+markdown:    redcarpet
+
+# https://github.com/mojombo/jekyll/wiki/Permalinks
+permalink:   /blog/:year/:month/:day/:title.html
+
 redcarpet:
-  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "strikethrough", "with_toc_data"]
-highlighter: pygments
+  extensions:
+    - fenced_code_blocks
+    - no_intra_emphasis
+    - strikethrough
+    - autolink
+    - tables
 
-# Site settings
-title: "Neaix"
-description: > # this means to ignore newlines until "email:"
-   Things that I have done, learnt and thought about.
+include: [".htaccess"]
+exclude: ["lib", "config.rb", "Gemfile", "Capfile", "Gemfile.lock", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
 
-email: neaix@hotmail.com
-#blog logo
-logo: "/assets/images/author.jpg"
-# blog cover
-cover: "/assets/images/wave1.png"
+#gallerytag:
+#    dir: images/gallery
+#    url: images/gallery
+#    thumb_width: 250
+#    thumb_height: 250
+#    columns: 5
+#
 
-name: 'Bin lau'
-author: 'Bin lau'
-author_image: "/assets/images/author.jpg"
+gallery:
+  # path to the gallery
+  dir: photos
+  # title for gallery index
+  title: "Photos"
+  # title prefix for gallery page. title=title_prefix+gallery_name
+  title_prefix: "Photos: "
+  # field to control sorting of galleries for the index page
+  # (possible values are: title, date_time, best_image)
+  sort_field: "date_time"
+  # sizes for thumbnails
+  thumbnail_size:
+    x: 200
+    y: 200
+  # custom configuration for individual gallery
+  # best_image is image for the index page (defaults to last image)
+  galleries:
+    Joway:
+    best_image: 01.JPG
+    
 
-paginate:	5
-
-url: "http://neaix.com" # the base hostname & protocol for your site
-baseurl: ""
-
-# social icons and sharing options
-social:
-#  - icon:	twitter
-#    url:	https://twitter.com/rajathkmp
-#    desc: Follow me on twitter
-#    share_url: http://twitter.com/share
-#    share_title: ?text=
-#    share_link: "&amp;url="
-  - icon: github
-    url:  https://github.com/neaix
-    desc: Fork me on github
-    title: GitHub
-    share_url:
-    share_title:
-    share_link:
-
-#  - icon:	
-#    url:	
-#    desc: Connect with me facebook
-#    title: Facebook
-#    share_url: //www.facebook.com/sharer.php
-#    share_title: ?t=
-#    share_link: "&amp;u="
-
-
-
-#  - icon:	google-plus
-#    url:	https://google.com/+rajathkumar
-#    desc:	Add me on google+
-#    share_url:
-#    share_title:
-#    share_link:

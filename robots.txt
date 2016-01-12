@@ -1,0 +1,3 @@
+User-Agent: *
+Disallow: /photos/
+Sitemap: http://www.joway.oneoneone.wang/sitemap.xml

@@ -1,0 +1,303 @@
+---
+layout: post
+title: "高精度算法——bign" 
+comments: true
+share: true
+tags: C/C++
+---
+
+
+> ## 通用原理：利用数组来存储整数，模拟手算的方法进行四则运算 ##
+
+----------
+
+5.2.1:
+
+计算两个整数相加时需要多少次进位。int上限约为2000000000，即最多保存9位整数。假设输入的数都不超过9个数字。
+
+输入：
+
+555 555
+
+输出:
+
+3
+
+
+	#include <iostream>
+	using namespace std;
+	int main()
+	{
+		int num1, num2;
+		cin >> num1 >> num2;
+		int ans = 0, flag = 0;
+		while (!(num1 == 0 && num2 == 0)) {
+			flag = (num1 % 10 + num2 % 10 + flag) >= 10 ? 1 : 0;
+			num1 /= 10;
+			num2 /= 10;
+			ans += flag;
+		}
+		cout << ans << endl;
+		return 0;
+	}
+
+
+
+----------
+
+
+输入不超过1000的正整数n，输出n！=1*2*3*4*5*...*n的精确结果
+
+PS：
+
+1000！约等于4*10^2567 ，所以可以用一个3000个元素的数组来保存
+
+为了方便，建议a[0]个位，a[1]十位......（为了进位的方便）
+
+0！是1，所以可以忽略所有前导0.
+
+![](http://ww3.sinaimg.cn/mw690/708485bfgw1eplhzp3f90j21kw2t3njp.jpg)
+
+
+	#include <iostream>
+	#define MAX 3000
+	using namespace std;
+	int num[MAX] = {0}; //为了防止栈溢出，所以设为全局变量
+	int main()
+	{
+		int n;
+		cin >> n;
+		num[0] = 1;
+		for (int i = 2 ; i <= n; ++i) {
+			int flag = 0;   //表示进位
+			for (int j = 0; j < MAX; ++j) {
+				int sum = num[j] * i + flag;
+				num[j] = sum % 10;
+				flag = sum / 10;
+			}
+		}
+		bool sign=false;
+		for(int i=MAX;i>=0;--i){
+			if(num[i]!=0){
+				sign=true;
+			}
+			if(sign){
+				cout << num[i];
+			}
+		}
+		return 0;
+	}
+
+
+
+----------
+
+
+bign高精度类：
+
+支持 + 、 +=、-、-=、*、*=、/、/=、<、>、<=，>=，==,!=  这些基本的运算（但是不支持负数且减法只能大减去小）
+
+	
+	#include <iostream>
+	#include <cstdio>
+	#include <cstdlib>
+	#include <cstring>
+	#include <string>
+	#include <algorithm>
+	#define MAX 3000
+	using namespace std;
+	
+	struct bign
+	{
+		int len, s[MAX] = {0};
+		bign() {
+			len = 1;   //构造函数
+		}
+		bign operator = (const char *num) {
+			len = strlen(num);
+			for (int i = 0; i < len; ++i) {
+				s[i] = num[len - i - 1] - '0';
+			}
+			return *this ;
+		}// 重新定义赋值运算符，有了它，就可以使用x="1234325242523522422"这样的方式来赋值了
+		bign operator = (int num) {
+			char s[MAX];
+			sprintf(s, "%d", num);
+			*this = s;
+			return *this;
+		} //有了它，可以使用x=13231，（数字必须在int范围内）
+		//但是这样只能让它使用赋值。即bign x; x=112321;
+		//不能bign x = 314141;因为这样不是赋值而是初始化！
+		//可用下面方法来定义初始化
+		bign(int num) {
+			*this = num;
+		}
+		bign(const char *num) {
+			*this = num;
+		}//仅仅只是调用刚才的赋值运算符
+		//再设立一个函数把它转化为字符串
+		string str() const {
+			string res = "";
+			for (int i = 0; i < len; ++i) {
+				res = (char) (s[i] + '0') + res;
+			}
+			if (res == "") {
+				res = "0";
+			}
+			return res;
+		}//定义了一个成员函数
+		//再定义重载bign的常用运算符：
+		bign operator + (const bign &b) const {
+			bign c;
+			c.len = 0;
+			for (int i = 0 , g = 0; g || i < max(len, b.len); ++i) {
+				int x = g;
+				if (i < len) {
+					x += s[i];
+				}
+				if (i < b.len) {
+					x += b.s[i];
+				}
+				c.s[c.len++] = x % 10;
+				g = x / 10;
+			}
+			return c;
+		}
+		bign operator += (const bign &b)
+		{
+			*this = *this + b;
+			return *this;
+		}
+		void clean()
+		{
+			while (len > 1 && !s[len - 1]) len--;
+		}
+		bign operator * (const bign &b) //*
+		{
+			bign c;
+			c.len = len + b.len;
+			for (int i = 0; i < len; i++)
+			{
+				for (int j = 0; j < b.len; j++)
+				{
+					c.s[i + j] += s[i] * b.s[j];
+				}
+			}
+			for (int i = 0; i < c.len; i++)
+			{
+				c.s[i + 1] += c.s[i] / 10;
+				c.s[i] %= 10;
+			}
+			c.clean();
+			return c;
+		}
+		bign operator *= (const bign &b)
+		{
+			*this = *this * b;
+			return *this;
+		}
+		bign operator - (const bign &b)
+		{
+			bign c;
+			c.len = 0;
+			for (int i = 0, g = 0; i < len; i++)
+			{
+				int x = s[i] - g;
+				if (i < b.len) x -= b.s[i];
+				if (x >= 0) g = 0;
+				else
+				{
+					g = 1;
+					x += 10;
+				}
+				c.s[c.len++] = x;
+			}
+			c.clean();
+			return c;
+		}
+		bign operator -= (const bign &b)
+		{
+			*this = *this - b;
+			return *this;
+		}
+		bign operator / (const bign &b)
+		{
+			bign c, f = 0;
+			for (int i = len - 1; i >= 0; i--)
+			{
+				f = f * 10;
+				f.s[0] = s[i];
+				while (f >= b)
+				{
+					f -= b;
+					c.s[i]++;
+				}
+			}
+			c.len = len;
+			c.clean();
+			return c;
+		}
+		bign operator /= (const bign &b)
+		{
+			*this  = *this / b;
+			return *this;
+		}
+		bign operator % (const bign &b)
+		{
+			bign r = *this / b;
+			r = *this - r * b;
+			return r;
+		}
+		bign operator %= (const bign &b)
+		{
+			*this = *this % b;
+			return *this;
+		}
+		//接下来定义比较操作
+		bool operator < (const bign &b) const {
+			if (len != b.len) {
+				return len < b.len;
+			}
+			for (int i = len - 1; i >= 0; --i) {
+				if (s[i] != b.s[i]) {
+					return s[i] < b.s[i];
+				}
+				return false;
+			}
+		}//这里定义了<操作，利用<操作可定义其余比较操作
+		bool operator > (const bign &b) const {
+			return b < *this;
+		}
+		bool operator <= (const bign &b) const {
+			return !(b < *this);
+		}
+		bool operator >= (const bign &b) const {
+			return !(*this < b);
+		}
+		bool operator != (const bign &b) const {
+			return b < *this || *this < b;
+		}
+		bool operator == (const bign &b) const {
+			return !(b < *this) || !(*this < b);
+		}
+	};
+	
+	//再在bign结构体外定义>> ，<< 让输入输出流支持bign
+	istream &operator >> (istream &in , bign &x) {
+		string s;
+		in >> s;
+		x = s.c_str();
+		return in;
+	}
+	ostream &operator << (ostream &out, const bign &x) {
+		out << x.str();
+		return out;
+	}
+	
+	int main()
+	{
+		bign x,y;
+		return 0;
+	}
+
+<br>

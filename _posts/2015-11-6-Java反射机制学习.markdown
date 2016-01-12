@@ -1,0 +1,84 @@
+---
+layout: post
+title: "Java反射机制学习"
+comments: true
+share: true
+tags: Java
+---
+
+
+JAVA反射机制是在运行状态中
+
+- 对于任意一个类，都能够知道这个类的所有属性和方法；
+- 对于任意一个对象，都能够调用它的任意一个方法和属性；
+
+
+在程序运行时，允许改变程序结构或变量类型，这种语言称为动态语言”。从这个观点看，Perl，Python，Ruby是动态语言，C++，Java，C#不是动态语言。但是JAVA有着一个非常突出的动态相关机制：Reflection，用在Java身上指的是我们可以于运行时加载、探知、使用编译期间完全未知的classes。换句话说，Java程序可以加载一个运行时才得知名称的class，获悉其完整构造（但不包括methods定义），并生成其对象实体、或对其fields设值、或唤起其methods。
+
+具体用法：
+
+- 获取一个类的对象：
+
+<code>
+
+	Class myObjectClass = MyObject.class;
+	
+	//可能会抛出ClassNotFoundException异常	
+	Class class = Class.forName("com.jenkov.myapp.MyObject");
+
+</code>
+
+- 获取类名：
+
+<code>
+
+	String str;
+	类名即为：
+	str.getName();
+
+</code>
+
+- 获取包名：
+
+<code>
+
+	Class  aClass = ... //获取Class对象
+	Package package = aClass.getPackage();
+
+</code>
+
+- 获取类的修饰符(public,private,static等关键字)
+
+<code>
+
+	Class  aClass = ... //获取Class对象
+	int modifiers = aClass.getModifiers();
+
+	//修饰符都被包装成一个int类型的数字，这样每个修饰符都是一个位标识(flag bit)，这个位标识可以设置和清除修饰符的类型。
+
+	可以使用java.lang.reflect.Modifier类中的方法来检查修饰符的类型：
+
+		Modifier.isAbstract(int modifiers);
+		Modifier.isFinal(int modifiers);
+		Modifier.isInterface(int modifiers);
+		Modifier.isNative(int modifiers);
+		Modifier.isPrivate(int modifiers);
+		Modifier.isProtected(int modifiers);
+		Modifier.isPublic(int modifiers);
+		Modifier.isStatic(int modifiers);
+		Modifier.isStrict(int modifiers);
+		Modifier.isSynchronized(int modifiers);
+		Modifier.isTransient(int modifiers);
+		Modifier.isVolatile(int modifiers);
+
+</code>
+
+- 获取构造器对象：
+
+<code>
+
+	Class aClass = ...//获取Class对象
+	Constructor[] constructors = aClass.getConstructors();
+	//返回的Constructor数组包含每一个声明为公有的（Public）构造方法。
+
+</code>

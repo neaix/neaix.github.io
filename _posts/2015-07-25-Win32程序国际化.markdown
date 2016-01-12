@@ -1,0 +1,393 @@
+---
+layout: post
+title: "Win32程序国际化" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+
+
+7-30日更新：
+
+以后自己单独写项目要注意把所有字符串资源给放进资源dll里，尤其是messagebox里的字符串，假如单单是写在本项目rc文件里的话，即使分语言写了，但是项目多了以后再国际化的时候各种醉，字符串资源利用效率也不高！
+
+
+-----
+
+
+
+## 方法 1：依赖于语言的二进制文件 ##
+
+此传统方法包括编译一个二进制文件，既有源代码又有资源。每种目标语言都需要一个单独的二进制文件。
+
+方法 1（依赖于语言的二进制文件）的优缺点总结
+
+优点	
+
+易于实现
+
+缺点
+
+分离每种语言所需的源树
+
+资源更改需要完全的二进制编译
+
+切换 UI 需要不同的应用程序实例
+
+浪费磁盘空间：多个核心二进制文件副本
+
+-------
+
+## 方法 2：适用于所有语言的一个资源 DLL ##
+
+此方法的主要思想是将资源从源代码中分离出来，创建一个包含所有目标语言的全部本地化资源的仅资源 DLL。相同资源 ID 的多个副本在不同语言标记下的 RC 文件中定义。在以下示例中，针对法语和英语定义了字符串 ID IDS_ENUMSTRTEST。
+
+	// French (France) resources
+	#ifdef _WIN32LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+	#pragma code_page(1252)
+	#endif //_WIN32
+	
+	// String Table
+	STRINGTABLE DISCARDABLE 
+	BEGINIDS_ENUMSTRTEST "Cette phrase est en français...(France)"
+	END
+	#endif // French (France) resources
+	
+	// English (U.S.) resources
+	#ifdef _WIN32
+	LANGUAGE LANG_ENGLISH,SUBLANG_ENGLISH_US
+	#pragma code_page(1252)
+	#endif _win32 
+	
+	// String TableSTRINGTABLE DISCARDABLE 
+	BEGINIDS_ENUMSTRTEST "This is an English string...(USA)"
+	END
+	#endif // English (U.S.) resources
+
+为了在运行时访问资源，因此通过 LoadLibrary API 加载了资源 DLL。
+
+然后，
+
+- 使用 EnumResourceLanguages 来查找给定控件/资源的可用语言列表，
+
+- 使用 FindResourceEx 来确定具有指定类型、名称和语言的资源的位置。
+
+要显示给定的语言，接下来只需选择 DLL 中正确的资源即可。可通过重新加载新选择的资源并刷新客户端区域来实现语言的切换。
+
+必须注意，Windows 资源加载程序始终使用默认的当前用户区域设置（线程区域设置会继承当前登录用户的用户区域设置 – 请参阅图 1）。GetThreadLocale 允许查询线程区域设置。在此方法中，加载 API 的预定义资源（LoadIcon、LoadString、LoadCursor…）始终返回与此区域设置相关的资源。例如，在以上资源示例中，如果系统区域设置被设为英语 (0x0409)，将无法使用 LoadString 来加载法语资源。但实际并非完全如此：线程区域设置在创建线程时被继承后，将独立于用户区域设置，这意味着在这种情况下，可使用 SetThreadLocale 将线程区域设置改为法语 (0x040C)，然后可调用 LoadString 来获取法语字符串。
+
+	// if our thread locale is English to start with…
+	g_hInst = LoadLibrary(_TEXT(“intl_res.dll”));
+	LoadString(g_hInst, IDS_ENUMSTRTEST,g_szTemp, MAX_STR);
+	
+	// g_szTemp would then point to the English resources
+	// changing our thread locale to French. 
+	
+	// Always make sure that French is in fact one of the
+	// valid languages returned by EnumResourceLanguages() 
+	
+	// Save a copy of the current thread-locale to set back later 
+	
+	Lcid = GetThreadLocale();SetThreadLocale(MAKELCID(0x040c, SORT_DEFAULT));
+	LoadString(g_hInst, IDS_ENUMSTRTEST, g_szTemp, MAX_STR);
+	
+	// g_szTemp would then point to the French resources
+
+在此要注意的是，如果线程区域设置与当前选择的用户区域设置相同，系统的资源加载程序将默认使用语言 ID 0（中立）。如果所需的资源被定义为中立语言，则会返回此值。否则将会枚举所有语言资源（以语言 ID 顺序），并返回首个匹配的资源 ID（不论其语言是什么）。
+
+可举例来说明此问题，比如在美国英语和法国法语资源中，用户区域设置被设为日语，则：原始线程区域设置将是日语 (0x0411)。如果找不到字符串 ID 且枚举时英语 (0x0409) 在法语 (0x40C) 之前，则首次调用 LoadString 时会在 0x0411 版本后返回英语资源。接下来，如果用户区域设置首先是法语：原始线程区域设置将是法语 (0x040C)。由于用户区域设置和线程区域设置匹配，因此系统资源加载程序将使用语言 ID 0 并开始枚举资源，然后再次返回英语版本！
+
+对此的最佳解决方法是首先放弃更改线程区域设置。可通过调用 FindResourceEx 从多语言资源文件中手动加载资源。另一种解决方法是在所有者定义的语言标记中定义资源。在以上的 RC 示例中，英语部分定义为：
+	
+	LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+这将防止线程区域设置被切换回美国英语。但是，将资源定义为：
+	
+	LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+
+将保证 SetThreadLocale 调用的成功，因为此语言 ID 没有匹配的用户区域设置，仍可继续使用预定义的资源加载程序 API。
+
+方法 2（适用于所有语言的一个资源 DLL）的优缺点总结
+
+优点:
+
+- 相对易于实现
+
+- 允许动态切换 UI
+
+- 可实现“无编译”资源更新
+
+缺点:
+
+- 更新为新语言很困难
+
+- 安装 UI 语言的字集很困难
+
+- 不支持的语言会浪费内存和磁盘空间
+
+- 没有简单的方法来实现直接资源
+
+- 加载接口（LoadMenu、LoadString 等）
+
+- 无法在 Windows 9x 中更改线程区域设置
+
+
+
+--------
+
+
+## 方法 3：每种目标语言一个资源 DLL ##
+
+这是先前技术的扩展。现在不是在单个 DLL 中包含所有语言，而是针对每种语言创建一个单独的 DLL。Microsoft Office 2000、Microsoft Internet Explorer 5.x 和 Microsoft Windows 2000 使用的都是这种方法。每种产品的实现不同，此方法的名称也各异，但附属 DLL 是这种方法的常用名称。
+
+此方法会再一次用到要通过 LoadLibrary API 加载的资源 DLL。但这一次，必须选择适当的语言 DLL。通常应假设 Windows UI 语言是用户的首选语言，应用程序可通过加载此语言资源来启动。接下来，当用户选择另一种语言时，可释放当前语言并加载新语言。当然，此方法会使用新加载的资源重新创建窗口并初始化对话框。
+
+系统 UI 语言的检测在不同版本的 Windows 中其处理方式也互不相同：
+
+在 Windows 2000 中，可利用 GetUserDefaultUILanguage API 来查找当前用户的 UI 语言（请注意，在 Windows 2000 多语言版本中，可以有选择了不同 UI 语言的不同用户）。
+
+在 Windows 95、Windows 98 和 Windows 98 SE 中，UI 语言存储在注册表的以下位置：HKCU\Control Panel\Desktop\ResourceLocale。此注册表项将以十六进制形式返回 UI 的语言 ID (LangID)，例如，英语是 00000409。
+
+在 Windows NT 3.5x 和 Windows NT 4.0 中，由于缺少相关的 API 和一致的注册表项，因此检查操作系统语言的最安全方式是检查 NTDLL.DLL 的版本戳记。此文件的语言与用户界面的语言相同。同样，唯一例外情况是阿拉伯语、希伯来语和泰语，这时版本戳记可帮助您检测启用的操作系统。具体步骤如下：
+
+	加载 ntdll.dll 文件
+	
+	枚举版本戳记资源中的语言
+	
+	如果有多种语言可用，它将是非美国英语语言
+	
+	如果仅找到美国英语，则可能仍需要处理启用的语言，并且应该对活动代码页进行检查。
+
+由于语言检测 API 和注册表项会返回 UI 语言的 LangID，因此对附属 DLL 进行相应命名会非常有用：不要将英语文件命名为 res_eng.dll 或 res_en.dll，而应使用 res409.dll。
+
+以下代码示例显示了如何在 Windows 2000 中检测 UI 语言并加载正确的资源 DLL：
+
+	wLangId = GetUserDefaultUILanguage();
+	_stprintf(g_tcsTemp, _TEXT("res%x.dll"), wLangId);
+	
+	if((hRes = LoadLibrary(g_tcsTemp)) == NULL)
+	   {
+	   // we didn't find the desired language satellite DLL, lets go with English (default).
+	   hRes = LoadLibrary(_TEXT("res409.dll"));
+	   } 
+
+如果未能加载相应的语言 DLL（例如，在应用程序中仅支持操作系统语言的一个子集），唯一的解决方案是假设系统中存在默认/首选语言 DLL。
+
+另一种可能的方法是将英语（或默认语言）资源包括到可执行主文件中并发布其他语言的附属 DLL（方法 1 和 3 的混合）。由于此方法并无实际优点况且英语毕竟只是另一本地化语言，因此不再详细讨论此技术。
+
+方法 3（每种目标语言一个资源 DLL）的优缺点总结
+
+优点:
+
+- 允许切换用户界面
+
+- 可实现“无编译”资源更新
+
+- 完全控制安装的语言
+
+- 轻松更新为新语言
+
+- 特定于语言的更新不会影响所有语言
+
+- 不必担心用户、系统和线程区域设置
+
+- 可在 Windows 9x、Windows NT 和 Windows 2000 中实施
+
+- 需要保持所有语言附属 DLL 同步
+
+
+--------
+
+下面我采用方法2,单个资源dll来实现,我主要是通过修改rc文件来做.
+
+首先我还不是很懂rc文件,所以我查了关于rc文件的一些知识,罗列如下:
+
+Windows的.rc文件可以定义 
+
+- BITMAP(位图),
+- CURSOR(光标),
+- ICON(图标),
+- ACCELERATORS(加速键),
+- DIALOG(对话框),
+- MENU(菜单),
+- STRINGTABLE(字符串表),
+- RCDATA(自定义资源)
+
+
+在程序中使用资源:
+
+在程序中，要使用资源之前必须先装如内存，Windows定义了一系列的API来装入资源，如 LoadMenu，LoadString，LoadBitmap 等等，如 LoadBitmap 的定义：
+
+	HBITMAP LoadBitmap(
+	HINSTANCE hInstance, // handle of application instance
+	LPCTSTR lpBitmapName // address of bitmap resource name
+	);
+
+这些Load函数的返回值是一个句柄，调用参数中一般至少为两项： 
+
+hInstance 和 ResouceName
+
+这个 ResouceName(如BitmapName,MenuName)就是在资源文件中的 #define 指定的值，如果你用 #define MY_ICON 10/ MY_ICON ICON "Main.ico" 定义了一个图标，那么在程序中要使用 Main.ico 图标就可以用 LoadIcon(hInstance,10) 来装入已经定义为10号的图标文件。另一个参数 hInstance 是执行文件的句柄，它对应资源所在的文件名.
+
+另外一些资源并不是显式地装入的，如对话框资源，它是在建立对话框的函数中由Windows自己装入的.
+
+好了,接下来我创建了一个exe和一个资源dll工程,资源dll工程其实就是普通dll工程,再在链接器设置的高级里面的无入口点里设置成是(NOENTRY),然后用LoadLibrary()调用就可以了!
+
+-----
+
+样例如下:
+
+资源dll的rc文件:
+
+	// Microsoft Visual C++ 生成的资源脚本。
+	//
+	#include "resource.h"
+	
+	#define APSTUDIO_READONLY_SYMBOLS
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// 从 TEXTINCLUDE 2 资源生成。
+	//
+	#include "winres.h"
+	
+	/////////////////////////////////////////////////////////////////////////////
+	#undef APSTUDIO_READONLY_SYMBOLS
+	
+	/////////////////////////////////////////////////////////////////////////////
+	// 中文(简体，中国) 资源
+	#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+	//LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+	#ifdef _WIN32
+	LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+	#pragma code_page(936) //Microsoft 的简体中文字元集标准
+	//经过测试，不加其实也可以，不过加错了会乱码！
+	#endif //_WIN32
+	
+	#ifdef APSTUDIO_INVOKED
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// TEXTINCLUDE
+	//
+	
+	1 TEXTINCLUDE
+	BEGIN
+	"resource.h\0"
+	END
+	
+	2 TEXTINCLUDE
+	BEGIN
+	"#include ""winres.h""\r\n"
+	"\0"
+	END
+	
+	3 TEXTINCLUDE
+	BEGIN
+	"\r\n"
+	"\0"
+	END
+	#endif    // APSTUDIO_INVOKED
+	
+	//stringtable
+	STRINGTABLE
+	BEGIN
+	IDS_HELLO L"你好"
+	END
+	
+	#endif    // 中文(简体，中国) 资源
+	/////////////////////////////////////////////////////////////////////////////
+	
+	
+	/////////////////////////////////////////////////////////////////////////////
+	// 英语(美国) 资源
+	#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+	#ifdef _WIN32
+	LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+	#pragma code_page(1252) //ANSI
+	#endif _win32 
+	
+	#ifdef APSTUDIO_INVOKED
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// TEXTINCLUDE
+	//
+	
+	1 TEXTINCLUDE
+	BEGIN
+	"resource.h\0"
+	END
+	
+	2 TEXTINCLUDE
+	BEGIN
+	"#include ""winres.h""\r\n"
+	"\0"
+	END
+	
+	3 TEXTINCLUDE
+	BEGIN
+	"\r\n"
+	"\0"
+	END
+	
+	
+	
+	#endif    // APSTUDIO_INVOKED
+	//stringtable
+	
+	STRINGTABLE
+	BEGIN
+	IDS_HELLO L"HELLO"
+	END
+	
+	#endif    // 英语(美国) 资源
+	/////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	#ifndef APSTUDIO_INVOKED
+	/////////////////////////////////////////////////////////////////////////////
+	//
+	// 从 TEXTINCLUDE 3 资源生成。
+	//
+	
+	
+	/////////////////////////////////////////////////////////////////////////////
+	#endif    // 不是 APSTUDIO_INVOKED
+	
+
+
+
+-----
+
+下面是调用的main.cpp文件:
+
+	HINSTANCE hDll;
+	hDll = LoadLibrary(L"InternationalResourcesDll.dll ");
+	WCHAR szBuf[6];
+	LoadString(hDll, IDS_HELLO, szBuf, 6);
+	TextOut(hdc, 100, 100, szBuf,wcslen(szBuf));
+
+然后调用的工程首先把dll的resource.h文件include,然而确保dll和exe在同一目录下就行了!
+
+网上很多人用别的乱七八糟的方法,其实都没有这个好,这个直接用一个dll非常快且节省资源地干了所有的事.
+
+完整工程我放在了github上:
+
+[https://github.com/joway/NotesCodesInLearning/tree/master/InternationalResourcesDll](https://github.com/joway/NotesCodesInLearning/tree/master/InternationalResourcesDll)
+
+
+----
+
+注意：对于哪怕是当前工程里的stringtable也不能直接用MAKEINTRESOURCE(IDC_)来得到字符串！！！必须用LoadString(GetModuleHandle(NULL), IDC_NI, sz, 20);这样子来得到字符串资源！
+
+MAKEINTRESOURCE(IDC_)仅仅只是为了将资源标识号转换成字符串，这个所谓的字符串并不是stringtable里面定义的字符串，而仅仅只是由于一些资源API调用的时候需要用到字符串形式参数，这里把int给强制转换成字符指针而已！！！
+
+----------
+
+####  参考资料：  ####
+
+
+- 1. https://msdn.microsoft.com/zh-cn/goglobal/bb688160.aspx

@@ -1,0 +1,87 @@
+---
+layout: post
+title: "Aplayer-网页内嵌音乐播放器"
+comments: true
+share: true
+tags: 前端
+---
+
+
+在一个二次元博主上发现一个好东西，可以在网页上内置轻量级的音乐播放器，UI仿照网易云音乐。
+
+Github地址: [https://github.com/DIYgod/APlayer](https://github.com/DIYgod/APlayer)
+
+有两种样式支持:
+
+![](https://dn-joway.qbox.me/1448158058475_QQ%E6%88%AA%E5%9B%BE20151122100727.png)
+
+
+使用方法:
+
+PS:
+
+> 注意，使用github库中的版本时，需要添加font文件夹下的内容才能正常显示。
+> 
+> 我自己把它们的资源全部导向七牛，这样，使用时就不需要本地文件支持，甚至css和js文件都不用了。而且是https版本的链接。
+
+样例文件(修改后的):
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+	    <meta charset="UTF-8">
+	    <title>APlayer Demo</title>
+	    <link rel="stylesheet" href="https://dn-stk.qbox.me/css/APlayer.css">
+	</head>
+	<body>
+	        <h1>APlayer</h1>
+	        <!-- 宽版本 自动播放-->
+	        <h3>Wide style and autoplay</h3>
+	        <div id="player1" class="aplayer">
+	            <div style="padding: 10px; font-size: 10px; text-align: center;">(＞﹏＜) APlayer 加载中,好累的说...</div>
+	        </div>
+	        
+	        <!-- 正方形版本 -->
+	        <h3>Narrow style and no autoplay</h3>
+	        <div id="player2" class="aplayer">
+	            <div style="padding: 10px; font-size: 10px; text-align: center;">(＞﹏＜) APlayer 加载中,好累的说...</div>
+	        </div>
+	        
+	    <!--引用js文件-->
+	    <script src="https://dn-stk.qbox.me/js/APlayer.js"></script>
+	    
+	    <!--初始化-->
+	    <script>
+	        // 宽版本
+	        var ap1 = new APlayer({
+	            element: document.getElementById('player1'),
+	            narrow: false,
+	            autoplay: true,
+	            music: {
+	                title: 'Preparation',
+	                author: 'Hans Zimmer/Richard Harvey',
+	                url: 'http://7xifn9.com1.z0.glb.clouddn.com/Preparation.mp3',
+	                pic: 'http://7xifn9.com1.z0.glb.clouddn.com/Preparation.jpg'
+	            }
+	        });
+	        ap1.init();
+	        
+	        // 正方形版本
+	        var ap2 = new APlayer({
+	            element: document.getElementById('player2'),
+	            narrow: true,
+	            autoplay: false,
+	            music: {
+	                title: 'Preparation',
+	                author: 'Hans Zimmer/Richard Harvey',
+	                url: 'http://7xifn9.com1.z0.glb.clouddn.com/Preparation.mp3',
+	                pic: 'http://7xifn9.com1.z0.glb.clouddn.com/Preparation.jpg'
+	            }
+	        });
+	        ap2.init();
+	    </script>
+	</body>
+	</html>
+
+
+我的这个版本可以做到无需任何本地文件，即能够在任何一个网页内调用。

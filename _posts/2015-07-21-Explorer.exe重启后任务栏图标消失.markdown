@@ -1,0 +1,41 @@
+---
+layout: post
+title: "Explorer.exe重启后任务栏图标消失的解决方案" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+可以调用API函数Shell_NotifyIcon向通知栏发送消息来添加、删除或修改图标，当在图标上发生鼠标或键盘事件时，系统会向应用程序发送编程时预先定义的消息，通知栏处理回调函数就会被自动调用以做出相应的处理。
+
+外壳程序Explorer.exe崩溃而发生重启（即Explorer.exe被关闭后重新运行），任务栏也在消失后重新生成，但应用程序在通知栏添加的图标消失了，虽然这些程序仍在运行，但再也无法通过通知栏图标与用户交互。为避免这种情况出现，Windows提供了相应的机制。
+在安装了Internet Explorer 4.0及以上版本的Windows操作系统中，当任务栏建立后，外壳会向所有顶层的应用程序发出通知消息，该消息是外壳以字符串"TaskbarCreated"为参数向系统注册获得的，应用程序窗口接收到该消息后就应该重新添加的通知栏图标。
+
+在开头：
+
+	#define WM_TASKBAR_CREATED RegisterWindowMessage(TEXT("TaskbarCreated"))
+
+在switch语句处理消息完了后，加上一句：
+
+	if (uMsg == WM_TASKBAR_CREATED)
+	{
+		//系统Explorer崩溃重启时，重新加载托盘
+		Shell_NotifyIcon(NIM_ADD, &nid);
+	}
+
+注意：这里的nid必须设置成全局变量：NOTIFYICONDATA nid;	
+
+一开始没有设置成全局变量，所以导致即使调用了Shell_NotifyIcon(NIM_ADD, &nid);在右下角也没有反应！
+
+
+
+----------
+
+####  参考资料：  ####
+
+
+- 1. http://blog.sina.com.cn/s/blog_4ad042e50100own7.html
+- 2. http://www.cnblogs.com/wq1282/archive/2012/06/30/2571435.html
+- 3. http://tieba.baidu.com/p/26274373?pn=1
+- 4. http://blog.csdn.net/mycwq/article/details/14169991

@@ -1,0 +1,24 @@
+---
+layout: post
+title: "后台监测USB插拔的方案" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+方案 1 ：通过钩子函数
+
+目前遇到的困难，无法把钩子函数给内嵌到进程里，只能在一个MFC工程里实现，原因是我目前还不熟悉Windows的消息机制。
+
+网上的一些琐碎信息：
+
+1. 在光驱弹出或者关闭的时候，系统会向所有顶级窗口发送WM_DEVICECHANGE事件
+
+2. 进程是在通过服务来启动的，也就是System权限，不是Administrator权限
+此时就会收不到WM_DEVICECHANGE事件
+
+
+方案 2 ：似乎API直接可以实现
+
+PS：实验室老师已经实现，但是具体方法没有去问过

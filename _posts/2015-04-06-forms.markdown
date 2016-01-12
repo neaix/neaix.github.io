@@ -1,0 +1,215 @@
+---
+layout: post
+title: "报名/投票/问卷调查 表单在线提交概览" 
+comments: true
+share: true
+tags: 笔记
+---
+
+## 金数据： ##
+
+- 优点：
+
+- 局部免费
+
+- 界面美观
+
+- 支持网页嵌入（且可自动适应大小，尤其对手机端适配出众）
+
+- 易用
+
+
+
+缺点：
+
+
+- （免费版）只支持 500 条数据/表单。
+
+
+
+
+
+
+<script src='https://jinshuju.net/f/GiLn8Y/embedded.js?banner=show&background=white&height=501'></script>
+
+
+
+----------
+
+
+
+## Askform 问道网 实现在线表单提交： ##
+
+优点：
+
+- 局部免费
+
+- 易用
+
+- 可嵌入网页
+
+- 支持表格形式导出数据
+
+- 支持统计分析
+
+缺点：
+
+
+- 界面相对较丑
+
+
+
+
+<iframe frameborder="0" scrolling="auto" style="width:100%;height:100%;border:none" src="http://app.askform.cn/f27bde11-624b-441b-b057-63c1f3c424ec.aspx?Type=2"></iframe>
+
+
+
+
+----------
+
+
+## 抢答网： ##
+
+优点：
+
+- 界面美观
+
+- 局部免费
+
+- 易用
+
+- 可嵌入网页
+
+- 支持表格形式导出数据
+
+- 支持统计分析
+
+缺点：
+
+暂无
+
+
+
+<iframe src='http://www.51qiangda.com/forms/55227bb714eca236c50000a2?embed=true' width='700' height='500' frameborder='0' style='overflow:auto'></iframe>
+
+
+----------
+
+
+## Google Forms 实现在线表单提交： ##
+
+优点：
+
+- 可嵌入网页。
+
+- 界面美观，主题可多选
+
+- 免费
+
+- 表单提交数据可直接存入Google云盘里的表格文件中。
+
+
+
+缺点：
+
+- 大陆要翻墙才能显示。。。（好吧，这个缺点直接秒杀了它全部优点，但是企业或者内部小圈子里大家都会翻墙用用还是很高效的）
+
+
+
+
+
+
+<iframe src="https://docs.google.com/forms/d/1p7Z5Djqg9zQAXG2SYAcLzPOJKy9GAh5E4JL5hipE_w8/viewform?embedded=true" width="760" height="600" frameborder="0" marginheight="0" marginwidth="0">正在加载...</iframe>
+
+
+
+
+----------
+
+
+## wufoo实现在线表单提交： ##
+
+优点：
+
+- 可嵌入网页
+
+- 功能齐全
+
+- 有在线分析功能
+
+缺点：
+
+
+- 收费（ $0.05 USD fee per entry on paid plans）
+
+- 不能直接接入表格（数据直接邮箱提醒）
+
+
+
+<br>
+
+<div id="wufoo-z12t8f2i0pfvccq">
+Fill out my <a href="https://joway.wufoo.com/forms/z12t8f2i0pfvccq">online form</a>.
+</div>
+<div id="wuf-adv" style="font-family:inherit;font-size: small;color:#a7a7a7;text-align:center;display:block;">Use <a href="http://www.wufoo.com/partners/">Wufoo integrations</a> and get your data to your favorite apps.</div>
+<script type="text/javascript">var z12t8f2i0pfvccq;(function(d, t) {
+var s = d.createElement(t), options = {
+'userName':'joway',
+'formHash':'z12t8f2i0pfvccq',
+'autoResize':true,
+'height':'422',
+'async':true,
+'host':'wufoo.com',
+'header':'show',
+'ssl':true};
+s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+s.onload = s.onreadystatechange = function() {
+var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+try { z12t8f2i0pfvccq = new WufooForm();z12t8f2i0pfvccq.initialize(options);z12t8f2i0pfvccq.display(); } catch (e) {}};
+var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+})(document, 'script');</script>
+
+<br>
+
+----------
+
+## formstack 实现在线表单提交： ##
+
+优点：
+
+- 功能齐全
+
+- 可嵌入网页
+
+缺点：
+
+- 收费（14天试用（适合短期使用））
+
+- 不能直接接入表格（数据直接邮箱提醒）
+
+
+
+
+
+
+<br>
+
+<script type="text/javascript" src="https://joway.formstack.com/forms/js.php?1982117-WAySd89QWL-v3"></script><noscript><a href="https://joway.formstack.com/forms/test" title="Online Form">Online Form - Test</a></noscript><div style="text-align:right; font-size:x-small;"><a href="http://www.formstack.com?utm_source=jsembed&utm_medium=product&utm_campaign=product+branding&fa=h,1982117" title="Online Form Generator">Online Form Generator</a></div>
+
+
+<br>
+
+
+
+
+
+----------
+
+
+## 总结： ##
+
+把国内外的表单网站轮了个便我也是醉了，本来心想着目前各类活动的报名方式千奇百怪，有发手机短信的，有发电子表格的，有发word的，有打电话的，简直是一个无法忍受的痛点。于是就理所当然认为这里存在着巨大的市场空缺，结果上网一查，亲娘的千奇百怪的表单问卷网站此起彼伏，国内外百花齐放。
+
+这件事情让我明白了，真的不是程序员没想法，而是大部分人遇到问题总是习惯于从自己脑袋里找出现成的解决方案，哪怕这个方案复杂地都不像是21世纪应该存在的，而很少去创新地利用搜索引擎去寻求更加完美的方案，哪怕这个学习的成本仅仅只有有限的几分钟。
+
+总结下，这一圈体验下来，抢答网业界良心，问道网小规模凑合，国外的都没几个靠谱的，谷歌从互联网角度讲绝对完爆所有，但奈何天朝局域网限制，还是用抢答网凑合凑合吧。另外，这个市场目前不大，但是竞争相当激烈，随着HTML5技术进一步发展，这个市场将会越来越大，但是。。我觉得最最重要的恰恰不是技术的提升，而是赶紧去加大宣传和推广啊亲，至少在我所在的大学里，还没有一个学生社团或者学校机构利用这种在线表单来做报名系统，我觉得连喜欢尝新并且尝新的成本还特别低的大学生群体这个市场都拿不下，企业什么的都不用说了。很大一块肥肉啊亲！

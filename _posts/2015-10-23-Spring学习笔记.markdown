@@ -1,0 +1,47 @@
+---
+layout: post
+title: "SpringMVC学习笔记"
+comments: true
+share: true
+tags: Java
+---
+
+下面写下简单的一个学习过程中的思路总结。
+
+我用的是IDEA
+
+首先：
+
+- 配置好JAVA SDK 
+- 配置好Tomcat
+- 由于之后牵涉到数据库操作，所以还要下载XAMPP，然后使用XAMPP安装Apache和MySql。由于我本来就装了MySql所以这里不用安装了。(在XAMPP中启动Apache和MySql时如果发生错误，多半是由于端口被占用。此时，关闭占用端口的程序或者修改配置文件中的端口就行了)
+ 
+在IDEA中，新建项目，选择Spring ， 选择Spring MVC ，然后创建Spring项目（让选择库时，可以自动download或者创建已经下载好的库）。
+
+这样一个HelloWorld项目就创建了。
+
+我在项目中用了hibernate库来操作数据库。所以为了项目清晰，另外设立一个db包来存放数据库相关操作的类。
+
+目前项目结构是这样的:
+
+![](http://7xjzd3.com1.z0.glb.clouddn.com/QQ截图20151029142300.png)
+
+下面是我根据每个文件的作用对于MVC的理解和划分：
+
+- controller文件夹下的文件全部是Controller(控制器)部分，类前添加：
+
+	<code>
+	@Controller//说明此时类为MVC的Controller
+	@RequestMapping("/")//配置Controller所在的url地址
+	</code>
+
+- WEB-INF/pages/目录下为View(视图)部分，全部是jsp文件
+- 根下的User.java类是Model(模型)部分，定义业务对象，并在被调用的时候返回模型数据。
+- web.xml 文件中进行的是"前端控制器"的配置。指定servlet和servlet-mapping ， 完成分发任务的功能。
+- mvc-dispatcher-servlet.xml是对于web.xml文件中分发过来的任务进行处理。它的命名取决于web.xml文件中分发时指定的name加上"-servlet.xml"的后缀。这个文件主要是来支持Servlet、JSP视图解析。里面定义了prefix和suffix，对于传进来的xxx，会生成"prefix+xxx+suffix"的路径，并从中去找到对应的文件(一般为jsp)，然后显示出来。
+
+![](http://sishuok.com/forum/upload/2012/7/14/529024df9d2b0d1e62d8054a86d866c9__1.JPG)
+
+---
+####  参考资料：  ####
+- 

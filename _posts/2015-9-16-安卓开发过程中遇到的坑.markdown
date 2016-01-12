@@ -1,0 +1,19 @@
+---
+layout: post
+title: "安卓开发过程中遇到的坑"
+comments: true
+share: true
+tags: Android
+---
+
+API 安卓4.4
+
+1. 使用requestWindowFeature(Window.FEATURE_NO_TITLE);全屏时会出现闪退情况。
+
+	后来发现是由于系统默认使用的类是AppCompatActivity(兼容类)，它没有使用requestWindowFeature这个函数，要使用 this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+	
+	Ps:如果改成Activity类则可以用使用requestWindowFeature
+
+---
+####  参考资料：  ####
+- 

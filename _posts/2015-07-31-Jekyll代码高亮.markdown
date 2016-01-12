@@ -1,0 +1,64 @@
+---
+layout: post
+title: "Jekyll代码高亮" 
+comments: true
+share: true
+tags: 笔记
+---
+
+
+
+今天突然间想把jekyll弄个代码插件，搜了下，有两种方法，一种是用Jekyll的代码插件，这种方法缺点是每次要插入代码必须手动加上
+	
+	大括号 % highlight javascript % 大括号
+
+这样，所以我弄了下以后就放弃了。另外，highlight.js官网的一个cloudflare链接是不能用的，被墙了，妈的，这个弄了我好久，一开始根本找不到原因我去。cdn.bootcss.com有一样的镜像，所以后来换成了cdn.bootcss.com。
+
+还有种方法是直接用js脚本把
+	
+	<pre><code></code></pre>
+
+代码块给高亮，这种方法好处是直接用markdown写就行了，不用加任何语句。
+
+我用的是highlight.js，方法是：
+
+在head里放入：
+	
+	<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/tomorrow.min.css" rel="stylesheet">
+
+在body最后面放上：
+
+	//最好放前面点，比如放在评论框前面，不然加载太慢会造成闪屏
+	<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+	<script >hljs.initHighlightingOnLoad();</script>
+
+这样就行了！
+
+不过有些bug，因为我自己本来也有针对代码块进行排版处理的css，所以这两个一弄在一起就会不太正常，我好不容易找到一个主题和我的博客挺搭的。
+
+另外，我jekyll自带了highlight插件，但是用法是，必须在代码前后加上：
+
+<code>
+
+	大括号% highlight C++ linenos %大括号
+	//。。。
+	大括号% endhighlight %大括号
+	//注：我写文章还有个限制是不能把jekyll会解析的语句给弄进来，即便弄再代码块里也不行，所以我只能自己用中文写大括号了
+
+</code>
+
+不过用系统自带高亮就太麻烦了。
+
+另外，我的markdown解析有时候会出错，对代码块解析会不准确，这个时候可以手动
+
+	<code></code>
+
+	//html语句还是可以写在代码块里的
+
+----------
+
+####  参考资料：  ####
+
+
+- [https://highlightjs.org/static/demo/](https://highlightjs.org/static/demo/)
+- [http://alfred-sun.github.io/blog/2014/12/15/use-highlight.js-for-jekyll/](http://alfred-sun.github.io/blog/2014/12/15/use-highlight.js-for-jekyll/)

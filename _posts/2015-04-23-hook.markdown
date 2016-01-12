@@ -1,0 +1,1165 @@
+---
+layout: post
+title: "钩子函数(HOOK)的创建和注入" 
+comments: true
+share: true
+tags: 笔记
+---
+
+项目下载地址：[oneoneone.wang/coding/release/HOOK.rar](oneoneone.wang/coding/release/HOOK.rar "oneoneone.wang/coding/release/HOOK.rar")
+
+基本逻辑：
+
+1. 先创建一个钩子函数的dll文件
+2. 再在一个工程中去调用dll并且设置钩子和卸载钩子
+
+
+## 1. 创建钩子函数的dll ##
+
+**APIHook_Dll.h**
+
+	//第一个#pragma 语句创造数据段，这里命名为hookdata
+	//#pragma 语句之后的所有初始化的变量都进入hookdata段中。
+	//对变量进行专门的初始化是很重要的，
+	//否则编译程序将把它们放在普通的未初始化的段中而不是放在hookdata中
+	#pragma data_seg("hookdata")
+	HHOOK oldkeyhook = 0;
+	
+	//第二个#pragma语句是数据段的结束标志。
+	#pragma data_seg() 
+	
+	//链接程序必须直到有一个hookdata段。如下指定
+	#pragma comment(linker,"/SECTION:hookdata,RWS")
+	
+	
+	/*使用包含在DLL的函数，必须将其导入。导入操作时通过dllimport来完成的，
+	dllexport和dllimport是vc（visual C++）和bc（Borland C++）所支持的扩展的关键字。
+	但是dllexport和dllimport关键字不能被自身所使用，因此它的前面必须有另一个扩展关键
+	字__declspec。通用格式如下：__declspec(specifier)其中specifier是存储类标示符。
+	对于DLL，specifier将是dllexport和dllimport。
+	为了简化说明导入和导出函数的语句，用一个宏名来代替__declspec
+	*/
+	#define DllExport extern "C"__declspec(dllexport) 
+	
+	DllExport LRESULT CALLBACK KeyBoardProc(int nCode, WPARAM wParam, LPARAM lParam);
+	
+	DllExport void InstallHook(int nCode);
+	
+	DllExport void EndHook(void);
+	
+
+
+**APIHook_Dll.cpp**
+
+	// APIHook_Dll.cpp : 定义 DLL 应用程序的导出函数。
+	//
+	
+	#include "stdafx.h"
+	
+	#include <windows.h>
+	#include "APIHook_Dll.h"
+	#include <string.h>
+	#include <stdio.h>
+	
+	HINSTANCE hInst;
+	
+	
+	
+	//当初始化或终止DLL时调用DllMain函数
+	BOOL WINAPI DllMain(HINSTANCE hInstance, ULONG What, LPVOID NotUsed)
+	{
+		switch (What)
+		{
+		case DLL_PROCESS_ATTACH:
+			hInst = hInstance;
+			break;
+		case DLL_PROCESS_DETACH:
+			break;
+		case DLL_THREAD_ATTACH:
+			break;
+		case DLL_THREAD_DETACH:
+			break;
+		}
+		return 1;
+	}
+	
+	//设置钩子
+	//oldkeyhook存放在hookdata数据段中
+	void InstallHook(int nCode)
+	{
+		oldkeyhook = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)KeyBoardProc,
+			//						  装入钩子类型  钩子进程的入口地址	       
+			hInst, 0);
+		//										应用程序的事件句柄		装入钩子的线程标示
+	}
+	
+	/*
+	钩子进程使用函数HookProc;其实HookProc仅仅只是应用程序定义的符号。
+	比如你可以写成KeyBoardHook.但是参数是不变的
+	。Win32 API提供了诸如：
+	CallWndProc、GetMsgProc、DebugProc、CBTProc、MouseProc、KeyboardProc、MessageProc等函数
+	
+	钩子进程是一些依附在一个钩子上的一些函数，因此钩子进程只被WINDOWS调用而不被应用程序调用，
+	他们有时就需要作为一个回调函数（CALLBACK）。
+	*/
+	DllExport LRESULT CALLBACK KeyBoardProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		//参数介绍：
+		/*nCode:钩子代码，钩子进程使用钩子代码去决定是否执行。
+			而钩子代码的值是依靠钩子的种类来定的。
+			每种钩子种类都有他们自己一系列特性的代码。
+			比如对于WH_KEYBOARD，钩子代码的参数有：HC_ACTION，HC_NOREMOVE。
+			当nCode等于HC_ACTION时，钩子进程必须处理消息。
+			而为HC_NOREMOVE时，钩子进程必须传递消息给CallNextHookEx函数，
+			而不能做进一步的处理，而且必须有CallNextHookEx函数的返回值。
+		参数wParam :键盘敲打所产生的键盘消息，键盘按键的虚拟代码。
+		参数lParam ：包含了消息细节。
+	
+		*/
+		WPARAM j;
+		FILE *fp;
+		if (lParam & 0x80000000)
+		{
+			j = wParam;
+			fp = fopen("E://key.txt", "a");
+			fprintf(fp, "%4d", j);
+			fclose(fp);
+		}
+		//调用下一个钩子函数
+		return CallNextHookEx(oldkeyhook,   nCode, 
+							//当前钩子的句柄 传送到钩子进程的钩子代码
+							wParam,				lParam);
+						//传送到钩子进程的值。   传送到钩子进程的值
+		//CallNexHookEx()函数用于对当前钩子链中的下一个钩子进程传递钩子信息，
+		//一个钩子进程既可以在钩子信息处理前，也可以在钩子信息处理后调用该函数。
+		//返回值是链中下一个钩子进程返回的值，当前钩子进程必须返回这个值，
+		//返回值的具体含义与挂接的钩子类型有关，详细信息请参看具体的钩子进程描述。 
+	}
+	
+	
+	//卸载钩子
+	void EndHook(void)
+	{
+		UnhookWindowsHookEx(oldkeyhook);
+	}
+	
+
+
+若生成失败，可新建一个.def文件，再编译，注意，编译出来的是dll文件！而且会生成.lib文件的！
+
+
+
+----------
+
+## 2. 在一个工程中去调用dll并且设置钩子和卸载钩子 ##
+
+这里用了一个MFC的工程
+
+首先配置MFC工程，让它引用dll项目，并且设置包含目录。
+
+**MFCHOOKDlg.cpp**
+
+
+	//2015.4.23
+	//用了一个监测键盘输入的钩子函数，监测键盘的输入，并将其保存在E://key.txt中
+	//缺点1:加入键盘按住一个键不懂，尽管它在一直输入某个键，但是只能读取一个
+	//缺点2:输入的是键盘每个键的ASCII码表值
+	
+	//当钩子已经生成了一个dll时
+	//实用这个dll相当简单
+	//第一步：导入dll并包含其函数声明的头文件
+	//第二步：在窗口初始化处安装钩子
+	//第三步：在窗口关闭处卸载钩子
+			//也可以在OnSysCommand()处卸载钩子，但是这样会导致最小化后钩子就自己卸载了
+			//OnSysCommand()是指接受到系统命令后的操作
+	
+	
+	// MFCHOOKDlg.cpp : 实现文件
+	//
+	
+	#include "stdafx.h"
+	#include "MFCHOOK.h"
+	#include "MFCHOOKDlg.h"
+	#include "afxdialogex.h"
+	
+	#ifdef _DEBUG
+	#define new DEBUG_NEW
+	#endif
+	
+	//add 第一步，导入dll并包含其函数声明的头文件{
+	//包含DLL函数导出的头文件   
+	#include "APIHook_Dll.h"
+	#pragma comment(lib,"APIHook_Dll.lib")    
+	//end}
+	
+	
+	
+	//----------------------------------
+	
+	// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
+	
+	class CAboutDlg : public CDialogEx
+	{
+	public:
+		CAboutDlg();
+	
+	// 对话框数据
+		enum { IDD = IDD_ABOUTBOX };
+	
+		protected:
+		virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	
+	// 实现
+	protected:
+		DECLARE_MESSAGE_MAP()
+	};
+	
+	CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
+	{
+	}
+	
+	void CAboutDlg::DoDataExchange(CDataExchange* pDX)
+	{
+		CDialogEx::DoDataExchange(pDX);
+	}
+	
+	BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	END_MESSAGE_MAP()
+	
+	
+	// CMFCHOOKDlg 对话框
+	
+	
+	
+	CMFCHOOKDlg::CMFCHOOKDlg(CWnd* pParent /*=NULL*/)
+		: CDialog(CMFCHOOKDlg::IDD, pParent)
+	{
+		m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	}
+	
+	void CMFCHOOKDlg::DoDataExchange(CDataExchange* pDX)
+	{
+		CDialog::DoDataExchange(pDX);
+	}
+	
+	BEGIN_MESSAGE_MAP(CMFCHOOKDlg, CDialog)
+		ON_WM_SYSCOMMAND()
+		ON_WM_PAINT()
+		ON_WM_QUERYDRAGICON()
+		ON_BN_CLICKED(IDC_BUTTON1, &CMFCHOOKDlg::OnBnClickedButton1)
+	END_MESSAGE_MAP()
+	
+	
+	// CMFCHOOKDlg 消息处理程序
+	
+	BOOL CMFCHOOKDlg::OnInitDialog()
+	{
+		CDialog::OnInitDialog();
+	
+		// 将“关于...”菜单项添加到系统菜单中。
+	
+		// IDM_ABOUTBOX 必须在系统命令范围内。
+		ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
+		ASSERT(IDM_ABOUTBOX < 0xF000);
+	
+		CMenu* pSysMenu = GetSystemMenu(FALSE);
+		if (pSysMenu != NULL)
+		{
+			BOOL bNameValid;
+			CString strAboutMenu;
+			bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
+			ASSERT(bNameValid);
+			if (!strAboutMenu.IsEmpty())
+			{
+				pSysMenu->AppendMenu(MF_SEPARATOR);
+				pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
+			}
+		}
+	
+		// 设置此对话框的图标。  当应用程序主窗口不是对话框时，框架将自动
+		//  执行此操作
+		SetIcon(m_hIcon, TRUE);			// 设置大图标
+		SetIcon(m_hIcon, FALSE);		// 设置小图标
+	
+	
+		// TODO:  在此添加额外的初始化代码
+	
+		//add 第二步，安装钩子{
+		InstallHook(HC_NOREMOVE);
+		//end}
+	
+		return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+	}
+	
+	void CMFCHOOKDlg::OnSysCommand(UINT nID, LPARAM lParam)
+	{
+		if ((nID & 0xFFF0) == IDM_ABOUTBOX)
+		{
+			CAboutDlg dlgAbout;
+			dlgAbout.DoModal();
+		}
+		else
+		{
+			CDialog::OnSysCommand(nID, lParam);
+		}
+	
+		
+	}
+	
+	// 如果向对话框添加最小化按钮，则需要下面的代码
+	//  来绘制该图标。  对于使用文档/视图模型的 MFC 应用程序，
+	//  这将由框架自动完成。
+	
+	void CMFCHOOKDlg::OnPaint()
+	{
+		if (IsIconic())
+		{
+			CPaintDC dc(this); // 用于绘制的设备上下文
+	
+			SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
+	
+			// 使图标在工作区矩形中居中
+			int cxIcon = GetSystemMetrics(SM_CXICON);
+			int cyIcon = GetSystemMetrics(SM_CYICON);
+			CRect rect;
+			GetClientRect(&rect);
+			int x = (rect.Width() - cxIcon + 1) / 2;
+			int y = (rect.Height() - cyIcon + 1) / 2;
+	
+			// 绘制图标
+			dc.DrawIcon(x, y, m_hIcon);
+		}
+		else
+		{
+			CDialog::OnPaint();
+		}
+	}
+	
+	//当用户拖动最小化窗口时系统调用此函数取得光标
+	//显示。
+	HCURSOR CMFCHOOKDlg::OnQueryDragIcon()
+	{
+		return static_cast<HCURSOR>(m_hIcon);
+	}
+	
+	
+	
+	void CMFCHOOKDlg::OnBnClickedButton1()
+	{
+		// TODO:  在此添加控件通知处理程序代码
+	}
+	
+	void CMFCHOOKDlg::OnClose(){
+		//add 第三步，卸载钩子{
+		EndHook();
+		//end}
+		CDialog::OnClose();
+	}
+
+
+
+note:
+
+
+
+
+
+----------
+
+
+
+# MSDN里有另外一段功能齐全的代码： #
+
+生成的是dll，信息很多，还没来得及看。(2015-4-23)
+
+
+## MSDNHOOK.cpp ##
+
+	// MSDNHOOK.cpp : 定义 DLL 应用程序的导出函数。
+	//这个是MSDN里的一个例程，可以实现多种功能，
+	//通过Index来控制该钩子函数监测哪一类系统消息
+	//链接：https://msdn.microsoft.com/en-us/library/windows/desktop/ms644960(v=vs.85).aspx#system_events
+	//		http://blog.csdn.net/cpdoor2163_com/article/details/8259820
+	/*
+	使用方法：
+	将下列文件生成dll文件，再去调用：
+	
+		HOOKPROC hkprcSysMsg;
+		static HINSTANCE hinstDLL;
+		static HHOOK hhookSysMsg;
+	
+		hinstDLL = LoadLibrary(TEXT("c:\\myapp\\sysmsg.dll"));
+		hkprcSysMsg = (HOOKPROC)GetProcAddress(hinstDLL, "SysMessageProc");
+	
+		hhookSysMsg = SetWindowsHookEx(
+		WH_SYSMSGFILTER,
+		hkprcSysMsg,
+		hinstDLL,
+		0);
+	
+	*/
+	
+	#include "stdafx.h"
+	#include <windows.h>
+	#include <strsafe.h>
+	#include "MSDNHOOK.h"
+	
+	#pragma comment( lib, "user32.lib") 
+	#pragma comment( lib, "gdi32.lib")
+	
+	
+	LRESULT WINAPI MainWndProc(HWND hwndMain, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	{
+		static BOOL afHooks[NUMHOOKS];
+		int index;
+		static HMENU hmenu;
+	
+		gh_hwndMain = hwndMain;
+	
+		switch (uMsg)
+		{
+		case WM_CREATE:
+	
+			// Save the menu handle
+	
+			hmenu = GetMenu(hwndMain);
+	
+			// Initialize structures with hook data. The menu-item identifiers are 
+			// defined as 0 through 6 in the header file app.h. They can be used to 
+			// identify array elements both here and during the WM_COMMAND message. 
+	
+			myhookdata[IDM_CALLWNDPROC].nType = WH_CALLWNDPROC;
+			myhookdata[IDM_CALLWNDPROC].hkprc = CallWndProc;
+			myhookdata[IDM_CBT].nType = WH_CBT;
+			myhookdata[IDM_CBT].hkprc = CBTProc;
+			myhookdata[IDM_DEBUG].nType = WH_DEBUG;
+			myhookdata[IDM_DEBUG].hkprc = DebugProc;
+			myhookdata[IDM_GETMESSAGE].nType = WH_GETMESSAGE;
+			myhookdata[IDM_GETMESSAGE].hkprc = GetMsgProc;
+			myhookdata[IDM_KEYBOARD].nType = WH_KEYBOARD;
+			myhookdata[IDM_KEYBOARD].hkprc = KeyboardProc;
+			myhookdata[IDM_MOUSE].nType = WH_MOUSE;
+			myhookdata[IDM_MOUSE].hkprc = MouseProc;
+			myhookdata[IDM_MSGFILTER].nType = WH_MSGFILTER;
+			myhookdata[IDM_MSGFILTER].hkprc = MessageProc;
+	
+			// Initialize all flags in the array to FALSE. 
+	
+			memset(afHooks, FALSE, sizeof(afHooks));
+	
+			return 0;
+	
+		case WM_COMMAND:
+			switch (LOWORD(wParam))
+			{
+				// The user selected a hook command from the menu. 
+	
+			case IDM_CALLWNDPROC:
+			case IDM_CBT:
+			case IDM_DEBUG:
+			case IDM_GETMESSAGE:
+			case IDM_KEYBOARD:
+			case IDM_MOUSE:
+			case IDM_MSGFILTER:
+	
+				// Use the menu-item identifier as an index 
+				// into the array of structures with hook data. 
+	
+				index = LOWORD(wParam);
+	
+				// If the selected type of hook procedure isn't 
+				// installed yet, install it and check the 
+				// associated menu item. 
+	
+				if (!afHooks[index])
+				{
+					myhookdata[index].hhook = SetWindowsHookEx(
+						myhookdata[index].nType,
+						myhookdata[index].hkprc,
+						(HINSTANCE)NULL, GetCurrentThreadId());
+					CheckMenuItem(hmenu, index,
+						MF_BYCOMMAND | MF_CHECKED);
+					afHooks[index] = TRUE;
+				}
+	
+				// If the selected type of hook procedure is 
+				// already installed, remove it and remove the 
+				// check mark from the associated menu item. 
+	
+				else
+				{
+					UnhookWindowsHookEx(myhookdata[index].hhook);
+					CheckMenuItem(hmenu, index,
+						MF_BYCOMMAND | MF_UNCHECKED);
+					afHooks[index] = FALSE;
+				}
+	
+			default:
+				return (DefWindowProc(hwndMain, uMsg, wParam,
+					lParam));
+			}
+			break;
+	
+			//
+			// Process other messages. 
+			//
+	
+		default:
+			return DefWindowProc(hwndMain, uMsg, wParam, lParam);
+		}
+		return NULL;
+	}
+	
+	/****************************************************************
+	WH_CALLWNDPROC hook procedure
+	****************************************************************/
+	
+	LRESULT WINAPI CallWndProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		CHAR szCWPBuf[256];
+		CHAR szMsg[16];
+		HDC hdc;
+		static int c = 0;
+		size_t cch;
+		HRESULT hResult;
+	
+		if (nCode < 0)  // do not process message 
+			return CallNextHookEx(myhookdata[IDM_CALLWNDPROC].hhook, nCode, wParam, lParam);
+	
+		// Call an application-defined function that converts a message 
+		// constant to a string and copies it to a buffer. 
+	
+		LookUpTheMessage((PMSG)lParam, szMsg);
+	
+		hdc = GetDC(gh_hwndMain);
+	
+		switch (nCode)
+		{
+		case HC_ACTION:
+			hResult = StringCchPrintf(szCWPBuf, 256 / sizeof(TCHAR),
+				"CALLWNDPROC - tsk: %ld, msg: %s, %d times   ",
+				wParam, szMsg, c++);
+			if (FAILED(hResult))
+			{
+				// TODO: writer error handler
+			}
+			hResult = StringCchLength(szCWPBuf, 256 / sizeof(TCHAR), &cch);
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			TextOut(hdc, 2, 15, szCWPBuf, cch);
+			break;
+	
+		default:
+			break;
+		}
+	
+		ReleaseDC(gh_hwndMain, hdc);
+	
+		return CallNextHookEx(myhookdata[IDM_CALLWNDPROC].hhook, nCode, wParam, lParam);
+	}
+	
+	/****************************************************************
+	WH_GETMESSAGE hook procedure
+	****************************************************************/
+	
+	LRESULT CALLBACK GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		CHAR szMSGBuf[256];
+		CHAR szRem[16];
+		CHAR szMsg[16];
+		HDC hdc;
+		static int c = 0;
+		size_t cch;
+		HRESULT hResult;
+	
+		if (nCode < 0) // do not process message 
+			return CallNextHookEx(myhookdata[IDM_GETMESSAGE].hhook, nCode,
+			wParam, lParam);
+	
+		switch (nCode)
+		{
+		case HC_ACTION:
+			switch (wParam)
+			{
+			case PM_REMOVE:
+				hResult = StringCchCopy(szRem, 16 / sizeof(TCHAR), "PM_REMOVE");
+				if (FAILED(hResult))
+				{
+					// TODO: write error handler
+				}
+				break;
+	
+			case PM_NOREMOVE:
+				hResult = StringCchCopy(szRem, 16 / sizeof(TCHAR), "PM_NOREMOVE");
+				if (FAILED(hResult))
+				{
+					// TODO: write error handler
+				}
+				break;
+	
+			default:
+				hResult = StringCchCopy(szRem, 16 / sizeof(TCHAR), "Unknown");
+				if (FAILED(hResult))
+				{
+					// TODO: write error handler
+				}
+				break;
+			}
+	
+			// Call an application-defined function that converts a 
+			// message constant to a string and copies it to a 
+			// buffer. 
+	
+			LookUpTheMessage((PMSG)lParam, szMsg);
+	
+			hdc = GetDC(gh_hwndMain);
+			hResult = StringCchPrintf(szMSGBuf, 256 / sizeof(TCHAR),
+				"GETMESSAGE - wParam: %s, msg: %s, %d times   ",
+				szRem, szMsg, c++);
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			hResult = StringCchLength(szMSGBuf, 256 / sizeof(TCHAR), &cch);
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			TextOut(hdc, 2, 35, szMSGBuf, cch);
+			break;
+	
+		default:
+			break;
+		}
+	
+		ReleaseDC(gh_hwndMain, hdc);
+	
+		return CallNextHookEx(myhookdata[IDM_GETMESSAGE].hhook, nCode, wParam, lParam);
+	}
+	
+	/****************************************************************
+	WH_DEBUG hook procedure
+	****************************************************************/
+	
+	LRESULT CALLBACK DebugProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		CHAR szBuf[128];
+		HDC hdc;
+		static int c = 0;
+		size_t cch;
+		HRESULT hResult;
+	
+		if (nCode < 0)  // do not process message 
+			return CallNextHookEx(myhookdata[IDM_DEBUG].hhook, nCode,
+			wParam, lParam);
+	
+		hdc = GetDC(gh_hwndMain);
+	
+		switch (nCode)
+		{
+		case HC_ACTION:
+			hResult = StringCchPrintf(szBuf, 128 / sizeof(TCHAR),
+				"DEBUG - nCode: %d, tsk: %ld, %d times   ",
+				nCode, wParam, c++);
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			hResult = StringCchLength(szBuf, 128 / sizeof(TCHAR), &cch);
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			TextOut(hdc, 2, 55, szBuf, cch);
+			break;
+	
+		default:
+			break;
+		}
+	
+		ReleaseDC(gh_hwndMain, hdc);
+	
+		return CallNextHookEx(myhookdata[IDM_DEBUG].hhook, nCode, wParam, lParam);
+	}
+	
+	/****************************************************************
+	WH_CBT hook procedure
+	****************************************************************/
+	
+	LRESULT CALLBACK CBTProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		CHAR szBuf[128];
+		CHAR szCode[128];
+		HDC hdc;
+		static int c = 0;
+		size_t cch;
+		HRESULT hResult;
+	
+		if (nCode < 0)  // do not process message 
+			return CallNextHookEx(myhookdata[IDM_CBT].hhook, nCode, wParam,
+			lParam);
+	
+		hdc = GetDC(gh_hwndMain);
+	
+		switch (nCode)
+		{
+		case HCBT_ACTIVATE:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_ACTIVATE");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_CLICKSKIPPED:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_CLICKSKIPPED");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_CREATEWND:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_CREATEWND");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_DESTROYWND:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_DESTROYWND");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_KEYSKIPPED:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_KEYSKIPPED");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_MINMAX:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_MINMAX");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_MOVESIZE:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_MOVESIZE");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_QS:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_QS");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_SETFOCUS:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_SETFOCUS");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case HCBT_SYSCOMMAND:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "HCBT_SYSCOMMAND");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		default:
+			hResult = StringCchCopy(szCode, 128 / sizeof(TCHAR), "Unknown");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+		}
+		hResult = StringCchPrintf(szBuf, 128 / sizeof(TCHAR), "CBT -  nCode: %s, tsk: %ld, %d times   ",
+			szCode, wParam, c++);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		hResult = StringCchLength(szBuf, 128 / sizeof(TCHAR), &cch);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		TextOut(hdc, 2, 75, szBuf, cch);
+		ReleaseDC(gh_hwndMain, hdc);
+	
+		return CallNextHookEx(myhookdata[IDM_CBT].hhook, nCode, wParam, lParam);
+	}
+	
+	/****************************************************************
+	WH_MOUSE hook procedure
+	****************************************************************/
+	
+	LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		CHAR szBuf[128];
+		CHAR szMsg[16];
+		HDC hdc;
+		static int c = 0;
+		size_t cch;
+		HRESULT hResult;
+	
+		if (nCode < 0)  // do not process the message 
+			return CallNextHookEx(myhookdata[IDM_MOUSE].hhook, nCode,
+			wParam, lParam);
+	
+		// Call an application-defined function that converts a message 
+		// constant to a string and copies it to a buffer. 
+	
+		LookUpTheMessage((PMSG)lParam, szMsg);
+	
+		hdc = GetDC(gh_hwndMain);
+		hResult = StringCchPrintf(szBuf, 128 / sizeof(TCHAR),
+			"MOUSE - nCode: %d, msg: %s, x: %d, y: %d, %d times   ",
+			nCode, szMsg, LOWORD(lParam), HIWORD(lParam), c++);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		hResult = StringCchLength(szBuf, 128 / sizeof(TCHAR), &cch);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		TextOut(hdc, 2, 95, szBuf, cch);
+		ReleaseDC(gh_hwndMain, hdc);
+	
+		return CallNextHookEx(myhookdata[IDM_MOUSE].hhook, nCode, wParam, lParam);
+	}
+	
+	/****************************************************************
+	WH_KEYBOARD hook procedure
+	****************************************************************/
+	
+	LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		CHAR szBuf[128];
+		HDC hdc;
+		static int c = 0;
+		size_t cch;
+		HRESULT hResult;
+	
+		if (nCode < 0)  // do not process message 
+			return CallNextHookEx(myhookdata[IDM_KEYBOARD].hhook, nCode,
+			wParam, lParam);
+	
+		hdc = GetDC(gh_hwndMain);
+		hResult = StringCchPrintf(szBuf, 128 / sizeof(TCHAR), "KEYBOARD - nCode: %d, vk: %d, %d times ", nCode, wParam, c++);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		hResult = StringCchLength(szBuf, 128 / sizeof(TCHAR), &cch);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		TextOut(hdc, 2, 115, szBuf, cch);
+		ReleaseDC(gh_hwndMain, hdc);
+	
+		return CallNextHookEx(myhookdata[IDM_KEYBOARD].hhook, nCode, wParam, lParam);
+	}
+	
+	/****************************************************************
+	WH_MSGFILTER hook procedure
+	****************************************************************/
+	
+	LRESULT CALLBACK MessageProc(int nCode, WPARAM wParam, LPARAM lParam)
+	{
+		CHAR szBuf[128];
+		CHAR szMsg[16];
+		CHAR szCode[32];
+		HDC hdc;
+		static int c = 0;
+		size_t cch;
+		HRESULT hResult;
+	
+		if (nCode < 0)  // do not process message 
+			return CallNextHookEx(myhookdata[IDM_MSGFILTER].hhook, nCode,
+			wParam, lParam);
+	
+		switch (nCode)
+		{
+		case MSGF_DIALOGBOX:
+			hResult = StringCchCopy(szCode, 32 / sizeof(TCHAR), "MSGF_DIALOGBOX");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case MSGF_MENU:
+			hResult = StringCchCopy(szCode, 32 / sizeof(TCHAR), "MSGF_MENU");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		case MSGF_SCROLLBAR:
+			hResult = StringCchCopy(szCode, 32 / sizeof(TCHAR), "MSGF_SCROLLBAR");
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+	
+		default:
+			hResult = StringCchPrintf(szCode, 128 / sizeof(TCHAR), "Unknown: %d", nCode);
+			if (FAILED(hResult))
+			{
+				// TODO: write error handler
+			}
+			break;
+		}
+	
+		// Call an application-defined function that converts a message 
+		// constant to a string and copies it to a buffer. 
+	
+		LookUpTheMessage((PMSG)lParam, szMsg);
+	
+		hdc = GetDC(gh_hwndMain);
+		hResult = StringCchPrintf(szBuf, 128 / sizeof(TCHAR),
+			"MSGFILTER  nCode: %s, msg: %s, %d times    ",
+			szCode, szMsg, c++);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		hResult = StringCchLength(szBuf, 128 / sizeof(TCHAR), &cch);
+		if (FAILED(hResult))
+		{
+			// TODO: write error handler
+		}
+		TextOut(hdc, 2, 135, szBuf, cch);
+		ReleaseDC(gh_hwndMain, hdc);
+	
+		return CallNextHookEx(myhookdata[IDM_MSGFILTER].hhook, nCode, wParam, lParam);
+	}
+
+
+
+## MSDNHOOK.h ##
+
+	#include "Resource.h"
+	
+	#define CALLWNDPROC                 IDM_CALLWNDPROC   
+	#define CBT                         IDM_CBT     
+	#define DEBUG                       IDM_DEBUG    
+	#define GETMESSAGE                  IDM_GETMESSAGE   
+	#define KEYBOARD                    IDM_KEYBOARD   
+	#define MOUSE                       IDM_MOUSE    
+	#define MSGFILTER                   IDM_MSGFILTER
+	
+	//-------------------------------------------------------------- 
+	//Hook procedures
+	
+	//CallWndProc监视发送到窗口过程的消息。系统在消息发送到接收窗口过程
+	//之前调用WH_CALLWNDPROC Hook子程
+	LRESULT WINAPI CallWndProc(int, WPARAM, LPARAM);
+	
+	/*
+	CBT Hook
+	在以下事件之前，系统都会调用WH_CBT Hook子程，这些事件包括：
+	1. 激活，建立，销毁，最小化，最大化，移动，改变尺寸等窗口事件；
+	2. 完成系统指令；
+	3. 来自系统消息队列中的移动鼠标，键盘事件；
+	4. 设置输入焦点事件；
+	5. 同步系统消息队列事件。
+	Hook子程的返回值确定系统是否允许或者防止这些操作中的一个。*/
+	LRESULT WINAPI CBTProc(int, WPARAM, LPARAM);
+	
+	/*WH_DEBUG Hook
+	在系统调用系统中与其他Hook关联的Hook子程之前，系统会调用WH_DEBUG Hook子程。
+	你可以使用这个Hook来决定是否允许系统调用与其他Hook关联的Hook子程。*/
+	LRESULT WINAPI DebugProc(int, WPARAM, LPARAM);
+	
+	/*
+	WH_GETMESSAGE Hook
+	应用程序使用WH_GETMESSAGE Hook来监视从GetMessage or PeekMessage函数
+	返回的消息。你可以使用WH_GETMESSAGE Hook去监视鼠标和键盘输入，
+	以及其他发送到消息队列中的消息。*/
+	LRESULT WINAPI GetMsgProc(int, WPARAM, LPARAM);
+	
+	/*WH_KEYBOARD Hook用来监视WM_KEYDOWN and WM_KEYUP消息，
+	这些消息通过GetMessage or PeekMessage function返回。
+	可以使用这个Hook来监视输入到消息队列中的键盘消息。*/
+	LRESULT WINAPI KeyboardProc(int, WPARAM, LPARAM);
+	
+	/*WH_MOUSE Hook监视从GetMessage 或者 PeekMessage 函数返回的鼠标消息。
+	使用这个Hook监视输入到消息队列中的鼠标消息。*/
+	LRESULT WINAPI MouseProc(int, WPARAM, LPARAM);
+	
+	/*WH_MSGFILTER Hook只能监视传递到菜单，滚动条，消息框的消息，以及传递到
+	通过安装了Hook子程的应用程序建立的对话框的消息。*/
+	LRESULT WINAPI MessageProc(int, WPARAM, LPARAM);
+	
+	
+	
+	INT_PTR CALLBACK  About(HWND, UINT, WPARAM, LPARAM);
+	
+	//----------------------------------
+	
+	HWND hwndMain;
+	extern HINSTANCE hInst;
+	
+	#define NUMHOOKS 7 
+	
+	// Global variables 
+	
+	typedef struct _MYHOOKDATA
+	{
+		int nType;
+		HOOKPROC hkprc;
+		HHOOK hhook;
+	} MYHOOKDATA;
+	
+	MYHOOKDATA myhookdata[NUMHOOKS];
+	
+	HWND gh_hwndMain;
+	
+	//void LookUpTheMessage(PMSG pmsg, TCHAR* szMsg);  
+	//application-defined function, I have written a simple one,you can  
+	//write yours instead  
+	void LookUpTheMessage(PMSG pmsg, TCHAR* szMsg)
+	{
+		DWORD message = pmsg->message;
+		StringCchPrintf(szMsg, sizeof(DWORD), "%x", message);
+	}
+
+
+## Resource.h ##
+
+	#include "Resource.h"
+	
+	#define CALLWNDPROC                 IDM_CALLWNDPROC   
+	#define CBT                         IDM_CBT     
+	#define DEBUG                       IDM_DEBUG    
+	#define GETMESSAGE                  IDM_GETMESSAGE   
+	#define KEYBOARD                    IDM_KEYBOARD   
+	#define MOUSE                       IDM_MOUSE    
+	#define MSGFILTER                   IDM_MSGFILTER
+	
+	//-------------------------------------------------------------- 
+	//Hook procedures
+	
+	//CallWndProc监视发送到窗口过程的消息。系统在消息发送到接收窗口过程
+	//之前调用WH_CALLWNDPROC Hook子程
+	LRESULT WINAPI CallWndProc(int, WPARAM, LPARAM);
+	
+	/*
+	CBT Hook
+	在以下事件之前，系统都会调用WH_CBT Hook子程，这些事件包括：
+	1. 激活，建立，销毁，最小化，最大化，移动，改变尺寸等窗口事件；
+	2. 完成系统指令；
+	3. 来自系统消息队列中的移动鼠标，键盘事件；
+	4. 设置输入焦点事件；
+	5. 同步系统消息队列事件。
+	Hook子程的返回值确定系统是否允许或者防止这些操作中的一个。*/
+	LRESULT WINAPI CBTProc(int, WPARAM, LPARAM);
+	
+	/*WH_DEBUG Hook
+	在系统调用系统中与其他Hook关联的Hook子程之前，系统会调用WH_DEBUG Hook子程。
+	你可以使用这个Hook来决定是否允许系统调用与其他Hook关联的Hook子程。*/
+	LRESULT WINAPI DebugProc(int, WPARAM, LPARAM);
+	
+	/*
+	WH_GETMESSAGE Hook
+	应用程序使用WH_GETMESSAGE Hook来监视从GetMessage or PeekMessage函数
+	返回的消息。你可以使用WH_GETMESSAGE Hook去监视鼠标和键盘输入，
+	以及其他发送到消息队列中的消息。*/
+	LRESULT WINAPI GetMsgProc(int, WPARAM, LPARAM);
+	
+	/*WH_KEYBOARD Hook用来监视WM_KEYDOWN and WM_KEYUP消息，
+	这些消息通过GetMessage or PeekMessage function返回。
+	可以使用这个Hook来监视输入到消息队列中的键盘消息。*/
+	LRESULT WINAPI KeyboardProc(int, WPARAM, LPARAM);
+	
+	/*WH_MOUSE Hook监视从GetMessage 或者 PeekMessage 函数返回的鼠标消息。
+	使用这个Hook监视输入到消息队列中的鼠标消息。*/
+	LRESULT WINAPI MouseProc(int, WPARAM, LPARAM);
+	
+	/*WH_MSGFILTER Hook只能监视传递到菜单，滚动条，消息框的消息，以及传递到
+	通过安装了Hook子程的应用程序建立的对话框的消息。*/
+	LRESULT WINAPI MessageProc(int, WPARAM, LPARAM);
+	
+	
+	
+	INT_PTR CALLBACK  About(HWND, UINT, WPARAM, LPARAM);
+	
+	//----------------------------------
+	
+	HWND hwndMain;
+	extern HINSTANCE hInst;
+	
+	#define NUMHOOKS 7 
+	
+	// Global variables 
+	
+	typedef struct _MYHOOKDATA
+	{
+		int nType;
+		HOOKPROC hkprc;
+		HHOOK hhook;
+	} MYHOOKDATA;
+	
+	MYHOOKDATA myhookdata[NUMHOOKS];
+	
+	HWND gh_hwndMain;
+	
+	//void LookUpTheMessage(PMSG pmsg, TCHAR* szMsg);  
+	//application-defined function, I have written a simple one,you can  
+	//write yours instead  
+	void LookUpTheMessage(PMSG pmsg, TCHAR* szMsg)
+	{
+		DWORD message = pmsg->message;
+		StringCchPrintf(szMsg, sizeof(DWORD), "%x", message);
+	}
+
+
+
+----------
+
+
+另外一些信息：
+
+
+钩子根据其对消息监视范围的不同而分为系统全局钩子和线程局部钩子两大类。
+
+其中线程局部钩子只能监视本进程中某个指定的线程，而全局钩子则可对在当前系统下运行的所有线程进行监视。
+
+显然，线程钩子可以看作是全局钩子的一个子集，全局钩子虽然功能强大但同时实现起来也比较烦琐：其钩子函数的实现必须封装在独立的动态链接库中才可以被各种相关联的应用程序所使用。
+
+虽然对于线程局部钩子并不要求其象系统全局钩子一样必须放置于动态链接库中，但是推荐的做法仍是将其放到动态链接库中去实现。这样的处理不仅能使钩子为系统内的多个进程所访问，同时也可以在系统中被直接调用。对于一个只供单进程访问的钩子，还可以将其钩子处理过程放在安装钩子的同一个线程内。
+
+windows消息传递过程：
+
+操作系统-消息队列-应用程序-响应返回给用户
+
+钩子程序徽在系统传递消息之前对消息队列中的消息进行捕获
+
+即先于应用系统获得系统的控制权
