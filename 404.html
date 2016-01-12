@@ -1,33 +1,6 @@
----
-layout: fourzerofour
-title: Page not found
-newstylesheet: "404"
----
-<article>
-  <header id="404">
-    <h1>This is most peculiar</h1>
-    <p class="date">404</p>
-  </header>
-  
-  <section class="entry">
-    <p>Sorry, I couldn't find the page you were looking for. Maybe try browsing the archive:</p>
-    <ul class="previous-posts">
-      {% for post in site.posts limit:10 %}
-        <li>
-          <a href="{{ post.url }}/" title="{{ post.description }}">
-            <section class="image" style="background-image:url(/images/home/{{post.imageURL}});"></section>
-            {{ post.title }}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
-  
-</article>
-<dialog>
-  <h2>
-    Hey, is this what you meant?
-    <span class="suggestion"></span>
-    <span class="nope">No thanks</span>
-  </h2>
-</dialog>
+<html>
+<title>404</title>
+  <head>
+<script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8"></script>
+  </head>
+</html>
