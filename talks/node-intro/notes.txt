@@ -1,0 +1,227 @@
+Commands for Express setup & deploy:
+
+npm install -g express
+express my_app
+cd my_app && npm install
+node app
+/* perform editing, restart */
+heroku login
+subl Procfile >> web: node app.js
+git init
+git add .
+git commit -m "init"
+heroku create refresh-demo
+git push heroku master
+/* visit refresh-demo.herokuapp.com */
+/* If error: heroku ps:scale web=1 */
+heroku domains:add refresh.hop.ie
+/* visit refresh.hop.ie */
+
+Things to mention:
+
+- Frameworks: Meteor / Sails / Hood.ie
+
+
+
+
+
+
+Talk about:
+
+
+Introduction to Node.js
+
+- Welcome
+-- Photo, twitter handle and title of talk
+
+Hi! I'm Donovan. Today we're going to be talking about Node.js.
+
+If you'd like to follow along this presentation, or maybe relive it later, you can find it on this website. Hop.ie/go/node.
+
+Now, before I start, can I get a show of hands if you've used Node before?
+
+Cool. Now I hope you understand I'll be expecting lots of questions from you lot. If anyone does want to ask a question, just raise your hand anytime. Also, we'll have a break halfway through where we'll be looking at a practical exercise, so if you have any requests or things you'd like me to focus on, let me know.
+
+Ok. <deep breath>
+
+- Plan
+-- Establish what Node.js is about
+-- Try it yourself
+-- Walkthrough of beta.hop.ie
+
+Let's see now. Here's the plan. I'd like to cover 3 things today. First, we're going to take a look at what Node.js is. After that I'll be walking through a simple "Hello World" type example and we'll all have a go setting up a basic Node app.
+
+Then, if we've time, I'd like to talk about an app I built using Node.
+
+- What Node.js is
+
+-- JavaScript based software system
+-- Non-blocking
+-- Event driven
+-- Launched in 2009
+
+Node.js. 
+
+/* MY STORY OF HOW I FOUND NODE, ie through JS, not being content with PHP, interesting new tech, great community */
+
+/* Not only are these things cool / these things are also cool */
+
+One of the things Ryan Dahl was trying to solve: making apps more fast and efficient.
+
+
+
+- Input / Output
+
+
+- Doctor and fast food example
+
+
+
+- JavaScript
+
+V8 (picture of tomato juice)
+
+Node is built on top of Google's V8 JavaScript engine. It's regarded as one of the fastest.
+
+If you dislike JavaScript, you won't like Node. All development is in JavaScript. If on the other hand, you find JavaScript easier and more pleasant to work with than some of the other back-end languages, such as PHP or Ruby, then you might just find Node a great way to get things up and running quickly.
+
+Personally I've gone through the transition of starting off in graphics and design, spending a long time messing with PHP, and more recently, a bit of Ruby. Along the way I've been using JavaScript for a fair amount of front-end flashy stuff. However when I started using JavaScript on the back end too, it felt pretty good. I could work with data on the back-end, send it through Ajax requests to front end code, and have it all feel seamless and light.
+
+Coding for me is most fun when I can get the back-end, functional stuff up and running quickly, and get to the messing around with the front-end CSS and HTML more quickly. It gets me to the point where I can see something happening, and that helps me be creative.
+
+- What sort of apps is Node for?
+
+So, what sort of apps would you want to build with Node? The way it works within a single thread is worth keeping in mind. Since it's not designed to multi-thread (at least not by default), it's best suited to light, small apps. Long running, CPU-heavy apps would block the single thread, so it's best to avoid anything that needs to hog the CPU.
+
+The best sort of structure for Node apps is lots of small apps that work in parallel or pass data around as needed.
+
+Something to bear in mind also, is that even though my own use of Node is very much from the perspective of building web-facing apps, it's not limited to this. You can use Node for all sorts of stuff. It's a framework that allows you to easily build quite low-level applications. I've seen it used in all sorts of applications, from powering a text editor, controlling remote control helicopters, even driving the front-end of a set-top box.
+
+Node's framework is flexible, lightweight, and suited to building all sorts of cool things. The reason it stays so versatile without becoming bogged down in code is the way it uses modules.
+
+- Modules (NPM)
+
+Node without packages is basically a wrapper around the V8 JavaScript processing engine, with a few libraries to handle low-level system stuff. If you want to start using it for anything really interesting, you have two choices. Either write the functionality from scratch, or make use of the thousands of modules available.
+
+These modules cover everything from the essential "http" module to database management tools, tools to help grab data from external APIs and all sorts of cool stuff. They can be very simple, mapping Mime-types, to the complex, such as building full web-facing apps.
+
+- Code order
+
+Node works around an event-driven model of development. There may be some adjustment needed if you're not used to this style of coding.
+
+Here's an example that illustrates how code in Node.js is executed. This is a simple 4 line operation that uses console.log to output two things. The content of a text file called "hello.txt", and the text "Hello from Node!".
+
+Looking at the order the code is processed. In most forms of development, you'd go through it from the top down. First you'd load this text file, and log the contents. In this case the hello.txt file contains "Hello from disk!" text. You would then log the second message, "Hello from Node!". So you'd expect to see "Hello from Disk" then "Hello from Node". 
+
+That's not how Node does it. Node does execute the code from top down, but when this disk operation is doing it's thing, Node continues and executes the second console log, then when the disk IO returns with the contents, it outputs those contents. The result is you see "Hello from Node" followed by "Hello from disk".
+
+Believe it or not, this is an entire Node app. You can save this as a JavaScript file and run it. In fact, let's do that now.
+
+/* open terminal and run hello.js */
+
+- Your turn
+* Set up local laptop as Ad-hoc network with demo code running locally, plus a download page for getting install files *
+-- Install Node.js (http://my_ip_address:3000/download to get the files)
+
+- Hello World
+-- Create new app.js file
+-- Hello World code revealed line by line while talking about it
+
+Let's construct a complete working Node app. It'll be a server, listening on port 1337, and it'll respond with some text when you visit the URL.
+
+I've broken the code down into a few blocks so I can describe what's happening.
+
+Line 1: The first line is setting up a variable called http. It's telling Node to require the HTTP module. In the previous example, the first thing the code had was a require for the FS, or file system module. In this case, we won't be manipulating files, instead we're going to be listening for an HTTP connection.
+
+Line 2: There are a few things happening here. HTTP contains a method called "createserver". This is used to initialise the server, and it is supplied with a function to call whenever a request occurs.
+
+This anonymous function isn't called straight away like a callback, but instead it's attached to an event called "request". When the server receives a request, it runs this function and passes in two objects, "request", and "response".
+
+We're using the "response" object in the two lines that follow. In this case, since it's a very simple example, all it's doing is establishing the server response code (200), specifying the content type, and then finishing by returning some content within the response.end method.
+
+To help break the code up a bit I'm storing the result of this createserver method as an object called "server".
+
+Line 3: The next thing the server needs is a place to listen for requests. Here we specify post 1337.
+
+Line 4: Finally, we add a console log message to let us know that the Node app has worked.
+
+That's it! Save this file, and on your command line navigate to the folder where it's saved. You can then run: node server.js to execute the code.
+
+Opening your browser in localhost:1337, and you should see the text output.
+
+- Real World App: Express & MongoDB
+
+Show the process of creating an app.
+
+Basic app
+----
+express --css stylus demo-app
+npm install
+----
+
+- Case Study: Beta.Hop.ie
+As an example of how Node can be a great way to build something quickly, here's a website I built recently as a small evening project. Feel free to grab the code and go through it at home. You can download it locally from this machine as a ZIP file from the downloads page.
+
+- Site structure
+(diagram of the site structure with front end, angular, node app (3 routes) and mongo database with redis key store)
+
+- Getting the data
+(diagram of the second app, the helper, that gets data from APIs)
+
+- Front-end
+(put up code examples of each)
+
+Jade (http://jade-lang.com/) works out of the box with Express.
+
+Stylus (http://learnboost.github.com/stylus/docs/js.html) is a wonderful CSS pre-processor. Has anyone here used SASS or Less? It's similar that those. For those that haven't, CSS pre-processors are ways of creating great CSS while keeping it maintainable, and extendible. 
+
+- Hosting
+
+-- Self hosting
+-- Appfog
+-- Heroku
+
+The Hop music site is hosted on an Ubuntu server instance on Linode. Setting it up was easy enough, I followed some online guides to get things set up properly with Nginx in front.
+
+Other places I've seen include Appfog and Heroku. Both allow code to be deployed via the command line and offer a free tier of hosting. This generally includes a small database and limited amount of RAM. Both are great if you're starting out and want to get something online quickly, but they can get expensive if you need to scale. Having said that, they do provide a great service that could make scaling a large app much easier.
+
+- Debugging tips
+
+-- Node Inspector
+-- https://github.com/dannycoates/node-inspector
+
+If you've done much website development, you're no doubt quite familiar with the Developer Tools on Chrome, Safari or Firefox. These are great for seeing what's happening with your code, both CSS and JavaScript, on the front end. Debugging the code when it's running on the server isn't something these tools do though.
+
+I would recommend checking out Node Inspector. It fills that gap by offering a similar experience but allowing you to inspect the files on the back-end, and find any issues.
+
+- Summary
+
+- The Good
+
+-- Fast and scaleable
+-- Great community
+-- All JavaScript
+
+- The Bad
+
+-- CPU-intensive apps
+-- Learning curve
+-- All JavaScript
+
+As someone who, like many, has spent a good while working with PHP, MySQL, Ruby and the likes, I have found Node refreshing and exciting. There's something extremely pleasant about being able to write JavaScript to handle putting together data on the back-end, passing the data through, and picking up seamlessly with JavaScript functions on the front-end.
+
+What Node offers me is the ability to get from the point of having an idea to getting something working in less time. As someone who enjoys putting together little, fun web projects, any improvement to the time it takes to get going makes it all the more fun and lets me focus on the parts of development I enjoy.
+
+Node's popularity makes it a great place to develop. Community support is excellent, and the range of modules allows for making some amazing apps with little grunt work. 
+
+With the biggest bottleneck for web apps typically being the IO speeds, Node's non-blocking approach works to eliminate that problem. Node is fast, elegant, and makes development more fun.
+
+- Resources
+Ryan Dahl Intro to Node.js: http://www.yuiblog.com/blog/2010/05/20/video-dahl/
+Node.js Explained: http://www.youtube.com/watch?v=L0pjVcIsU6A
+Find Node Packages: nodezoo
+Express app tutorial: http://clock.co.uk/tech-blogs/a-simple-website-in-nodejs-with-express-jade-and-stylus
+Google Group: http://groups.google.com/group/nodejs
+
+- Feedback / Questions
+

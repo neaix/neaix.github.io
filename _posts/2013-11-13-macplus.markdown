@@ -1,0 +1,11 @@
+---
+layout: redirect
+title: "CSS Mac Plus"
+description: "Recreating the classic Mac Plus computer using only CSS and HTML."
+tags: [css, 3d]
+imageURL: macplus.png
+target: "https://cssanimation.rocks/macplus/"
+targetName: "CSSAnimation.rocks"
+published: true
+---
+

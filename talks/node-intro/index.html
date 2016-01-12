@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Introduction to Node.js</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="css/user.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <div style="position:absolute;top:-300px;width: 800px">
+            <h2>#refreshdublin</h2>
+            <aside class="tweets" id="tweet-container"></aside>
+          </div>
+        </section>
+
+        <section>
+          <h2>Introduction to Node.js</h2>
+          <div class="half" style="width: 40%">
+            <img src="images/me.png" />
+          </div>
+          <div class="half">
+            <br />
+            <ul>
+              <li>Donovan Hutchinson</li>
+              <li>Twitter: <a href="http://twitter.com/donovanh">@donovanh</a></li>
+            </ul>
+            <p>
+              <br />
+              http://hop.ie/go/node
+            </p>
+            <p>
+              <small>Source files: <br />
+                <strong>http://hop.ie/downloads/node-examples.zip</strong></small>
+            </p>
+          </div>
+          
+        </section>
+
+        <section>
+          <h1>Plan</h1>
+          <ul>
+            <li>What is Node.js?</li>
+            <li>Frameworks</li>
+            <li>Create an app with Express.js</li>
+            <li>Example: Tweets</li>
+            <li>Pints</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Node.js</h1>
+          <ul>
+            <li>JavaScript based software system</li>
+            <li>Non-blocking</li>
+            <li>Event driven</li>
+            <li>Launched in 2009</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Blocking VS Non-blocking</h3>
+          <p>Doctor's surgery VS Fast-food outlet</p>
+        </section>
+
+        <section>
+          <h1>Data I/O</h1>
+          <table style="width:400px;margin:20px auto;">
+            <tr>
+              <th>L1</th>
+              <td>3 cycles</td>
+            </tr>
+            <tr>
+              <th>L2</th>
+              <td>14 cycles</td>
+            </tr>
+            <tr>
+              <th>RAM</th>
+              <td>250 cycles</td>
+            </tr>
+            <tr>
+              <th>Disk</th>
+              <td>41,000,000</td>
+            </tr>
+            <tr>
+              <th>Network</th>
+              <td>240,000,000</td>
+            </tr>
+          </table>
+          <p><small>Source: Ryan Dahl 2008 / Jeff Kunkle 2012</small></p>
+        </section>
+
+        <section>
+          <h1>JavaScript</h1>
+          <img src="images/v8.png" width="400" />
+        </section>
+
+        <section>
+          <h3>What sort of</h3>
+          <h1>apps?</h1>
+          <img src="images/nodejs_background.png" />
+        </section>
+
+        <section>
+          <h1>Modules</h1>
+          <img src="images/npm.png" class="transparent" />
+          <p>Currently: ~30k modules available</p>
+        </section>
+
+        <section>
+          <h3>A full Node app</h3>
+<pre style="font-size:34px"><code>var fs = require('fs');
+var contents = fs.readFile(
+  './hello.txt',
+  'utf8', 
+  function(err,contents){
+    console.log(contents);
+  }
+);
+console.log("Hello from Node!\n");
+</code></pre>
+        <p>Download: http://hop.ie/downloads/node-examples.zip</p>
+        </section>
+
+        <section>
+          <h3>Hello World</h3>
+          <ul>
+            <li>Create new file: app.js</li>
+          </ul>
+          <pre style="font-size:34px"><code>var http = require('http');</code></pre>
+          <pre style="font-size:34px"><code>var server = http.createServer(
+function (request, response) {
+  response.writeHead(
+    200,
+    {'Content-Type': 'text/plain'}
+  );
+  response.end('Hello World!\n');
+});</code></pre>
+            <pre style="font-size:34px"><code>server.listen(1337, '127.0.0.1');</code></pre>
+        </section>
+
+        <section>
+          <h1>Frameworks</h1>
+          <ul>
+            <li>Express.js</li>
+            <li>Meteor / Socketstream</li>
+            <li>Sails</li>
+            <li>Hood.ie</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Creating an app</h2>
+          <p>Using Express.js</p>
+        </section>
+
+        <section>
+          <h2>Example</h2>
+          <h1>Tweets</h1>
+          <p><strong>hop.ie/tweets</strong></p>
+          <p>Source code: <strong>github.com/donovanh/tweets</strong></p>
+        </section>
+
+        <section>
+          <h1>Hosting</h1>
+          <ul>
+            <li>Self hosting</li>
+            <li>Appfog</li>
+            <li>Heroku</li>
+            <li>NodeJitsu</li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Summary</h1>
+          <div class="half">
+            <p>The good</p>
+            <ul>
+              <li>Fast and scaleable</li>
+              <li>Great community</li>
+              <li>All JavaScript</li>
+              <li>Streams, Socket.io etc</li>
+            </ul>
+          </div>
+          <div class="half">
+            <p>The bad</p>
+            <ul>
+              <li>CPU-intensive apps</li>
+              <li>Learning curve</li>
+              <li>Not browser JavaScript</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2>Next steps</h2>
+          <ol>
+            <li>Install Node.js</li>
+            <li>Make something</li>
+            <li>????</li>
+            <li>Debug</li>
+          </ol>
+        </section>
+
+        <section>
+          <h1>Resources</h1>
+          <ul>
+              <li><a href="http://www.yuiblog.com/blog/2010/05/20/video-dahl/">Ryan Dahl Intro to Node.js</a></li>
+              <li><a href="http://www.youtube.com/watch?v=L0pjVcIsU6A">Node.js Explained</a></li>
+              <li><a href="http://vimeo.com/62943212">Tim Caldwell's Intro to Node.js</a></li>
+            <li><a href="http://groups.google.com/group/nodejs">Google Group</a></li>
+            <li><a href="http://www.nodejsdublin.com/">NodeJS Dublin Meetup</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Thanks</h1>
+          <p>Get in touch</p>
+          <ul>
+            <li>Twitter: <a href="http://twitter.com/donovanh">@donovanh</a></li>
+            <li>Email: <a href="mailto:d@hop.ie">d@hop.ie</a></li>
+          </ul>
+          <p><br />http://hop.ie/go/node</p>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0-rc.3/handlebars.min.js"></script>
+    <script src="http://tweets.hop.ie/socket.io/socket.io.js"></script>
+    <script src="js/jquery.tweets.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: 'sky', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+          // ,{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+      /* Initialise the Tweets plugin */
+      $.tweets({
+        searchPhrase: 'refreshdublin',
+        templateID: '',
+        destinationID: 'tweet-container',
+        tweetSource: 'http://tweets.hop.ie',
+        maxTweets: 15
+      });
+
+    </script>
+
+  </body>
+</html>

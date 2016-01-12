@@ -1,10 +1,33 @@
 ---
-layout: default
-title: "404: Page not found"
-permalink: 404.html
+layout: fourzerofour
+title: Page not found
+newstylesheet: "404"
 ---
-
-<div class="page">
-  <h1 class="page-title">404: Page not found</h1>
-  <p class="lead">你想看的內容已經被老秘書刪除了。 <a href="{{ site.baseurl }}">回到主頁</a>瀏覽其他內容。</p>
-</div>
+<article>
+  <header id="404">
+    <h1>This is most peculiar</h1>
+    <p class="date">404</p>
+  </header>
+  
+  <section class="entry">
+    <p>Sorry, I couldn't find the page you were looking for. Maybe try browsing the archive:</p>
+    <ul class="previous-posts">
+      {% for post in site.posts limit:10 %}
+        <li>
+          <a href="{{ post.url }}/" title="{{ post.description }}">
+            <section class="image" style="background-image:url(/images/home/{{post.imageURL}});"></section>
+            {{ post.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+  
+</article>
+<dialog>
+  <h2>
+    Hey, is this what you meant?
+    <span class="suggestion"></span>
+    <span class="nope">No thanks</span>
+  </h2>
+</dialog>

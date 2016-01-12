@@ -1,0 +1,62 @@
+dialog
+  display: none
+  position: absolute
+  left: 0
+  right: 0
+  top: 0
+  color: #fff
+  background: none
+  border: none
+  text-align: center
+
+  &[open]
+    display: block
+
+    &:before
+      content: ""
+      position: fixed
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      background: rgba(0,0,0,0.8)
+      z-index: -1
+
+  span
+    display: block
+
+  span.suggestion
+    font-size: 1.75em
+    line-height: 2.5em
+
+  h2
+    padding-top: 2em
+    line-height: 1.5em
+
+  a
+    background: rgba(200,200,255, 0.9)
+    padding: 0.25em
+    border-radius: 0.25em
+
+  .nope
+    color: #aaa
+    font-size: 0.75em
+    cursor: pointer
+
+.previous-posts li
+  list-style: none
+  padding: 10px 0 10px 10px
+
+  a
+    position: relative
+    height: 42px
+
+section.image
+  position: absolute
+  left: -48px
+  top: -4px
+  width: 36px
+  height: 36px
+  background-size: cover
+  border: 1px solid #aaa
+  border-radius: 50%

@@ -1,32 +1,8 @@
-# Dependencies
-markdown:         kramdown
-kramdown:
-  input:          GFM
-gems:
-                  - jekyll-sitemap
+url: http://hop.ie
+permalink: /blog/:title
+highlighter: pygments
+paginate: 8 # the number of post per page
+markdown: kramdown
+future: false
 
-# Permalinks
-permalink:        /:year/:month/:day/:title
-
-# Setup
-title:            neaix
-description:      '慢慢走'
-baseurl:          /
-url:              http://neaix.com
-domain:           neaix.com
-email:            neaix@hotmail.com
-twitter_username: ztpala
-github_username:  pala
-timezone:         America/New_York
-subscribe:        
-exclude:          [ README.md, newpost.rb, CNAME ]
-
-author:
-  url:            neaix.com
-
-paginate:         5
-
-github:
-  repo:           https://github.com/pala/neaix.github.io
-
-disqus_shortname: neaix
+gems: [jekyll-paginate]

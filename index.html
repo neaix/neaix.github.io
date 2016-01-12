@@ -1,38 +1,63 @@
 ---
 layout: default
-title: Home
+title: Donovan's blog
+bodyTag: home
 ---
 
-<div class="posts">
-  {% for post in paginator.posts %}
-  <div class="post">
-    <h1 class="post-title">
-      <a href="{{ post.url }}">
-        {{ post.title }}
-      </a>
-    </h1>
+{% if paginator.page == 1 %}
+  <section class="welcome">
+    <section class="image">
+      <img src="/images/me.jpeg" alt="Sure it's himself" width="100">
+    </section>
+    <section class="content">
+      <h2>Hi, I'm <a href="/about/">Donovan Hutchinson</a>, a Dublin based front-end designer.</h2>
+      <p>This is where I blog about CSS, JavaScript and other front-end development. Follow me <a href="https://twitter.com/donovanh">on Twitter</a> for updates.</p>
+    </section>
+  </section>
+{% endif %}
 
-    <span class="post-date">{{ post.date | date_to_string }}</span>
+{% for post in paginator.posts %}
 
-    {{ post.excerpt }}
-  </div>
-  {% endfor %}
-</div>
+    <article>
 
-<div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
+      <header>
+        {% if post.target %}
+           <a href="{{ post.target }}">
+            {% if post.imageURL %}
+              <img src="/images/home/{{post.imageURL}}" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
+            {% else %}
+              <img src="/images/home/default.png" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
+            {% endif %}
+            <h1>{{ post.title }}</h1>
+          </a>
+          <p class="date">{{ post.date | date: "%B %d, %Y" }} - for <strong>{{ post.targetName }}</strong></p>
+        {% else %}
+          <a href="{{ post.url }}/">
+            {% if post.imageURL %}
+              <img src="/images/home/{{post.imageURL}}" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
+            {% else %}
+              <img src="/images/home/default.png" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
+            {% endif %}
+            <h1>{{ post.title }}</h1>
+          </a>
+          <p class="date">{{ post.date | date: "%B %d, %Y" }}</p>
+        {% endif %}
+
+      </header>
+    </article>
+
+{% endfor %}
+
+<!-- Pagination links -->
+<nav class="pagination">
   {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}">Newer</a>
+    {% if paginator.previous_page == 1 %}
+      <a href="/" class="previous">&laquo;</a>
     {% else %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Newer</a>
+      <a href="/page{{paginator.previous_page}}" class="previous">&laquo;</a>
     {% endif %}
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
   {% endif %}
-</div>
-
+  {% if paginator.next_page %}
+    <a href="/page{{paginator.next_page}}" class="next ">&raquo;</a>
+  {% endif %}
+</nav>
