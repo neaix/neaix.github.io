@@ -1,107 +1,36 @@
-﻿title:            Joway
-description:      沧浪之水清兮，可以濯吾缨。 沧浪之水浊兮，可以濯吾足。
-logo:             site-logo.png
-disqus_shortname: Joway
-search:           true
-# Change url to your domain. Leave localhost server or blank when working locally.
-url:              https://joway.github.io
-asset_url:        https://joway.github.io 
+# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
+permalink: /:year/:month/:day/:title.html
+paginate: 10 # pagination based on number of posts
+paginate_path: "page:num"
+exclude: ["README.md"] # files to exclude
+highlighter: true
+markdown: kramdown
 
 
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      title: 镜中的自我
 
+description: 生活、文艺与梦想
+# gavatar头像及Favicon
+gavatar: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
+favicon: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
 
-# Owner/author information
-owner:
-  name:           Joway.W
-  avatar:         bio-photo.jpg
-  email:          670425438@qq.com
-  # Social networking links used in footer. Update and remove as you like.
-  twitter:        
-  facebook:       
-  github:         joway
-  stackexchange:  
-  linkedin:       
-  instagram:      
-  flickr:         
-  tumblr:         
-  weibo:          http://weibo.com/670425438 
-  # For Google Authorship https://plus.google.com/joway
-  google_plus:    https://plus.google.com/joway
+author:
+  name: 七弦
+  email: lcm.hust@gmail.com
+  github: joshualeung
+  twitter: szjoshua
+  pinterest: joshualeung
+  linkedin: joshualeung
+  bio: 谁谓河广，一苇杭之
+  email_md5: 726351295ec82e145928582f595aa3aa
 
-# Analytics and webmaster tools stuff goes here
-google_analytics:   
-google_verify:      
-# https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
-bing_verify:         
-google_ads_display: false
-tb_ads_display: false
-# Links to include in top navigation
-# For external links add external: true
-links:
-  - title: 主页
-    url: /
-  - title: 博客
-    url: /blog.html
-  - title: 分类
-    url: /tags.html
-  - title: 项目
-    url: /project.html
-  - title: 相册
-    url: /photos/index.html
-  - title: 留言
-    url: /message.html
-  - title: 乌托邦
-    url: /literature.html
-  - title: 关于
-    url: /about.html
-    external: true
+rss_path: feed.xml
+categories_path: categories.html
+tags_path: tags.html
 
-# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone:    Asia/Shanghai
-future:      true
-highlighter: 
-markdown:    redcarpet
-
-# https://github.com/mojombo/jekyll/wiki/Permalinks
-permalink:   /blog/:year/:month/:day/:title.html
-
-redcarpet:
-  extensions:
-    - fenced_code_blocks
-    - no_intra_emphasis
-    - strikethrough
-    - autolink
-    - tables
-
-include: [".htaccess"]
-exclude: ["lib", "config.rb", "Gemfile", "Capfile", "Gemfile.lock", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
-
-#gallerytag:
-#    dir: images/gallery
-#    url: images/gallery
-#    thumb_width: 250
-#    thumb_height: 250
-#    columns: 5
-#
-
-gallery:
-  # path to the gallery
-  dir: photos
-  # title for gallery index
-  title: "Photos"
-  # title prefix for gallery page. title=title_prefix+gallery_name
-  title_prefix: "Photos: "
-  # field to control sorting of galleries for the index page
-  # (possible values are: title, date_time, best_image)
-  sort_field: "date_time"
-  # sizes for thumbnails
-  thumbnail_size:
-    x: 200
-    y: 200
-  # custom configuration for individual gallery
-  # best_image is image for the index page (defaults to last image)
-  galleries:
-    Joway:
-    best_image: 01.JPG
-    
-
+BASE_PATH:

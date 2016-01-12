@@ -1,94 +1,74 @@
 ---
-layout:
-title:
+layout: page
+tagline:
 ---
-<!DOCTYPE HTML>
-<!--
-	Aerial 1.0 by HTML5 UP
-	html5up.net | @n33co
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Joway.W</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
-		<script src="{{ site.asset_url }}/js/skel.min.js"></script>
-		<script src="{{ site.asset_url }}/js/init.js"></script>
-		<noscript>
-            <link rel="stylesheet" href="{{ site.asset_url }}/css/skel.css" />
-			<link rel="stylesheet" href="{{ site.asset_url }}/css/style.css" />
-			<link rel="stylesheet" href="{{ site.asset_url }}/css/style-wide.css" />
-			<link rel="stylesheet" href="{{ site.asset_url }}/css/style-noscript.css" />
-		</noscript>
-		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
-	</head>
-	<body class="loading" style="color:#000000">
-		<div id="wrapper">
-			<div id="bg"></div>
-			<div id="overlay"></div>
-			<div id="main">
 
-				<!-- Header -->
-					<header id="header">
-						<h1>Joway.W</h1>
-						<p> 沧浪之水清兮，可以濯吾缨。 沧浪之水浊兮，可以濯吾足。 </p>
-						<nav>
-							<ul>
-								<li><a href="{{ site.url }}/blog.html" class="fa fa-wordpress"><span>博客</span></a></li>
-								<li><a href="{{ site.url }}/tags.html" class="fa fa-tags"><span>分类</span></a></li>
-								<li><a href="{{ site.url }}/photos/index.html" class="fa fa-picture-o"><span>相册</span></a></li
-								><li><a href="{{ site.url }}/message.html" class="fa fa-comments"><span>留言板</span></a></li>
-								<li><a href="https://github.com/joway" class="fa fa-github-square"><span>Github</span></a></li>
-                            </ul>
-						</nav>
-					</header>
+{% for post in paginator.posts %}
 
-				<!-- Footer -->
-					<footer id="footer">
-					</footer>
+<article class="home">
 
-			</div>
-		</div>
+  <span class="post-date">
+    {% assign d = post.date | date: "%d" | plus:'0' %}
+    {{ post.date | date: "%B" }}
+    {% case d %}
+    {% when 1 or 21 or 31 %}{{ d }}st,
+    {% when 2 or 22 %}{{ d }}nd,
+    {% when 3 or 23 %}{{ d }}rd,
+    {% else %}{{ d }}th,
+    {% endcase %}
+    {{ post.date | date: "%Y" }}
+  </span>
 
-<!-- 百度统计 -->
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?3d8cd5acad6f5c33f8cb1324eebd6426";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+  <h2>
+    <a href="{{ site.BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+  </h2>
 
-<!-- 谷歌分析 -->
-<!--<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <div>
+    {% if post.fullview %}
+    {{ post.content }}
+    {% else %}
+    {% if post.shortinfo %}
+    {{ post.shortinfo }}
+    {% elsif post.description %}
+    {{ post.description }}
+    {% else %}
+    {{ post.excerpt }}
+    {% endif %}
+    {% endif %}
+  </div>
 
-  ga('create', 'UA-53624533-1', 'auto');
-  ga('send', 'pageview');
+</article>
+{% endfor %}
+<hr/>
 
-</script>-->
+<ul class="pager"> 
 
-<script>
-var t=5;//设定跳转的时间
-setInterval("refer()",1000); //启动1秒定时
-function refer(){
-    if(t==0){
-        location="https://joway.github.io/blog.html"; //设定跳转的链接地址
-    }
-    t--; //计数器递减
-}
-</script>
+  {% if paginator.previous_page %}
+  <li class="previous">
+    {% if paginator.previous_page == 1 %}
+    <a href="{{ site.BASE_PATH }}/">&larr; Newer</a>
+    {% else %}
+    <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.previous_page }}">&larr; Newer</a>
+    {% endif %}
+  </li>
+  {% else %}
+  <li class="previous disabled">
+    <a>&larr; Newer</a>
+  </li>
+  {% endif %}
+  
+  <li>
+    <span class="page_number">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  </li>
 
+  {% if paginator.next_page %}
+  <li class="next">
+    <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.next_page }}">Older &rarr;</a>
+  </li>
+  {% else %}
+  <li class="next disabled">
+    <a>Older &rarr;</a>        
+  </li>
+  {% endif %}
 
-
-	</body>
-</html>
+</ul>
