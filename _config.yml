@@ -9,25 +9,24 @@ gems:
 permalink:        /:year/:month/:day/:title
 
 # Setup
-title:            如是我聞
-description:      '<a href="https://twitter.com/ztpala" target="_blank">@ztpala</a>'
+title:            neaix
+description:      '慢慢走'
 baseurl:          /
-url:              http://ztpala.com
-domain:           ztpala.com
-email:            ztpala@gmail.com
+url:              http://neaix.com
+domain:           neaix.com
+email:            neaix@hotmail.com
 twitter_username: ztpala
 github_username:  pala
 timezone:         America/New_York
-subscribe:        http://feed.ztpala.com
+subscribe:        
 exclude:          [ README.md, newpost.rb, CNAME ]
 
 author:
-  url:            https://twitter.com/ztpala
+  url:            neaix.com
 
 paginate:         5
 
 github:
-  repo:           https://github.com/pala/pala.github.io
+  repo:           https://github.com/pala/neaix.github.io
 
-disqus_shortname: ztpala
-google_analytics_id: UA-5531632-1
+disqus_shortname: neaix
