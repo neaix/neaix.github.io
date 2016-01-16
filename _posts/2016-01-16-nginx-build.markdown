@@ -197,7 +197,7 @@ OS:centOS 7
    	         index  index.html index.htm;
 			proxy_pass http://local/;
  		   # proxy_redirect default;
-      	         # proxy_connect_timeout 10;
+      	          # proxy_connect_timeout 10;
 
      }
 		location ~ .*\.(js|gif|jpg|jpeg|png|bmp|swf)$
@@ -221,11 +221,11 @@ OS:centOS 7
 		root /home/webroot/cloudnote.feiyuanxing.com;
 		#error_page   404   /404.html;
 	
-		location /  {
-        	    index  index.html index.htm;
-	    #proxy_pass http://local2/;
-	   #proxy_redirect default;
-      	   #proxy_connect_timeout 10;
+			location /  {
+        	  	  index  index.html index.htm;
+			    #proxy_pass http://local2/;
+			    #proxy_redirect default;
+		      	    #proxy_connect_timeout 10;
         }
 
 
@@ -251,12 +251,12 @@ OS:centOS 7
 
 	#server { 
 
-	#        listen  80 default;
+		# listen  80 default;
 
-	#        server_name  _;
+		# server_name  _;
 
-	#		return 408;
-	#    }
+		#return 408;
+	   }
 
 	include vhost/*.conf;
 	}
