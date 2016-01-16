@@ -724,9 +724,12 @@ pre .keyword, pre .method, pre .list .title, pre .clojure .built_in, pre .nginx 
 pre .envvar, pre .tex .special {
   color: #660;
 }
-pre .string, pre .tag .value, pre .cdata, pre .filter .argument, pre .attr_selector, pre .apache .cbracket, pre .date, pre .regexp {
+pre .string, pre .tag .value, pre .cdata, pre .filter .argument, pre .attr_selector, pre .apache .cbracket, pre .date {
   color: #080;
 }
+/*pre .string, pre .tag .value, pre .cdata, pre .filter .argument, pre .attr_selector, pre .apache .cbracket, pre .date, pre .regexp {
+  color: #080;
+}*/
 pre .sub .identifier, pre .pi {
   color: #066;
 }
