@@ -48,7 +48,7 @@ OS:centOS 7
 
 	--user=nginxuser 
 
-	--group=nginx```
+	--group=nginx
 
 ####*默认*
 	./configure
@@ -153,7 +153,7 @@ OS:centOS 7
 	{
 		listen 80 ;
 		#listen [::]:80 default ipv6only=on;
-		server_name www.feiyuanxing.com feiyuanxing.com;
+		server_name www.domain.com domain.com;
 		
 		index login.html index.html index.htm index.jsp index.jspx index.jhtml;
 		root /home/webroot/default;
@@ -161,7 +161,7 @@ OS:centOS 7
 	
 		location /  {
           	 	index  index.html index.htm;
-			proxy_pass http://localhost/;
+			proxy_pass http://local1/;
 			proxy_redirect default;
 			proxy_connect_timeout 10;
 			
@@ -186,10 +186,10 @@ OS:centOS 7
 	{
 		listen 80 ;
 		#listen [::]:80 default ipv6only=on;
-		server_name hypermedia.feiyuanxing.com;
-		access_log  /home/weblogs/hypermedia.log  combined;
+		server_name domain.com;
+		access_log  /home/weblogs/domain.log  combined;
 		index login.html index.html index.htm index.jsp index.jspx index.jhtml;
-		root /home/webroot/hypermedia.feiyuanxing.com;
+		root /home/webroot/domain.com;
 		#error_page   404   /404.html;
 	
 		location /  {	
@@ -215,9 +215,9 @@ OS:centOS 7
 	{
 		listen 80 ;
 		#listen [::]:80 default ipv6only=on;
-		server_name cloudnote.feiyuanxing.com;
-		access_log  /home/weblogs/cloudnote.log  combined;
-		root /home/webroot/cloudnote.feiyuanxing.com;
+		server_name domain.com;
+		access_log  /home/weblogs/nginx.log  combined;
+		root /home/webroot/domain.com;
 		#error_page   404   /404.html;
 	
 			location /  {
