@@ -160,7 +160,7 @@ OS:centOS 7
 		#error_page   404   /404.html;
 	
 		location /  {
-          	  index  index.html index.htm;
+          	 	index  index.html index.htm;
 			proxy_pass http://localhost/;
 			proxy_redirect default;
 			proxy_connect_timeout 10;
@@ -192,9 +192,8 @@ OS:centOS 7
 		root /home/webroot/hypermedia.feiyuanxing.com;
 		#error_page   404   /404.html;
 	
-		location /  {
-			
-   	         index  index.html index.htm;
+		location /  {	
+   	        	 index  index.html index.htm;
 			proxy_pass http://local/;
  		   # proxy_redirect default;
       	          # proxy_connect_timeout 10;
