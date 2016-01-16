@@ -30,7 +30,8 @@ OS:centOS 7
 
 编译安装有两种方式，1.指定目录 2.默认
 ####*指定目录*
-	./configure --sbin-path=/usr/local/nginx/nginx 
+
+	 ./configure --sbin-path=/usr/local/nginx/nginx 
 
 	--conf-path=/usr/local/nginx/nginx.conf 
 
@@ -51,11 +52,15 @@ OS:centOS 7
 	--group=nginx
 
 ####*默认*
+
 	./configure
+	
 ###编译安装
+
 	mark && mark install
 
 启动nginx
+
 	cd /usr/local/nginx/sbin/
 	./nginx·
 
