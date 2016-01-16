@@ -244,13 +244,6 @@ OS:centOS 7
 			}
 	}	
 	
-
-
-
-	
-	
-	
-
 	#IP access is not allowed
 
 	#server { 
