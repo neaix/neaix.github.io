@@ -9,7 +9,7 @@ tags: "nginx 编译安装"
 OS:centOS 7
 
 ##安装步骤
-下载[ngxin]([http://nginx.org/download/nginx-1.9.9.tar.gz](http://nginx.org/download/nginx-1.9.9.tar.gz))源码包
+下载[ngxin](http://nginx.org/download/nginx-1.9.9.tar.gz)源码包
 
 安装nginx依赖包
 
