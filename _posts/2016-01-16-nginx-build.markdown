@@ -59,10 +59,10 @@ OS:centOS 7
 
 	mark && mark install
 
-启动nginx
+###启动nginx
 
 	cd /usr/local/nginx/sbin/
-	./nginx·
+	./nginx
 
 在浏览器中输入localhost,看到nginx的默认welcome页面,成功!
 
