@@ -19,7 +19,7 @@ OS:centOS 7
 
 	groupadd -r nginx
 
-	useradd -r -g nginxuser -s /bin/false -M nginx
+	useradd -r -g nginx -s /bin/false -M nginxuser
 
 
 ### 安装
