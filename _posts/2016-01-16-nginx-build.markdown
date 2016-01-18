@@ -73,7 +73,7 @@ OS:centOS 7
 
 	#使用的用户和组
 
-	user  nginx;
+	  user   nginxuser nginx;;
 
 	#指定工作衍生进程数（一般等于CPU的总核数或总核数的两倍)
 
