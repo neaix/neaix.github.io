@@ -1,9 +1,10 @@
 ---
 layout: post
-title: nginx 编译
-description: nginx 编译安装
+title: keepalived+nginx HA
+description: nginx keepalived+nginx HA
 date: 2016-01-14 14:49:36 +08:00
-tags: "nginx 编译安装"
+tags: "keepalived+nginx HA"
+imageURL:keepalived.jpg 
 ---
 ##环境
 OS:centOS 7
