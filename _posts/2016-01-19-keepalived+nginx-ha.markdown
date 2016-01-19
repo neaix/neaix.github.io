@@ -1,6 +1,6 @@
 ---
 layout: post
-title: keepaplived+nginx的HA方案
+title: keepalived+nginx的HA方案
 description: keepalived,nginx,ha
 date: 2016-01-15 14:49:36 +08:00
 tags: "nginx ha"
