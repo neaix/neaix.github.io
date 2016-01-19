@@ -14,7 +14,7 @@ IP:172.25.5.220(master) 172.25.5.19(backup),在这两台机器上都安装keepal
 
 VIP:172.25.5.168
 
-[nginx搭建步骤](blog/nginx-build/)
+[nginx搭建步骤](http://www.neaix.com/blog/nginx-build/)
 
 
 ##搭建步骤
