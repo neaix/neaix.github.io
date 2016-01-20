@@ -12,9 +12,9 @@ defaults:
     scope:
       path: "" # empty string for all files
     values:
-      title: 镜中的自我
+      title: neaix
 
-description: 生活、文艺与梦想
+description: Don't stop
 # gavatar头像及Favicon
 gavatar: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
 favicon: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
