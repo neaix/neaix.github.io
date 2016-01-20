@@ -1,8 +1,20 @@
-url: http://neaix.com
-permalink: /blog/:title
-highlighter: pygments
-paginate: 8 # the number of post per page
-markdown: kramdown
-future: false
+title: "TJ Stein"
+url: "http://tjstein.com"
+author: "TJ Stein"
+email: "thomasjstein@gmail.com"
+description: "The personal blog of TJ Stein."
 
-gems: [jekyll-paginate]
+auto: false
+source: .
+paginate: 5
+paginate_files:
+ - index.html
+
+permalink: /:year/:month/:title
+
+markdown: rdiscount
+pygments: true
+
+exclude:
+  - README.markdown
+  - _drafts

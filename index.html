@@ -1,63 +1,38 @@
 ---
 layout: default
-title: neaix's blog
-bodyTag: home
+title: Home
 ---
 
-{% if paginator.page == 1 %}
-  <section class="welcome">
-    <section class="image">
-      <img src="/images/me.jpeg" alt="Sure it's himself" width="100">
-    </section>
-    <section class="content">
-      <h2>Hi, I'm <a href="/about/">neaix</a>, a Java developer.</h2>
-      <p>Fork me <a href="https://github.com/neaix">on github.</a></p>
-    </section>
-  </section>
-{% endif %}
-
 {% for post in paginator.posts %}
+  <article class="post">
 
-    <article>
+    <h3><a href="{{ site.url }}{{ post.url }}" rel="bookmark permalink" title="Permanent link to this post">{{ post.title }}</a></h3>
 
-      <header>
-        {% if post.target %}
-           <a href="{{ post.target }}">
-            {% if post.imageURL %}
-              <img src="/images/home/{{post.imageURL}}" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
-            {% else %}
-              <img src="/images/home/default.png" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
-            {% endif %}
-            <h1>{{ post.title }}</h1>
-          </a>
-          <p class="date">{{ post.date | date: "%B %d, %Y" }} - for <strong>{{ post.targetName }}</strong></p>
-        {% else %}
-          <a href="{{ post.url }}/">
-            {% if post.imageURL %}
-              <img src="/images/home/{{post.imageURL}}" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
-            {% else %}
-              <img src="/images/home/default.png" alt="{{ post.description }}" class="{{ post.cornerStyle }}">
-            {% endif %}
-            <h1>{{ post.title }}</h1>
-          </a>
-          <p class="date">{{ post.date | date: "%B %d, %Y" }}</p>
-        {% endif %}
+    {{ post.content }}
 
-      </header>
-    </article>
+  <div class="meta">
+   <div class="published">
+      Published: {{ post.date | date: "%Y-%m-%d" }}
+      &mdash;
+      <a href="{{ site.url }}{{ post.url }}#disqus_thread" title="Comments">Comments</a>
+   </div>
+  </div>
 
+
+  </article>
 {% endfor %}
 
-<!-- Pagination links -->
-<nav class="pagination">
-  {% if paginator.previous_page %}
-    {% if paginator.previous_page == 1 %}
-      <a href="/" class="previous">&laquo;</a>
-    {% else %}
-      <a href="/page{{paginator.previous_page}}" class="previous">&laquo;</a>
-    {% endif %}
+<div class='paging'>
+{% if paginator.previous_page %}
+  {% if paginator.previous_page == 1 %}
+    <a href='/' class='newer'><h1>Newer Posts</h1></a>
+  {% else %}
+    <a href='/page{{paginator.previous_page}}' class='newer'><h1>Newer Posts</h1></a>
   {% endif %}
-  {% if paginator.next_page %}
-    <a href="/page{{paginator.next_page}}" class="next ">&raquo;</a>
-  {% endif %}
-</nav>
+{% endif %}
+{% if paginator.next_page %}
+  <a href='/page{{paginator.next_page}}' class='older'><h1>Older Posts</h1></a>
+{% endif %}
+  
+  <div class='clear'></div>
+</div>

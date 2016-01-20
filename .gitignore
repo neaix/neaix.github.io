@@ -1,11 +1,4 @@
-_site/*
-
-Thumbs.db
+*.swp
 .DS_Store
-
-!.gitkeep
-
-.rbenv-version
-.rvmrc
-
-.sass-cache
+_site
+_drafts

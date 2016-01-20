@@ -1,70 +1,125 @@
-require "rubygems"
-require 'rake'
-require 'yaml'
-require 'time'
+# adapted from 
+# https://github.com/mmonteleone/michaelmonteleone.net/blob/master/Rakefile
+# and
+# https://github.com/jbarratt/serialized.net/blob/master/Rakefile
 
-# Rake tools
-# Based on jekyll-bootstrap
-# post: Create new post
-# page: Create new page
+require 'rake/clean'
 
-SOURCE = "."
-CONFIG = {
-  'layouts' => File.join(SOURCE, "_layouts"),
-  'posts' => File.join(SOURCE, "_posts"),
-  'post_ext' => "markdown"
-}
+desc 'Build site with Jekyll'
+task :build => [:clean] do
+  jekyll
+end
 
-# Usage: rake post title="A Title" [date="2012-02-09"]
-desc "Begin a new post in #{CONFIG['posts']}"
-task :post do
-  abort("rake aborted: '#{CONFIG['posts']}' directory not found.") unless FileTest.directory?(CONFIG['posts'])
-  title = ENV["title"] || "new-post"
-  slug = title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+desc 'Notify Google of the new sitemap'
+task :sitemap do
   begin
-    date = (ENV['date'] ? Time.parse(ENV['date']) : Time.now).strftime('%Y-%m-%d')
-  rescue Exception => e
-    puts "Error - date format must be YYYY-MM-DD, please check you typed it correctly!"
-    exit -1
+    require 'net/http'
+    require 'uri'
+    puts '* Pinging Google about the sitemap'
+    Net::HTTP.get('www.google.com', '/webmasters/tools/ping?sitemap=' + URI.escape('http://tjstein.com/sitemap.xml'))
+  rescue LoadError
+    puts '! Could not ping Google about our sitemap, because Net::HTTP or URI could not be found.'
   end
-  filename = File.join(CONFIG['posts'], "#{date}-#{slug}.#{CONFIG['post_ext']}")
-  if File.exist?(filename)
-    abort("That name is in use already")
-  end
-  
-  puts "Creating new post: #{filename}"
-  open(filename, 'w') do |post|
-    post.puts "---"
-    post.puts "layout: post"
-    post.puts "title: \"#{title.gsub(/-/,' ')}\""
-    post.puts 'description: ""'
-    post.puts "category: "
-    post.puts "tags: []"
-    post.puts "---"
-  end
-end # task :post
+end
+ 
+desc 'Start server with --auto'
+task :server => [:clean]  do
+  jekyll('--server --auto')
+end
 
-# Usage: rake page name="about.html"
-# You can also specify a sub-directory path.
-# If you don't specify a file extention we create an index.html at the path specified
-desc "Create a new page."
-task :page do
-  name = ENV["name"] || "new-page.md"
-  filename = File.join(SOURCE, "#{name}")
-  filename = File.join(filename, "index.html") if File.extname(filename) == ""
-  title = File.basename(filename, File.extname(filename)).gsub(/[\W\_]/, " ").gsub(/\b\w/){$&.upcase}
-  if File.exist?(filename)
-    abort("That name is in use already")
+desc 'Deploy to production'
+task :deploy do
+  puts '* Publishing files to production server'
+  sh "rsync -rtzh --delete _site/ --rsh='ssh -p43102' deploy@tjstein.com:/home/deploy/tjstein.com/public"
+end
+
+##
+# Package Requirement:
+# jpegoptim
+# Install OSX:
+# brew install jpegoptim
+# Install Ubuntu:
+# [apt-get | aptitude] install jpegoptim
+#
+desc 'Optimize JPG images in output/images directory using jpegoptim'
+task :jpg do
+  puts `find _site/images -name '*.jpg' -exec jpegoptim {} \\;`
+end
+
+##
+# Package Requirement:
+# optipng
+# Install OSX:
+# brew install optipng
+# Install Ubuntu:
+# [apt-get | aptitude] install optipng
+#
+desc 'Optimize PNG images in output/images directory using optipng'
+task :png do
+  puts `find _site/images -name '*.png' -exec optipng {} \\;`
+end
+
+desc 'Minify CSS & HTML'
+task :minify do
+  puts '* Minifying CSS and HTML'
+  sh 'java -jar ~/.java/yuicompressor-2.4.2.jar --type css css/print.css -o _site/css/print.css'
+  sh 'java -jar ~/.java/yuicompressor-2.4.2.jar --type css css/screen.css -o _site/css/screen.css'
+  sh 'java -jar ~/.java/yuicompressor-2.4.2.jar --type css css/custom.css -o _site/css/custom.css'
+  sh 'java -jar ~/.java/htmlcompressor-0.9.8.jar _site/index.html -o _site/index.html'
+  sh 'java -jar ~/.java/htmlcompressor-0.9.8.jar --type=xml _site/sitemap.xml -o _site/sitemap.xml'
+end
+
+desc 'Backup to NAS + Amazon S3'
+task :backup do
+  puts '* Backing up to NAS + Amazon S3'
+  puts `./backup.sh`
+end
+
+desc 'Push source code to Github'
+task :push do
+  puts '* Pushing to Github'
+  puts `git push origin master`
+end
+
+desc 'List all draft posts'
+task :drafts do
+  puts `find ./_posts -type f -exec grep -H 'published: false' {} \\;`
+end
+
+desc 'Begin a new post'
+task :post do   
+  ROOT_DIR = File.dirname(__FILE__)
+
+  title = ARGV[1]
+  tags = ARGV[2 ]
+
+  unless title
+    puts %{Usage: rake post "The Post Title"}
+    exit(-1)
   end
-  
-  mkdir_p File.dirname(filename)
-  puts "Creating new page: #{filename}"
-  open(filename, 'w') do |post|
-    post.puts "---"
-    post.puts "layout: page"
-    post.puts "title: \"#{title}\""
-    post.puts 'description: ""'
-    post.puts "---"
-    post.puts "{% include JB/setup %}"
-  end
-end # task :page
+
+  datetime = Time.now.strftime('%Y-%m-%d')  # 30 minutes from now.
+  slug = title.strip.downcase.gsub(/ /, '-')
+
+  # E.g. 2006-07-16_11-41-batch-open-urls-from-clipboard.markdown
+  path = "#{ROOT_DIR}/_posts/#{datetime}-#{slug}.markdown"
+
+  header = <<-END
+---
+layout: post
+title: #{title}
+excerpt: 
+comments: true
+---
+
+END
+
+  File.open(path, 'w') {|f| f << header }
+  system("mate", path)    
+end  
+
+task :default => :server
+
+def jekyll(opts = '')
+  sh 'time jekyll ' + opts
+end

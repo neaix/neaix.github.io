@@ -2,10 +2,10 @@
 
 layout: post
 title: Java二维码生成
-description: Java二维码生成
-date: 2016-1-19 16:49:36 +08:00
-tags: "Java二维码生成"
-imageURL: qrcode.png
+excerpt: Java二维码生成
+comments: true
+
+
 ---
 QR code(二维码)在现在的移动应用领域非常火热,其原理在此不再赘述，下面用Google的ZXing生成二维码。
 

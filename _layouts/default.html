@@ -1,94 +1,96 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!doctype html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{% if page.title %} {{ page.title }}  {% endif %}</title>
-    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Thoughts from Donovan's brain{% endif %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Donovan Hutchinson">
-    <link rel="stylesheet" href="/stylesheets/screen.css">
-    {% if page.newstylesheet %}
-    <link rel="stylesheet" href="/stylesheets/{{ page.newstylesheet }}.css">
-    {% endif %}
-
-    <!--[if IE]>
-      <link rel="stylesheet" href="/stylesheets/ie.css">
-    <![endif]-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel="stylesheet" type="text/css">
-    <link rel="canonical" href="{{ page.url | canonical }}">
-    <meta name="google-site-verification" content="4b2gG2_kr5STLh0RhE34iPvU59o591CoG9N6iYOazvw" />
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml" />
-    <script src="/javascripts/modernizr.js"></script>
-
-    {% if page.imageURL %}
-      <meta property="twitter:card" content="summary" />
-      <meta property="og:title" content="{{page.title}}" />
-      <meta property="og:description" content="{{page.description}}" />
-      <meta property="og:image" content="http://neaix.com/images/home/{{page.imageURL}}" />
-      <meta property="og:url" content="{{site.url}}{{page.url}}" />
-    {% else %}
-      <meta property="twitter:card" content="summary" />
-      <meta property="og:title" content="{{page.title}}" />
-      <meta property="og:description" content="Front-end Java development articles at neaix.com" />
-      <meta property="og:url" content="{{site.url}}{{page.url}}" />
-    {% endif %}
-
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}" />
+  <meta name="author" content="{{ site.author }}" />
+  <meta name="robots" content="index, follow" />
+  <meta name="viewport" content="user-scalable=no,width=device-width" />
+  <meta name="keywords" content="TJ Stein, Thomas J. Stein, Thomas Stein" />
+  <meta name="copyright" content="Copyright 2008 to Present"/>
+  <meta name="google-site-verification" content="XUkxAz2T7iH7BfeNCKk88xUnTqNHjnMirb4GQv196GA" />
+  <link href="{{ site.url }}/feed" rel="alternate" title="TJ Stein's RSS feed" type="application/rss+xml" />
+  <link href="http://tjstein.com/" rel="home" />
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link type="text/css" rel="stylesheet" media="screen, projection" href="/css/screen.css" /> 
+  <link type="text/css" rel="stylesheet" media="all" href="/css/custom.css" />
+  <!--[if lt IE 8]>
+    <link type="text/css" rel="stylesheet" media="screen, projection" href="/css/ie.css" />
+  <![endif]--> 
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  {% include prettify.html %}
+  {% include google_analytics.html %}	
 </head>
-<body class="{% if page.bodyTag %}{{page.bodyTag}}{% else %}internal{% endif %}">
-  <div class="page-container">
-  	<header class="top">
-  		<h1 class="bouncer-container"><a href="/">neaix.com</a></h1>
-  	</header>
+  <body>
+    <div class="container">
+      <header class="span-21 last" id="header">
+        <h1><a href="{{ site.url }}" rel="home bookmark">{{ site.title }}</a></h1>
+      </header>
 
-  	<div class="page clearfix">
-    	<section class="content">
-    		{{ content }}
-    	</section>
+      <div class="span-16" id="content">
+        {{ content }}
+      </div>
+      <div class="span-5 last" id="sidebar">
+        <div class="sidebarbox"> 
+          <h4>Pages</h4> 
+          <ul id="pages">
+	        <li>
+              <a rel="bookmark" title="Home" href="{{ site.url }}/">Home</a>
+            </li>
+            <li>
+              <a rel="bookmark" title="About" href="{{ site.url }}/about">About</a>
+            </li>
+            <li>
+              <a rel="bookmark" title="Archives" href="{{ site.url }}/archives" id="archives">Archives</a> 
+            </li>
+          </ul>
+        </div>
+        <div class="sidebarbox"> 
+          <h4>Subscribe</h4> 
+          <ul> 
+            <li> 
+              <a title="RSS Feed" href="{{ site.url }}/feed" class="icon-link" id="feed-link">RSS</a> 
+            </li> 
+          </ul> 
+        </div> 
+        <div class="sidebarbox"> 
+          <h4>Elsewhere</h4> 
+          <ul> 
+            <li> 
+              <a rel="bookmark" title="Flickr" href="http://flickr.com/thomasjstein" class="icon-link" id="flickr-link">Flickr</a> 
+            </li> 
+            <li> 
+              <a rel="bookmark" title="Twitter" href="http://twitter.com/tj_stein" class="icon-link" id="twitter-link">Twitter</a> 
+            </li> 
+            <li> 
+              <a rel="bookmark" title="GitHub" href="http://github.com/tjstein" class="icon-link" id="github-link">GitHub</a> 
+            </li> 
+          </ul> 
+        </div>
+        <div class="sidebarbox"> 
+          <h4>Contact Me</h4> 
+          <ul> 
+            <li> 
+              <a rel="bookmark" title="Email" href="mailto:&#116;&#104;&#111;&#109;&#097;&#115;&#106;&#115;&#116;&#101;&#105;&#110;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;" class="icon-link" id="gmail-link">Gmail</a> 
+            </li> 
+            <li> 
+              <a rel="bookmark" title="Skype" href="skype:mt.tjstein?chat" class="icon-link" id="skype-link">Skype</a> 
+            </li> 
+          </ul> 
+        </div> 
+      </div>
+
+      <footer class="span-21 last" id="footer">
+        All content copyright &copy; TJ Stein. Powered by <a href="http://github.com/mojombo/jekyll" title="The Jekyll (static site generator) code repository" rel="external" target="_blank">Jekyll</a>.<p>Proudly hosted by <a href="http://mediatemple.net" title="(mt) Media Temple" rel="external" target="_blank">(mt) Media Temple</a>.</p>
+      </footer>
     </div>
-  </div>
-  
 
-	<footer class="clearfix">
-	  <section class="footer-content">
-	    <p>Don't stop.</p>
-     <!--  <p>You can follow me at <a href="https://github.com/neaix">neaix</a> or by <a href="/feed.xml">RSS</a>.</p> -->
-     <p>You can contact me via <a href="mailto:neaix@hotmail.com">neaix@hotmail.com</a>.</p>
-      <p>Copyright &copy; 2016 <a href="/about">neaix.</a></p>
-		</section>
-	</footer> 
-
-  
-  <script src="//code.jquery.com/jquery-2.0.0.min.js"></script>
-  <script>window.jQuery || document.write('<script src="/javascripts/jquery.min.js"><\/script>')</script>
-  <script src="/javascripts/main.js"></script>
-  <script src="/javascripts/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-
-{% for j in page.javascripts %}
-  {% if j == 'angular' %}
-    <script src="/javascripts/angular.js"></script>
-  {% endif %}
-{% endfor %}
-
-  <!-- /*<script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-3481417-23']);
-    _gaq.push(['_setDomainName', 'neaix.com']);
-    _gaq.push(['_setSiteSpeedSampleRate', 10]);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>*/ -->
-</body>
+    {% include disqus.html %}
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
 </html>
