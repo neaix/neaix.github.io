@@ -3,7 +3,7 @@ layout: post
 title: nginx 编译安装
 date: 2016-01-16 16:57:00
 category: 技术
-tags:"nginx"
+tags:nginx
 ---
 ##环境
 OS:centOS 7
