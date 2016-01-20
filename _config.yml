@@ -20,14 +20,12 @@ gavatar: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
 favicon: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
 
 author:
-  name: 七弦
-  email: lcm.hust@gmail.com
-  github: joshualeung
-  twitter: szjoshua
-  pinterest: joshualeung
-  linkedin: joshualeung
-  bio: 谁谓河广，一苇杭之
-  email_md5: 726351295ec82e145928582f595aa3aa
+  name: neaix
+  email: neaix@hotmail.com
+  github: neaix
+  linkedin: neaix
+  bio: Don't stop
+  email_md5: 84cd96833286557a9b6bee27ad83b86a
 
 rss_path: feed.xml
 categories_path: categories.html
