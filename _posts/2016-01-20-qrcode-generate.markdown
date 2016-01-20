@@ -2,7 +2,7 @@
 layout: post
 title: 二位维生成
 description: Java二维码生成
-date: 2016-01-14 14:49:36 +08:00
+date: 2016-01-20 15:49:36 +08:00
 tags: "Java 二维码生成"
 imageURL: qrcode.png
 ---
