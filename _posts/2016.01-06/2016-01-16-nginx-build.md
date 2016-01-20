@@ -1,9 +1,9 @@
 ---
 layout: post
-title: nginx 编译安装
-date: 2016-01-16 16:57:00
+title: Java二维码生成
+date: 2016-01-19 23:00:00
 category: 技术
-tags:nginx
+tags: 二维码生成
 ---
 ##环境
 OS:centOS 7
