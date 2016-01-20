@@ -1,9 +1,9 @@
 ---
 layout: post
-title: keepalived+nginx的HA方案
-date: 2016-01-19 15:40:00
+title: keepalived+nginx HA
+date: 2016-01-19 23:00:00
 category: 技术
-tags:keepalived
+tags: HA
 ---
 ##环境
 OS:centOS 7

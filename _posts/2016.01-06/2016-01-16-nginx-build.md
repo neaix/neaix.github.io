@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Java二维码生成
+title: 搭建nginx服务器
 date: 2016-01-19 23:00:00
 category: 技术
-tags: 二维码生成
+tags: nginx
 ---
 ##环境
 OS:centOS 7
