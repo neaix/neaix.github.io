@@ -1,38 +1,74 @@
 ---
-layout: default
-title: Home
+layout: page
+tagline:
 ---
 
 {% for post in paginator.posts %}
-  <article class="post">
 
-    <h3><a href="{{ site.url }}{{ post.url }}" rel="bookmark permalink" title="Permanent link to this post">{{ post.title }}</a></h3>
+<article class="home">
 
+  <span class="post-date">
+    {% assign d = post.date | date: "%d" | plus:'0' %}
+    {{ post.date | date: "%B" }}
+    {% case d %}
+    {% when 1 or 21 or 31 %}{{ d }}st,
+    {% when 2 or 22 %}{{ d }}nd,
+    {% when 3 or 23 %}{{ d }}rd,
+    {% else %}{{ d }}th,
+    {% endcase %}
+    {{ post.date | date: "%Y" }}
+  </span>
+
+  <h2>
+    <a href="{{ site.BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+  </h2>
+
+  <div>
+    {% if post.fullview %}
     {{ post.content }}
-
-  <div class="meta">
-   <div class="published">
-      Published: {{ post.date | date: "%Y-%m-%d" }}
-      &mdash;
-      <a href="{{ site.url }}{{ post.url }}#disqus_thread" title="Comments">Comments</a>
-   </div>
+    {% else %}
+    {% if post.shortinfo %}
+    {{ post.shortinfo }}
+    {% elsif post.description %}
+    {{ post.description }}
+    {% else %}
+    {{ post.excerpt }}
+    {% endif %}
+    {% endif %}
   </div>
 
-
-  </article>
+</article>
 {% endfor %}
+<hr/>
 
-<div class='paging'>
-{% if paginator.previous_page %}
-  {% if paginator.previous_page == 1 %}
-    <a href='/' class='newer'><h1>Newer Posts</h1></a>
+<ul class="pager"> 
+
+  {% if paginator.previous_page %}
+  <li class="previous">
+    {% if paginator.previous_page == 1 %}
+    <a href="{{ site.BASE_PATH }}/">&larr; Newer</a>
+    {% else %}
+    <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.previous_page }}">&larr; Newer</a>
+    {% endif %}
+  </li>
   {% else %}
-    <a href='/page{{paginator.previous_page}}' class='newer'><h1>Newer Posts</h1></a>
+  <li class="previous disabled">
+    <a>&larr; Newer</a>
+  </li>
   {% endif %}
-{% endif %}
-{% if paginator.next_page %}
-  <a href='/page{{paginator.next_page}}' class='older'><h1>Older Posts</h1></a>
-{% endif %}
   
-  <div class='clear'></div>
-</div>
+  <li>
+    <span class="page_number">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  </li>
+
+  {% if paginator.next_page %}
+  <li class="next">
+    <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.next_page }}">Older &rarr;</a>
+  </li>
+  {% else %}
+  <li class="next disabled">
+    <a>Older &rarr;</a>        
+  </li>
+  {% endif %}
+
+</ul>
