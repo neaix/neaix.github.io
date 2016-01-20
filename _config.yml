@@ -16,8 +16,8 @@ defaults:
 
 description: Don't stop
 # gavatar头像及Favicon
-gavatar: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
-favicon: http://pic.yupoo.com/24plus/E2O4V5oL/medium.jpg
+gavatar: https://raw.githubusercontent.com/neaix/neaix.github.io/master/images/aothor.jpg
+favicon: https://raw.githubusercontent.com/neaix/neaix.github.io/master/assets/ico/favicon.ico
 
 author:
   name: neaix
