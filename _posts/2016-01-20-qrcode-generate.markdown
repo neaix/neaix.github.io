@@ -8,9 +8,7 @@ imageURL: qrcode.png
 ---
 QR code(二维码)在现在的移动应用领域非常火热,其原理在此不再赘述，下面用Google的ZXing生成二维码。
 
-Google ZXing jar包[下载](http://central.maven.org/maven2/com/google/zxing/core/3.2.1/core-3.2.1.jar)
-
-maven地址
+Google ZXing maven地址
 	
 	<dependency>
 		<groupId>com.google.zxing</groupId>
