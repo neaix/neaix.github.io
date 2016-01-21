@@ -2,7 +2,7 @@
 layout: post
 title: 搭建nginx服务器
 date: 2016-01-19 23:00:00
-category: 技术
+category: 服务器
 tags: nginx
 ---
 ##环境

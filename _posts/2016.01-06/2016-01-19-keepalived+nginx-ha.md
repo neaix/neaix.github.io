@@ -2,7 +2,7 @@
 layout: post
 title: keepalived+nginx HA
 date: 2016-01-19 23:00:00
-category: 技术
+category: 服务器
 tags: HA
 ---
 ##环境
