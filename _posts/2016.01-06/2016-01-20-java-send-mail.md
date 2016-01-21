@@ -3,7 +3,7 @@ layout: post
 title: Java邮件发送
 date: 2016-01-20 16:41:00
 category: Java
-tags: java mail
+tags: Java mail
 ---
 Java邮件发送demo.
 
