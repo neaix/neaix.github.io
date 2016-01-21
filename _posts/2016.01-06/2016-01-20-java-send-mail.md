@@ -5,7 +5,7 @@ date: 2016-01-20 16:41:00
 category: Java
 tags: java mail
 ---
-Java邮件发送demo,用freemarker作为邮件模板
+Java邮件发送demo.
 
 在项目中引用mail库
 
