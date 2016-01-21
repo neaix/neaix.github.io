@@ -24,6 +24,7 @@ mail.properties
 	mail.smtp.auth=true
 	mail.smtp.timeout=25000
 	mail.port=465
+	mail.nickname=昵称(发送者)
 	
 
 邮件发送器
