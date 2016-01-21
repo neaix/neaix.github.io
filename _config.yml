@@ -12,9 +12,9 @@ defaults:
     scope:
       path: "" # empty string for all files
     values:
-      title: neaix
+      title: 爱技术,爱生活.
 
-description: Don't stop
+description: Don't stop !
 # gavatar头像及Favicon
 gavatar: https://raw.githubusercontent.com/neaix/neaix.github.io/master/images/aothor.jpg
 favicon: https://raw.githubusercontent.com/neaix/neaix.github.io/master/assets/ico/favicon.ico
