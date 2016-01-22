@@ -46,6 +46,8 @@ redis.properties
 	redis.unlock=false
 
 
+RedisClusterDao
+
 	package com.neaix.common.base.dao;
 	
 	import java.util.HashSet;
