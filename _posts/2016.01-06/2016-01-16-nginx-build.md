@@ -68,7 +68,7 @@ OS:centOS 7
 在浏览器中输入localhost,看到nginx的默认welcome页面,成功!
 
 ***
-贴下在网上找到比较相信的nginx配置信息
+贴下在网上找到比较详细的nginx配置
 
 
 	#使用的用户和组
