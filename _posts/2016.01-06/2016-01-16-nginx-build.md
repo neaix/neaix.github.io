@@ -24,7 +24,7 @@ OS:centOS 7
 
 ### 安装
  
-	tar -zvxf nginx-1.9.9.tat.gz
+	tar -zvxf nginx-1.9.9.tar.gz
 
 	cd nginx-1.9.9·9
 
