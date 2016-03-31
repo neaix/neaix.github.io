@@ -5,10 +5,10 @@ date: 2016-01-19 23:00:00
 category: 服务器
 tags: nginx
 ---
-##环境
+## 环境
 OS:centOS 7
 
-##安装步骤
+## 安装步骤
 下载[ngxin](http://nginx.org/download/nginx-1.9.9.tar.gz)源码包
 
 安装nginx依赖包
@@ -52,15 +52,15 @@ OS:centOS 7
 
 	--group=nginx
 
-####*默认*
+#### *默认*
 
 	./configure
 	
-###编译安装
+### 编译安装
 
 	mark && mark install
 
-###启动nginx
+### 启动nginx
 
 	cd /usr/local/nginx/sbin/
 	./nginx
@@ -71,33 +71,33 @@ OS:centOS 7
 贴下在网上找到比较详细的nginx配置
 
 
-	#使用的用户和组
+	# 使用的用户和组
 
 	  user   nginxuser nginx;;
 
-	#指定工作衍生进程数（一般等于CPU的总核数或总核数的两倍)
+	# 指定工作衍生进程数（一般等于CPU的总核数或总核数的两倍)
 
 	worker_processes auto;
 	
-	#指定错误日志村反的路径，错误日志记录级别可选项为
+	# 指定错误日志村反的路径，错误日志记录级别可选项为
 	
 	error_log  /home/weblogs/nginx_error.log  crit;
 	
-	#指定pid的错放的路径
+	# 指定pid的错放的路径
 	
 	pid        /usr/local/nginx/logs/nginx.pid;
 
 
-	#Specifies the value for maximum file descriptors that can be opened by this process.
+	# Specifies the value for maximum file descriptors that can be opened by this process.
 
-	#指定文件描述符数量
+	# 指定文件描述符数量
 
 	worker_rlimit_nofile 51200;
 
 	events
 	{
 	
-	#使用的网络I/O 模型，Linux系统推荐采用epoll模型
+	# 使用的网络I/O 模型，Linux系统推荐采用epoll模型
 
 		use epoll;
 		worker_connections 51200;
@@ -132,8 +132,8 @@ OS:centOS 7
 		gzip_proxied        expired no-cache no-store private auth;
 		gzip_disable        "MSIE [1-6]\.";
 
-		#limit_conn_zone $binary_remote_addr zone=perip:10m;
-		##If enable limit_conn_zone,add "limit_conn perip 10;" to server section.
+		# limit_conn_zone $binary_remote_addr zone=perip:10m;
+		## If enable limit_conn_zone,add "limit_conn perip 10;" to server section.
 
 		server_tokens off;
 		#log format

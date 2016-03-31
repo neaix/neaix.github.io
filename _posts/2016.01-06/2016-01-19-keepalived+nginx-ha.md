@@ -5,7 +5,7 @@ date: 2016-01-19 23:00:00
 category: 服务器
 tags: HA
 ---
-##环境
+## 环境
 OS:centOS 7
 
 
@@ -16,7 +16,7 @@ VIP:172.25.5.168
 [nginx搭建步骤](http://www.neaix.com/2016/01/19/nginx-build.html)
 
 
-##搭建步骤
+## 搭建步骤
 
 下载[keepalived源码包](http://www.keepalived.org/software/keepalived-1.2.19.tar.gz)
 
