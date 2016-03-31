@@ -30,7 +30,7 @@ OS:centOS 7
 
 编译安装有两种方式，1.指定目录 2.默认
 
-####*指定目录*
+#### *指定目录*
 
 	 ./configure --sbin-path=/usr/local/nginx/nginx 
 
