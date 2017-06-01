@@ -1,5 +1,5 @@
 # Site title
-title: ÔÚÂ·ÉÏ.
+title: åœ¨è·¯ä¸Š.
 
 # Tagline below the site title on post list pages
 tagline: i have a dream.
@@ -45,7 +45,7 @@ authors:
     name: near
     website: http://neaix.com
     bio: An awesome bio # Author info at bottom of post only shows if bio exists
-    avatar: /crossing-jekyll/images/avatar.jpg
+    avatar: /images/avatar.jpg
   lewiscarroll:
     name: near
 
