@@ -45,7 +45,7 @@ authors:
     name: near
     website: http://neaix.com
     bio: An awesome bio # Author info at bottom of post only shows if bio exists
-    avatar: /images/avatar.jpg
+    avatar: /crossing-jekyll/images/avatar.jpg
   lewiscarroll:
     name: near
 
