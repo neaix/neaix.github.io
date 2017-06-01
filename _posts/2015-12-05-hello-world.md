@@ -1,1 +1,9 @@
----layout: posttitle:  "Post Cover Image"author: johndoeimage: /images/post-image.jpg---## hello world.
+---
+layout: post
+title:  "Post Cover Image"
+author: johndoe
+image: /images/post-image.jpg
+---
+
+
+ hello world.
