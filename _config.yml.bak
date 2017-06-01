@@ -14,7 +14,7 @@ url: "http://neaix.com"
 baseurl: ""
 
 # The site cover image on the home page
-image: /crossing-jekyll/images/site-image.jpg
+image: /images/site-image.jpg
 
 # The shortname for your Disqus site to enable comments
 disqus_shortname:
