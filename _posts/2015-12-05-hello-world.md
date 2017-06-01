@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Post Cover Image"
-author: johndoe
+title:  "hello world"
+author: Near
 image: /images/post-image.jpg
 ---
 
