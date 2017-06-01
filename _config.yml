@@ -11,10 +11,10 @@ description:
 url: "http://neaix.com"
 
 # The subpath of your site, e.g. /blog, for generating urls
-baseurl: "/"
+baseurl: ""
 
 # The site cover image on the home page
-image: /crossing-jekyll/images/site-image.jpg
+image: /images/site-image.jpg
 
 # The shortname for your Disqus site to enable comments
 disqus_shortname:
