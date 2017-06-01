@@ -2,7 +2,7 @@
 layout: post
 title:  "Post Cover Image"
 author: johndoe
-image: /crossing-jekyll/images/post-image.jpg
+image: /images/post-image.jpg
 ---
 
 Bacon ipsum dolor amet meatball cupim prosciutto, bresaola bacon jerky strip steak spare ribs biltong fatback ham shoulder drumstick. Tail landjaeger frankfurter ribeye. Swine kielbasa pig ribeye tongue chuck landjaeger ball tip pork loin spare ribs flank. Ham bacon pork loin turkey short ribs ham hock ground round. Pig frankfurter spare ribs hamburger short loin porchetta. Shank salami venison ground round prosciutto drumstick kielbasa. Sirloin ground round boudin chicken.
