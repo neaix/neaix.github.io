@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "nginx install"
+title:  "nginx编译安装"
 author: Near
 ---
 
