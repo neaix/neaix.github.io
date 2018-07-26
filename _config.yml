@@ -8,7 +8,7 @@ tagline: i have a dream.
 description:
 
 # The base hostname & protocol of your site for where absolute urls are needed
-url: "http://neaix.com"
+url: "https://neaix.github.io"
 
 # The subpath of your site, e.g. /blog, for generating urls
 baseurl: ""
@@ -43,7 +43,7 @@ footer_links:
 authors:
   near:
     name: near
-    website: http://neaix.com
+    website: https://neaix.github.io
     bio: An awesome bio # Author info at bottom of post only shows if bio exists
     avatar: /images/avatar.jpg
   lewiscarroll:
