@@ -27,9 +27,10 @@ author: Near
 - 解压ngxin安装包
 ```
     tar -zxvf nginx-1.15.2.tar.gz /your directory
-
 ```
+
 - 检测系统环境是否符合安装要求，以及指定安装目录，以及安装模块，然后编译安装 
+
 ```
 ./configure 
  --prefix=/usr/local/nginx 
@@ -41,14 +42,16 @@ author: Near
  --with-pcre
   ...
 ```
+
 ```
 make && make install
 ```
+
 - 启动
 ```
 /usr/local/nginx/sbin/nginx 
-
 ```
+
 ###### 浏览器访问 http://your ip:80 
 ###### Enjoy~
 
