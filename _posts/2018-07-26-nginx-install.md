@@ -29,7 +29,7 @@ author: Near
     tar -zxvf nginx-1.15.2.tar.gz /your directory
 ```
 
-+ 检测系统环境是否符合安装要求，以及指定安装目录，以及安装模块，然后编译安装 
++ 检测系统环境是否符合安装要求，以及指定安装目录，以及安装模块
 
 ```
 ./configure 
@@ -42,7 +42,7 @@ author: Near
  --with-pcre
   ...
 ```
-
++ 编译安装
 ```
 make && make install
 ```
