@@ -70,4 +70,4 @@ markdown: kramdown
 kramdown:
   input: GFM
 
-theme: jekyll-theme-hacker
+theme: jekyll-theme-minimal
