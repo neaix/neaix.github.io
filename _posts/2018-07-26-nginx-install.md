@@ -48,6 +48,7 @@ make && make install
 ```
 
 - 启动
+
 ```
 /usr/local/nginx/sbin/nginx 
 ```
