@@ -25,10 +25,10 @@ author: Near
 - 编译安装
 
 ###### 将下载的ngxin安装包解压
-    ```
+```
     tar -zxvf nginx-1.15.2.tar.gz /your package
 
-    ```
+```
 ###### 检测系统环境是否符合安装要求，以及指定安装目录，以及安装模块 
 ###### 具体可通过 **./configure --help**查看
  
@@ -47,7 +47,7 @@ author: Near
   ...
 ```
 ```
-    make && make install
+make && make install
 ```
 
 
