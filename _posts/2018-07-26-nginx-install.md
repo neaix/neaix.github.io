@@ -24,12 +24,12 @@ author: Near
  
 ###### 编译安装
 
-- 解压ngxin安装包
++ 解压ngxin安装包
 ```
     tar -zxvf nginx-1.15.2.tar.gz /your directory
 ```
 
-- 检测系统环境是否符合安装要求，以及指定安装目录，以及安装模块，然后编译安装 
++ 检测系统环境是否符合安装要求，以及指定安装目录，以及安装模块，然后编译安装 
 
 ```
 ./configure 
@@ -47,7 +47,7 @@ author: Near
 make && make install
 ```
 
-- 启动
++ 启动
 
 ```
 /usr/local/nginx/sbin/nginx 
