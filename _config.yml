@@ -26,7 +26,7 @@ google_analytics_tracking_id:
 # Site navigation
 nav:
   - title: "Home"
-    url:   "http://neaix.com"
+    url:   "https://neaix.github.io"
   - title: "Github"
     url:   "https://github.com/neaix"
 
