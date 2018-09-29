@@ -1,6 +1,6 @@
 # Site
 title:              Near
-bio:                '继续,别停下来'
+bio:                '继续,别停下来.'
 description:        ""
 reading_time:       true
 words_per_minute:   200
@@ -37,7 +37,7 @@ disqus_shortname:   taylantatli
   #ad-client:
   #ad-slot:
 #bing-verify:
-#email:
+email:              neaix@hotmail.com
 #twitter:            username
 #facebook:           username
 github-url:         neaix
