@@ -1,18 +1,6 @@
 ---
-layout: default
+layout: layout
 ---
 
-
-<article class="post">
-  <header class="post-header">
-    {% if page.image %}
-      <div class="cover-image">
-        <img src="{{ page.image }}" alt="" />
-      </div>
-    {% endif %}
-    <h1 class="post-title">{{ page.title | xml_escape }}</h1>
-  </header>
-  <div class="post-content">
-    {{ content }}
-  </div>
-</article>
+{% assign __ = site.data.languages[site.language] %}
+{% include page.html %}
