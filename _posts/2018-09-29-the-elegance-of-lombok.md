@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "the elegance of lombok"
+title: "Lombok-优雅的Java类库"
 date: 2018-09-29
 excerpt: "elegant java tool library"
 tags: [Java, Tools, Elegance]
