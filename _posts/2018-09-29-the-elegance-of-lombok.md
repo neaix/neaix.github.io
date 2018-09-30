@@ -200,6 +200,7 @@ public class Domain {
    ```
 
 - @EqualsAndHashCode
+
   生成equals()和hashCode()
 
 - @NoArgsConstructor, @RequiredArgsConstructor,           @AllArgsConstructor
