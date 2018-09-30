@@ -167,8 +167,9 @@ public class Domain {
     }
     ```
 - @Cleanup
+
     自动关闭资源连接，无需在finally块中手动close()，如果在使用的对象中不包含close()或是其他名称的关闭方法,例如org.eclipse.swt.widgets.CoolBar，是通过dispose()关闭的。
-    那么可以使用@Cleanup("dispose")来指定。需要注意的是,@Cleanup不能操作带参数的关闭资源方法。
+    那么可以使用@Cleanup("dispose")来指定。需要注意的是,@Cleanup不能操作带参数的资源关闭方法。
     ```
     public class Clazz {
       public static void main(String[] args) throws IOException {
@@ -186,6 +187,7 @@ public class Domain {
 
 
 - @ToString
+
  为当前类生成toString()，如果不想把所有的字段都放入toString()里，可以通过@ToString(exclude = {"",""})过滤。
 
    ```
@@ -201,11 +203,14 @@ public class Domain {
   生成equals()和hashCode()
 
 - @NoArgsConstructor, @RequiredArgsConstructor,           @AllArgsConstructor
+
   生成无参，部分参数，全部参数的构造方法.
 
 - @Log
+
   在类中添加log实体，通过对象实例名为log，可直接通过log.info(),log.error()使用。现支持大部分主流的日志框架。
 
 
 - @Data
+
   等同于，@ToString+@EqualsAndHashCode+@RequiredArgsConstructor, 以及为所有非final修饰的字段添加getter(),setter()
