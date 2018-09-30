@@ -188,14 +188,14 @@ public class Domain {
 - @ToString
  为当前类生成toString()，如果不想把所有的字段都放入toString()里，可以通过@ToString(exclude = {"",""})过滤。
 
- ```
-  @ToString(exclude={"id"})
-  public class Clazz{
-    public int id;
-    private String name;
-    private String address;
-  }
- ```
+   ```
+    @ToString(exclude={"id"})
+    public class Clazz{
+      public int id;
+      private String name;
+      private String address;
+    }
+   ```
 
 - @EqualsAndHashCode
   生成equals()和hashCode()
