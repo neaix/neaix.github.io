@@ -188,7 +188,7 @@ public class Domain {
 
 - @ToString
 
- 为当前类生成toString()，如果不想把所有的字段都放入toString()里，可以通过@ToString(exclude = {"",""})过滤。
+   为当前类生成toString()，如果不想把所有的字段都放入toString()里，可以通过@ToString(exclude = {"",""})过滤。
 
    ```
     @ToString(exclude={"id"})
