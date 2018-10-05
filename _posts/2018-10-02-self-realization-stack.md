@@ -66,7 +66,7 @@ public class Stack<T> {
     public T pop(){
         synchronized (elements){
             T o = (T)elements[size--];
-            elements[size] = null; //这里需要设置为null,否则jvm不会回收
+            elements[size] = null; //这里需要设置为null,否则JVM不会回收
             return o;
         }
     }
@@ -79,6 +79,14 @@ public class Stack<T> {
             return size;
     }
 
+    /**
+     * 栈是否为空
+     * @return
+     */
+    public boolean isEmpty(){
+      return size == 0;
+    }
+    
     /**
      *容量增长，每次容量达到最大值，按2*设置容量+1扩充
      */
