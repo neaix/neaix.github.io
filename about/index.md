@@ -17,4 +17,4 @@ comments: false
 
 
 
-<center>非著名JAVA开发者,伪摄影爱好者。</center>
+<center>非著名JAVA开发人员,伪摄影爱好者。</center>
