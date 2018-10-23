@@ -68,6 +68,7 @@ comments: true
   <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_3.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_3.jpg"></a>
 
   <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_4.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_4.jpg"></a>
+  
 	<figcaption></figcaption>
 </figure>
 
@@ -95,7 +96,7 @@ comments: true
   所在地：Gili Air
 
   <figure class="half">
-  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air1.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air1.jpg"></a>
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air_1.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air_1.jpg"></a>
   	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air2.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air2.jpg"></a>
 
     <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air3.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air3.jpg"></a>
