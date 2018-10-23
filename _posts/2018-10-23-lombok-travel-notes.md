@@ -4,7 +4,8 @@ title: "lombok游记"
 date: 2018-10-18
 excerpt: "lombok travel note"
 tags: [vacation, photography]
-feature:https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg.jpg
+feature: https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg.jpg
+
 comments: true
 ---
 
@@ -35,14 +36,14 @@ comments: true
 
 
 
-
+<br/>
 
 推销能力满分卖手绳的当地小妹妹
 
 ![kutagirl](https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/UNADJUSTEDNONRAW_thumb_40d.jpg)
 
 
-
+<br/>
 
 
 一个算是比较出名但是真的不怎么地的原始部落
@@ -71,8 +72,3 @@ comments: true
 ### 第三天
 
   所在地：Senggigi
-
-
-
-
--
