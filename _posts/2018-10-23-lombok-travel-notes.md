@@ -12,7 +12,7 @@ comments: true
 记录下这次龙目岛之行，留个纪念。
 
 
-#### 第一天
+#### Day 1
 
 
  基本上在飞机跟机场度过的,晚上10点左右才下榻在民宿。一路上也并没有遇到什么有趣的事情，除了一些惊吓跟快饿扁了的肚子。
@@ -25,7 +25,9 @@ comments: true
 
 
 
-#### 第二天
+#### Day 2
+
+ 吃饭，飙半天摩托车，有一种回到老家的感觉。
 
   所在地：*Kuta*
 
@@ -64,11 +66,64 @@ comments: true
 	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_2.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_2.jpg"></a>
 
   <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_3.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_3.jpg"></a>
+
+  <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_4.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/kuta_beach_4.jpg"></a>
 	<figcaption></figcaption>
 </figure>
 
 
 
-### 第三天
+### Day 3
 
-  所在地：Senggigi
+  所在地：Gili Trawangan
+
+  <figure class="half">
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_1.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_1.jpg"></a>
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_2.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_2.jpg"></a>
+
+    <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_3.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_3.jpg"></a>
+
+    <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_4.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sgg_beach_4.jpg"></a>
+  	<figcaption></figcaption>
+  </figure>
+
+
+  ### Day 4
+
+  坐船出海浮潜，海底的风景，雕像群确实很震撼，没有准备水下相机，至今耿耿于怀。
+
+  所在地：Gili Air
+
+  <figure class="half">
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air1.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air1.jpg"></a>
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air2.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air2.jpg"></a>
+
+    <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air3.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air3.jpg"></a>
+
+    <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air4.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/air4.jpg"></a>
+  	<figcaption></figcaption>
+  </figure>
+
+### Day 5
+  行程最后一个地方Batu Layar，下船被当地人坑了5000块印尼盾（其实也就3块钱RMB不到😂😂），海滩的风景是此次行程中经历过的最漂亮的，特别是日落。
+
+  所在地：Batu Layar
+
+  下榻的酒店
+
+  <figure class="half">
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/hotel1.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/hotel1.jpg"></a>
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/hotel2.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/hotel2.jpg"></a>
+  </figure>
+
+  <br/>
+
+  日落
+
+  <figure class="half">
+  	<a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown1.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown1.jpg"></a>
+    <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown2.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown2.jpg"></a>
+    <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown3.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown3.jpg"></a>
+    <a href="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown4.jpg"><img src="https://github.com/neaix/neaix.github.io/raw/master/assets/img/lombok/sundown4.jpg"></a>
+  	<figcaption></figcaption>
+  </figure>
