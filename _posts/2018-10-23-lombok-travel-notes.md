@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "lombok游记"
+title: "Lombok游记"
 date: 2018-10-18
 excerpt: "lombok travel note"
 tags: [vacation, photography]
