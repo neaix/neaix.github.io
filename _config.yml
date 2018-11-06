@@ -50,7 +50,7 @@ linkedin:          neaix
 #medium:            '@username'
 #pinterest:         username
 #foursquare:        username
-steam:              j_1ar
+#steam:              j_1ar
 #dribbble:          username
 #youtube:           username
 #youtube-channel:   channel
@@ -61,6 +61,7 @@ steam:              j_1ar
 #keybase:           username
 #xmpp:              username@server.com
 #hackernews:        username
+px500:              neaix
 
 # Gems
 gems:
