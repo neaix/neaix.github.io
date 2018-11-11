@@ -63,11 +63,12 @@ GC在回收对象之前，首先要确定哪些对象已经死亡，一般收集
 
 - 回收后
 
- ![回收后](https://github.com/neaix/neaix.github.io/raw/master/assets/img/bq-2.png)
+ ![回收后](https://github.com/neaix/neaix.github.io/raw/master/assets/img/bj-2.png)
 
 
 
- ### 复制算法
+
+ ###  复制算法
 
 将分配的内存分为大小相同的两块，每次只使用其中的一块，当被使用的内存块容量用完的时候，把存活的对象复制另一个内存块上，然后把使用过的内存空间一次清理掉。在这种情况下，就不用考虑内存碎片化的问题，但是每次都只使用分配的一半内存，另一半处于闲置状态，代价很高。
 
@@ -78,7 +79,8 @@ GC在回收对象之前，首先要确定哪些对象已经死亡，一般收集
 *白色：未使用*
 
 - 回收前
-[回收前](https://github.com/neaix/neaix.github.io/raw/master/assets/img/copy-1.png)
+
+![回收前](https://github.com/neaix/neaix.github.io/raw/master/assets/img/copy-1.png)
 
 - 回收后
 
@@ -97,8 +99,14 @@ GC在回收对象之前，首先要确定哪些对象已经死亡，一般收集
 
 
 - 回收前
-[回收前](https://github.com/neaix/neaix.github.io/raw/master/assets/img/bj-copy-1.png)
+
+![回收前](https://github.com/neaix/neaix.github.io/raw/master/assets/img/bj-copy-1.png)
 
 - 回收后
 
-![回收后](https://github.com/neaix/neaix.github.io/raw/master/assets/img/bj-copy-2.png)
+![回收后](https://github.com/neaix/neaix.github.io/raw/master/assets/img/bj-copy2.png)
+
+
+### 分代收集算法
+
+当前主流的收集器都采用分代收集算法，比如：HotSpot虚拟机中采用的G1收集器，分代收集算法根据对象的存活周期将内存划分为好几块，把堆中的对象分为新生代和老年代，根据各个年代的特点采用适当的收集算法，根据新生代对象照生夕死（存活率不高）的特点，选用复制算法，只需要少量存活对象的复制成本就可以完成收集。老年代对象存活率高，使用标记-清除或标记-整理算法来进行回收。
