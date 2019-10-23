@@ -63,6 +63,15 @@ linkedin:          neaix
 #hackernews:        username
 px500:              near
 
+
+gitment:
+  enable: true
+  githubID: neaix
+  repo: neaix.github.io
+  ClientID: 0ee97c5a860dd5742008
+  ClientSecret: 129e5963b1d41ce3d5819bf143f57761c97c30b3
+  lazy: true
+
 # Gems
 gems:
   - jekyll-mentions
