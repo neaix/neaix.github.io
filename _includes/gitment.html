@@ -5,11 +5,11 @@
 <script>
     var gitment = new Gitment({
         id: '<%= page.date %>',
-        owner: '{{gitment.githubID}}',
-        repo: '{{gitment.repo}}',
+        owner: '{{site.gitment.githubID}}',
+        repo: '{{site.gitment.repo}}',
         oauth: {
-            client_id: '{{gitment.ClientID}}',
-            client_secret: '{{gitment.ClientSecret}}',
+            client_id: '{{site.gitment.ClientID}}',
+            client_secret: '{{site.gitment.ClientSecret}}',
         },
     });
     gitment.render('disqus_thread')
